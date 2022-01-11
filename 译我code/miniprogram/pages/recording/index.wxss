@@ -1,0 +1,39 @@
+.recording {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  background-color: #055;
+}
+
+.map{
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.floatBtns {
+  width: 100%;
+  justify-content: space-around;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  bottom: 100rpx;
+}
+
+.floatBtns .btn {
+  display: flex;
+  justify-content: center;
+  background-color: #099A97;
+  border-radius: 30rpx;
+  line-height: 60rpx;
+  color: #fff;
+  width: 250rpx;
+  height: 60rpx;
+}

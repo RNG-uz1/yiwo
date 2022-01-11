@@ -1,0 +1,25 @@
+
+  <view class="introduce">
+    <image class="userHead" src="../../images/wallhaven-721q7e.jpg"></image>
+    <view class="nickName">昵称：爷傲丶奈我何</view>
+  </view>
+
+  <view class="myTag">
+    <view class="title">
+      <image class="iconTag" src="../../images/标签.png"></image>
+      <view class="text">我的标签</view>
+    </view>
+
+    <view class="tags">
+    <view class="tag">绘画</view>
+    <view class="tag">绘画</view>
+    <view class="tag">游泳</view>
+    <view class="tag">游泳</view>
+   
+    <image class="addTags" src="../../images/添加.png"></image>
+    </view>
+  </view>
+
+  <view class="watchMakesMe">watchMakesMe</view>
+
+  <view class="feedBack">用户反馈</view>

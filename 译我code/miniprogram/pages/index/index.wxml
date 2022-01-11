@@ -1,0 +1,17 @@
+
+<view class="home">   <!--第一个界面 -->
+  <view class="headPortrait">   <!--头像 -->
+    <image class="userHead" src="../../images/wallhaven-721q7e.jpg"></image>
+  </view>
+
+  <view class="chinaMap">    <!--点亮地图-->
+    <view class="lightMap">
+      <image class="map" src="../../images/ChinaMap.jpg"></image>
+    </view>
+  </view>
+
+  <view class="start">   <!--开始图标 -->
+    <image class="startIcon" src="../../images/纸飞机.png" mode="widthFix"></image>
+    <view class="text">开始记录</view>
+  </view>
+</view>

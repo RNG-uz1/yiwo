@@ -1,0 +1,56 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(21,250,168,0.1);
+  height: 100%;
+  width: 100%;
+}
+
+.userHead {
+  margin-left: 30rpx;
+  margin-top: 30rpx;
+  position: absolute;
+  height: 150rpx;
+  width: 150rpx;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.chinaMap {
+  position: relative;
+  display: flex;
+  height: 60%;
+  width: 100%;
+}
+
+
+
+.chinaMap .lightMap {
+  width: 100%;
+  height: 100%;
+}
+
+
+.chinaMap .map {
+  width: 100%;
+  height: 100%;
+}
+
+.start{
+  margin:auto auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300rpx;
+  height: 300rpx;
+  background-color: rgba(21,250,168,0.1);
+  border-radius: 50rpx;
+  box-shadow: 5px 5px 5px 5px rgba(31, 29, 29, 0.062);
+}
+
+.start .startIcon{
+  margin-top: 30rpx;
+  width: 200rpx;
+}
+
+
