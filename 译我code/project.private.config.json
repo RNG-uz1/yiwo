@@ -29,6 +29,30 @@
           "pathName": "pages/me/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "schedule",
+          "pathName": "pages/schedule/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "link",
+          "pathName": "pages/link/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "link-picture",
+          "pathName": "pages/link-picture/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "camera",
+          "pathName": "pages/camera/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

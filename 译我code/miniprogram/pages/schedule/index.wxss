@@ -1,0 +1,33 @@
+.line{
+  margin-top: 80rpx;
+  display: flex;
+  flex-direction: row;
+  height: 150rpx;
+  width: 650rpx;
+}
+
+.line .line-icon{
+  width: 100rpx;
+  height: 100rpx;
+  position: absolute;
+  left: 80rpx;
+
+}
+
+.line .description{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 250rpx;
+}
+
+.line .description .description-time{
+  font-size: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.line .description .description-name{
+  font-size: 30rpx;
+
+}
+

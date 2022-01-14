@@ -1,0 +1,48 @@
+<!--pages/watch makes me/index.wxml-->
+<view class="line">
+    <image class="line-icon" src="/images/_定位绿.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-1-10</view>
+      <view class="description-name">行程名称：点击进行编辑</view>
+    </view>
+</view>  
+
+<view class="line">
+    <image class="line-icon" src="/images/_定位紫.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-1-15</view>
+      <view class="description-name">行程名称：丽江古城</view>
+    </view>
+</view>  
+
+<view class="line">
+    <image class="line-icon" src="/images/_定位绿.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-1-10</view>
+      <view class="description-name">行程名称：点击进行编辑</view>
+    </view>
+</view>  
+
+<view class="line">
+    <image class="line-icon" src="/images/_定位紫.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-1-25</view>
+      <view class="description-name">行程名称：西藏布达拉宫</view>
+    </view>
+</view>  
+
+<view class="line">
+    <image class="line-icon" src="/images/_定位绿.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-2-10</view>
+      <view class="description-name">行程名称：敦煌莫高窟</view>
+    </view>
+</view>  
+
+<view class="line">
+    <image class="line-icon" src="/images/_定位紫.png"></image>
+    <view class="description">
+      <view class="description-time">时间：2022-2-20</view>
+      <view class="description-name">行程名称：长城</view>
+    </view>
+</view>  

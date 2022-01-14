@@ -1,0 +1,6 @@
+<!--pages/link/index.wxml-->
+<view>背景是地图</view>
+<view class="locate">
+  <image class="locate-picture" src="/images/picture.jpg"></image>
+  <image class="locate-icon" src="/images/_定位绿.png"></image>
+</view>
