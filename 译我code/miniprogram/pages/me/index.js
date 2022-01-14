@@ -1,4 +1,4 @@
-// pages/me/index.js
+const app = getApp()
 Page({
 
   /**
@@ -8,11 +8,74 @@ Page({
 
   },
 
+
+  //未完成  跳转到watch界面
+  gotoWatch(e) {
+    wx.navigateTo({
+      url: '',
+    })
+  },
+
+  //用户登录
+  login() {
+
+    var that = this
+    wx.getUserProfile({
+      desc: '用于完善信息',
+      success(res) {
+        console.log(res.userInfo)
+        var user = res.userInfo
+
+        app.globalData.userInfo = user
+
+        that.setData({
+          userInfo: user
+        })
+
+
+        //检查之前是否登录过
+        wx.cloud.database().collection('user').where({ //查找数据库内openid相同的信息
+          _openid: app.globalData.openid
+        }).get({
+          success(res) {
+            console.log(res)
+            if (res.data.length == 0) { //如果在数据库内没有找到相同的openid记录则添加
+              //把用户信息添加到数据库
+              wx.cloud.database().collection('user').add({
+                data: {
+                  nickName: user.nickName,
+                  avatarUrl: user.avatarUrl,
+                  gender: user.gender
+                },
+
+                success(res) {
+                  console.log(res)
+                  wx.showToast({
+                    title: '登陆成功',
+                  })
+                }
+
+              })
+            } else {
+              that.setData({
+                userInfo: res.data[0]
+              })
+            }
+
+          }
+
+        })
+
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      userInfo : app.globalData.userInfo
+    })
   },
 
   /**

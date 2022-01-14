@@ -1,8 +1,6 @@
 <view class="recording">
   <view class="map">
-    假装有地图
-
-    
+    <map name="recording-map"></map>
   </view>
 
   <view class="floatBtns">

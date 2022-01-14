@@ -6,6 +6,35 @@
   width: 100%;
 }
 
+.login {
+
+  position: absolute;
+  margin-left: 50rpx;
+  height: 150rpx;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 2;
+}
+
+.login_icon {
+  margin-right: 10rpx;
+  height: 80rpx;
+  width: 80rpx;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.login_text {
+  height: 100rpx;
+  width: 250rpx;
+  font-size: 30rpx;
+  border-radius: 20%;
+  line-height: 100rpx;
+  z-index: 2;
+}
+
 .userHead {
   margin-left: 30rpx;
   margin-top: 30rpx;

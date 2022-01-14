@@ -1,4 +1,5 @@
-// pages/index/index.js
+const app = getApp()
+
 Page({
 
   /**
@@ -7,12 +8,27 @@ Page({
   data: {
 
   },
+  
+
+  gotoMe(e){
+    wx.navigateTo({
+      url: `/pages/me/index`   
+    })
+  },
+
+  gotuRecording(e) {
+    wx.navigateTo({
+      url: `/pages/recording/index`   
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.setData({
+      user : app.globalData.userInfo
+    })
   },
 
   /**
@@ -26,7 +42,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log(app.globalData.userInfo)
+    this.setData({
+      user : app.globalData.userInfo
+    })
   },
 
   /**
