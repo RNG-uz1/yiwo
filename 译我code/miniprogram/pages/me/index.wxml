@@ -1,12 +1,16 @@
 
-  <view class="introduce">
-    <image class="userHead" src="../../images/wallhaven-721q7e.jpg"></image>
-    <view class="nickName">昵称：uzi</view>
+  <view class="introduce" wx:if="{{userInfo != null}}">
+    <image class="userHead" src="{{userInfo.avatarUrl}}"></image>
+    <view class="nickName" >昵称：{{userInfo.nickName}}</view>
+
+    
   </view>
+
+  <button class="login_button" bindtap="login" wx:if="{{userInfo == null}}">点击登录</button>
 
   <view class="myTag">
     <view class="title">
-      <image class="iconTag" src="../../images/标签.png"></image>
+      <image class="iconTag" src="../../images/tag.png"></image>
       <view class="text">我的标签</view>
     </view>
 
@@ -16,10 +20,10 @@
     <view class="tag">游泳</view>
     <view class="tag">游泳</view>
    
-    <image class="addTags" src="../../images/添加.png"></image>
+    <image class="addTags" src="../../images/add.png"></image>
     </view>
   </view>
 
-  <view class="watchMakesMe">watchMakesMe</view>
+  <view class="watchMakesMe" bindtap="gotoWatch">watchMakesMe</view>
 
-  <view class="feedBack">用户反馈</view>
+  <button open-type="feedback" class="feedBack">用户反馈</button>

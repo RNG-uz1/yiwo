@@ -9,6 +9,11 @@
   margin-bottom: 100rpx;
 }
 
+.login_button {
+  margin-top: 40%;
+  margin-bottom: 30%;
+}
+
 .userHead {
   height: 250rpx;
   width: 250rpx;
@@ -91,7 +96,24 @@
 }
 
 .feedBack {
+  margin: 0;
   position: absolute;
   bottom: 35rpx;
-  border-bottom: 4rpx solid;
+  font-weight: normal;
+  background-color:  rgba(21,250,168,0.1);
+  padding: 0;
+  width: 150rpx !important;
+}
+
+.feedBack :after {
+  content: none;
+}
+
+.feedBack::after{
+  border:none;
+}
+
+.pop {
+  height: 45%;
+  width: 90%;
 }

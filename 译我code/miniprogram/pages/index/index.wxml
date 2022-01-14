@@ -1,17 +1,24 @@
+<!--第一个界面 -->
+<view class="home">   
 
-<view class="home">   <!--第一个界面 -->
-  <view class="headPortrait">   <!--头像 -->
-    <image class="userHead" src="../../images/wallhaven-721q7e.jpg"></image>
-  </view>
+<!-- 去登陆 -->
+<view class="login" wx:if="{{user== null}}" bindtap="gotoMe">
+  <image class="login_icon" src="../../images/login_user.png"></image>
+  <view class="login_text">登录过后再食用哦</view>
+</view>
 
-  <view class="chinaMap">    <!--点亮地图-->
+<!--头像 -->    
+    <image class="userHead" wx:if="{{user != null}}" bindtap="gotoMe" src="{{user.avatarUrl}}"></image>
+
+<!--点亮地图-->
+  <view class="chinaMap">    
     <view class="lightMap">
       <image class="map" src="../../images/ChinaMap.jpg"></image>
     </view>
   </view>
-
-  <view class="start">   <!--开始图标 -->
-    <image class="startIcon" src="../../images/纸飞机.png" mode="widthFix"></image>
+<!--开始图标 -->
+  <view class="start" bindtap="gotuRecording">   
+    <image class="startIcon" src="../../images/plane.png" mode="widthFix"></image>
     <view class="text">开始记录</view>
   </view>
 </view>
