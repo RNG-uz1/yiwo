@@ -7,4 +7,5 @@
    <view class="btn">拍照打卡</view>
    <view class="btn">结束路径</view>
   </view>
+
 </view>

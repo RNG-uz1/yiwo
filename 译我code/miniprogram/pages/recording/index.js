@@ -5,11 +5,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo:'',
-    // 判断显示文字还是图片(预览图片标识)
-   frontShow: true,
+  
    // 路径
    frontSrc: '',
+   show:'',
+   
   
   },
   //调相机
