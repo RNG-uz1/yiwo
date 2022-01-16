@@ -5,6 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
+
+    //图片路径
+    frontSrc:'',
+
     //展示弹窗
     show: 0,
     //评分
@@ -39,6 +43,16 @@ Page({
       color: '#15cda8',
       dottedLine: false
     }]
+  },
+
+  //评分完成关闭弹窗
+  close(){
+    wx.navigateTo({
+      url: `/pages/index/index`
+    })
+    this.setData({
+      show : 0
+    })
   },
 
   //点击拍照打卡，获取当前位置
@@ -100,6 +114,17 @@ Page({
     that.setData({
       score: e.detail.value
     })
+
+  
+  },
+  
+  
+  //调相机
+  getCamera(){
+    wx.navigateTo({
+      url: '/pages/camera/index',
+
+    })
   },
 
   /**
@@ -144,8 +169,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
+  onShow: function (options) {
   },
 
   /**

@@ -1,2 +1,19 @@
 <!--pages/camera/index.wxml-->
-<text>调用相机</text>
+<!-- 拍照完成后会返回临时路径 -->
+<!-- 调起摄像头拍照 -->
+<view class="camera_box">
+  <camera class="camera" wx:if="{{!show}}" device-position="back" flash="off" binderror="error">
+      <cover-image class="switch" src="https://img-blog.csdn.net/20180226111559273" bindtap='changePos'>
+      </cover-image>
+  </camera>
+  <image class="camera_img" src="{{src}}" wx:if="{{show}}"></image>
+ 
+  <view class="action">
+    
+    <!-- 这是三个按钮：拍照 / 确认 / 重拍(取消) -->
+    <button class="takeBtn" type="primary" bindtap="takePhoto" wx:if="{{!show}}"></button>
+    <button class="saveImg" type="primary" bindtap="saveImg" wx:if="{{show}}"></button>
+    <button class="cancelBtn" wx:if="{{show}}" type="primary" bindtap="cancelBtn"></button>
+  </view>
+</view>
+
