@@ -8,17 +8,33 @@ Page({
   data: {
 
   },
-  
 
-  gotoMe(e){
-    wx.navigateTo({
-      url: `/pages/me/index`   
+  //获取当前位置
+  getLocation() {
+    var that = this
+    wx.getLocation({
+      success(res) {
+        console.log(res)
+        that.setData({
+          longitude: res.longitude,
+          latitude: res.latitude,
+        })
+      }
     })
   },
 
+  //跳转页面——我的
+  gotoMe(e) {
+    wx.navigateTo({
+      url: `/pages/me/index`
+    })
+  },
+
+
+  //跳转页面  打卡记录
   gotuRecording(e) {
     wx.navigateTo({
-      url: `/pages/recording/index`   
+      url: `/pages/recording/index`
     })
   },
 
@@ -27,7 +43,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      user : app.globalData.userInfo
+      user: app.globalData.userInfo
     })
   },
 
@@ -44,7 +60,7 @@ Page({
   onShow: function () {
     console.log(app.globalData.userInfo)
     this.setData({
-      user : app.globalData.userInfo
+      user: app.globalData.userInfo
     })
   },
 

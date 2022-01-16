@@ -42,3 +42,34 @@ map {
   width: 250rpx;
   height: 60rpx;
 }
+
+.pop{
+  width: 100%;
+  height: 400rpx;
+  padding: 50rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pop .popTitle {
+  margin-bottom: 50rpx;
+}
+
+.pop .end{
+  border-top: 2rpx solid rgba(0, 0, 0);
+  width: 80%;
+  margin-top: 20rpx;
+  padding-top: 30rpx;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  justify-content: center;
+}
+
+.end_icon{
+  height: 50rpx;
+  width: 50rpx;
+  margin-right: 20rpx;
+}

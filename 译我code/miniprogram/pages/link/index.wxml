@@ -1,6 +1,6 @@
 <!--pages/link/index.wxml-->
 <view>背景是地图</view>
 <view class="locate">
-  <image class="locate-picture" src="/images/picture.jpg"></image>
-  <image class="locate-icon" src="/images/_定位绿.png"></image>
+  <image class="locate-picture" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/g7jo98rva5cb8mz46vfdc5shb5ik3uvq_.jpg"></image>
+  <image class="locate-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"></image>
 </view>

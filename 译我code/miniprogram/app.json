@@ -9,12 +9,20 @@
     "pages/link-picture/index"
 
   ],
+
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#099A97"
   },
+  
   "sitemapLocation": "sitemap.json",
   "style": "v2",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+
+  
+    "usingComponents": {
+      "rate": "wechat-miniprogram-rate"
+    
+  }
 }
