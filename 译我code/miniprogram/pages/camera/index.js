@@ -8,8 +8,8 @@ Page({
   data: {
 
     src: '',//拍照后图像路径(临时路径)
-    show: false//相机视图显示隐藏标识
-
+    show: false,//相机视图显示隐藏标识
+    cameraPos: "back",
   },
 
 
@@ -20,7 +20,11 @@ Page({
     })
   },
 
-
+  changePos(){
+    this.setData({
+      cameraPos: this.data.cameraPos == "back" ? "front" : "back"
+    })
+  },
 
 
   // 点击拍照按钮
@@ -31,9 +35,9 @@ Page({
     const ctx = wx.createCameraContext()
 
     // 获取camera实时帧数据
-    const listener = ctx.onCameraFrame((frame) => {
-        //如果不需要则注释掉
-    })
+    // const listener = ctx.onCameraFrame((frame) => {
+    //     //如果不需要则注释掉
+    // })
 
     // 实拍照片配置
     ctx.takePhoto({
@@ -89,9 +93,12 @@ Page({
       
       // 动态更新数据(不懂移步文章)
       // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
+      var newFrontSrc = [src]
+      console.log(prevPage.data)
       prevPage.setData({
-          frontShow: false,//显示图片
-          frontSrc: src//照片路径
+          //frontShow: false,//显示图片 
+          newFrontSrc: src,//照片路径
+          flag:true
       })
    }
 

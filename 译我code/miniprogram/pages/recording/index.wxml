@@ -9,7 +9,7 @@
   </view>
 
   <view class="floatBtns">
-   <view class="btn" bindtap="getCamera">拍照打卡</view>
+   <view class="btn" bindtap="photoButton">拍照打卡</view>
    <view class="btn" bindtap="endRoute">结束路径</view>
   </view>
 
