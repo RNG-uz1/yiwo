@@ -3,7 +3,7 @@
 
 <!-- 去登陆 -->
 <view class="login" wx:if="{{user== null}}" bindtap="gotoMe">
-  <image class="login_icon" src="../../images/login_user.png"></image>
+  <image class="login_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/wvzxxvr41ikwaxe0bifa5djc64el59o2_.png"></image>
   <view class="login_text">登录过后再食用哦</view>
 </view>
 
@@ -13,12 +13,12 @@
 <!--点亮地图-->
   <view class="chinaMap">    
     <view class="lightMap">
-      <image class="map" src="../../images/ChinaMap.jpg"></image>
+      <image class="map" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/i7worfr6xurdmcd1w7oge7vuh2qtd32f_.jpg"></image>
     </view>
   </view>
 <!--开始图标 -->
   <view class="start" bindtap="gotuRecording">   
-    <image class="startIcon" src="../../images/plane.png" mode="widthFix"></image>
+    <image class="startIcon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/f85vfzh95gg05b45ybg0caucdk5q960w_.png" mode="widthFix"></image>
     <view class="text">开始记录</view>
   </view>
 </view>

@@ -12,7 +12,7 @@ Page({
   //未完成  跳转到watch界面
   gotoWatch(e) {
     wx.navigateTo({
-      url: '',
+      url: '/pages/schedule/index',
     })
   },
 

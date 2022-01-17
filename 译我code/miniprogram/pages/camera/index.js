@@ -97,7 +97,7 @@ Page({
 
     // 最后返回上一页(也就是主页)
     wx.navigateBack({
-        delta: 1,
+      delta : 1
     })
   },
 
@@ -121,7 +121,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

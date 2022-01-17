@@ -10,7 +10,7 @@
 
   <view class="myTag">
     <view class="title">
-      <image class="iconTag" src="../../images/tag.png"></image>
+      <image class="iconTag" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/y8w2qhck41ipz5b7rryk6rv25ykmol3j_.png"></image>
       <view class="text">我的标签</view>
     </view>
 
@@ -20,10 +20,16 @@
     <view class="tag">游泳</view>
     <view class="tag">游泳</view>
    
-    <image class="addTags" src="../../images/add.png"></image>
+    <image class="addTags" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/ef81jf48bmpmtqa5yd2msjyobor16kev_.png"></image>
     </view>
   </view>
 
-  <view class="watchMakesMe" bindtap="gotoWatch">watchMakesMe</view>
+  <view class="watchMakesMe" 
+  wx:if="{{userInfo != null}}"
+  bindtap="gotoWatch">watchMakesMe</view>
+
+  <view class="watchMakesMe" 
+  wx:if="{{userInfo == null}}"
+  bindtap="gotoWatch">登录后查看哦</view>
 
   <button open-type="feedback" class="feedBack">用户反馈</button>

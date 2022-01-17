@@ -1,11 +1,37 @@
 <view class="recording">
   <view class="map">
-    <map name="recording-map"></map>
+    <map name="recording-map"
+    longitude="{{longitude}}"
+    latitude="{{latitude}}"
+    markers="{{markers}}"
+    polyline="{{polyline}}"
+    ></map>
   </view>
 
   <view class="floatBtns">
-   <view class="btn">拍照打卡</view>
-   <view class="btn">结束路径</view>
+   <view class="btn" bindtap="getCamera">拍照打卡</view>
+   <view class="btn" bindtap="endRoute">结束路径</view>
   </view>
+
+
+  <page-container
+  show="{{show}}"
+    round="{{true}}"
+    overlay="{{true}}"
+    position="{{'bottom'}}"
+    close-on-slide-down="{{false}}"
+    custom-style="{{'z-index: 999;'}}"
+    overlay-style="{{'z-index: 999;'}}">
+
+    <view class="pop">
+      <view class="popTitle">请您对本次行程打个分吧</view>
+      <rate value="3" allow-half="{{false}}" bindchange="showResult"></rate>
+      <view class="end"  bindtap="close">
+      <image class="end_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png"></image>
+      <view class="text">结束</view>
+      </view>
+    </view>
+  </page-container>
+
 
 </view>
