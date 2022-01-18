@@ -189,14 +189,14 @@ Page({
       type: 'gcj02', // 地图类型写这个
       success(res) {
         //向markers数组里添加终点markers
-        var newMarkers = [{
-          iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/8jkfruwj4sg7i1xcb6hblsxubu9ds97t_.png",
-          longitude: res.longitude,
-          latitude: res.latitude,
-          width: 50,
-          heigth: 50,
-        }]
-        that.data.markers = that.data.markers.concat(newMarkers)
+        // var newMarkers = [{
+        //   iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/8jkfruwj4sg7i1xcb6hblsxubu9ds97t_.png",
+        //   longitude: res.longitude,
+        //   latitude: res.latitude,
+        //   width: 50,
+        //   heigth: 50,
+        // }]
+        // that.data.markers = that.data.markers.concat(newMarkers)
         //把终点路径存入data里
         that.setData({
           longitude: res.longitude,
@@ -291,20 +291,10 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function (options) {
-
-
-
     if (this.data.flag == true) {
       var that = this
-      // wx.getFileSystemManager().readFile({
-      //   filePath: that.data.newFrontSrc, //选择图片返回的相对路径
-      //   encoding: 'base64', //编码格式
-      //   success: res => { //成功的回调
-      //     console.log('data:image/png;base64,' + res.data)
-      //   }
-      // })
       wx.getLocation({
-        isHighAccuracy: true, // 开启地图精准定位
+        //isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02', // 地图类型写这个
         success(res) {
           console.log(222)
@@ -335,7 +325,8 @@ Page({
             latitude: res.latitude,
             markers: that.data.markers,
             polyline: that.data.polyline,
-            frontSrc: that.data.frontSrc
+            frontSrc: that.data.frontSrc,
+            flag : false
           })
         }
       })
