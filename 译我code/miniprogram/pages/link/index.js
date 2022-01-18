@@ -51,7 +51,11 @@ Page({
       }
     })
     setTimeout(function () { 
+<<<<<<< HEAD
       // that.getDes()
+=======
+      //that.getDes()
+>>>>>>> d8ab90c5988f20c3690d6598e81a5899a873c220
       that.data.polyline[0].points = point_data
       console.log(that.data.polyline[0])
       that.setData({ 
