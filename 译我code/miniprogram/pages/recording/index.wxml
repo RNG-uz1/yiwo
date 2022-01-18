@@ -13,6 +13,7 @@
    <view class="btn" bindtap="endRoute">结束路径</view>
   </view>
 
+
   <page-container
   show="{{show}}"
     round="{{true}}"
@@ -31,5 +32,6 @@
       </view>
     </view>
   </page-container>
+
 
 </view>

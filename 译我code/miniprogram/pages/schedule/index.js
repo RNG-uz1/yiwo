@@ -1,23 +1,14 @@
-// pages/watch makes me/index.js
-Component({
-  /**
-   * 组件的属性列表
-   */
-  properties: {
-
+let name = ''
+Page({
+  onLoad(){
+    let name=wx.getStorageSync('name')
+    this.setData({
+      name:name
+    })
   },
-
-  /**
-   * 组件的初始数据
-   */
-  data: {
-
-  },
-
-  /**
-   * 组件的方法列表
-   */
-  methods: {
-
+  getName(e){
+    name=e.detail.value
+    wx.setStorageSync('name', name)
+    console.log(name)
   }
 })

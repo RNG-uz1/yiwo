@@ -11,6 +11,9 @@ Page({
 
     flag: false,
 
+  
+  
+
     //图片路径
     frontSrc: ['https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png', 'https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/zf6baoy3bhhauytm5n4wseqnd8v7k64i_.png'],
     newFrontSrc: '',
@@ -226,6 +229,10 @@ Page({
     that.setData({
       score: e.detail.value
     })
+
+
+
+
   },
 
 

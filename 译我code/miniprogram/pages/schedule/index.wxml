@@ -4,47 +4,14 @@
     src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"
     ></image>
     <view class="description">
-      <view class="description-time">时间：2022-1-10</view>
-      <view class="description-name">行程名称：点击进行编辑</view>
+      <view class="description-time">
+        <view class="timeTitle">时间:</view>
+        <view class="time">2022-1-10</view>
+      </view>
+      <view class="description-name">
+        <view class="nameTitle">行程名称:</view>
+        <input bindinput="getName" class="nameEdit" placeholder="点击进行编辑"></input>
+        <image src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-18/qso7p7jxsyejhpme64mua5myfw0r95go_.png" class="btn" bindtap="addData"></image>
+      </view>
     </view>
-</view>  
-
-<view class="line">
-    <image class="line-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/xvwryfzz7klg8ggypvtmchvc3hfzi831_.png"></image>
-    <view class="description">
-      <view class="description-time">时间：2022-1-15</view>
-      <view class="description-name">行程名称：丽江古城</view>
-    </view>
-</view>  
-
-<view class="line">
-    <image class="line-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"></image>
-    <view class="description">
-      <view class="description-time">时间：2022-1-10</view>
-      <view class="description-name">行程名称：点击进行编辑</view>
-    </view>
-</view>  
-
-<view class="line">
-    <image class="line-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/xvwryfzz7klg8ggypvtmchvc3hfzi831_.png"></image>
-    <view class="description">
-      <view class="description-time">时间：2022-1-25</view>
-      <view class="description-name">行程名称：西藏布达拉宫</view>
-    </view>
-</view>  
-
-<view class="line">
-    <image class="line-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"></image>
-    <view class="description">
-      <view class="description-time">时间：2022-2-10</view>
-      <view class="description-name">行程名称：敦煌莫高窟</view>
-    </view>
-</view>  
-
-<view class="line">
-    <image class="line-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/xvwryfzz7klg8ggypvtmchvc3hfzi831_.png"></image>
-    <view class="description">
-      <view class="description-time">时间：2022-2-20</view>
-      <view class="description-name">行程名称：长城</view>
-    </view>
-</view>  
+</view>
