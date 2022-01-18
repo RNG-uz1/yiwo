@@ -25,6 +25,7 @@ Page({
   },
 
 
+
   //跳转页面  打卡记录
   gotuRecording(e) {
     wx.navigateTo({
@@ -42,8 +43,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示

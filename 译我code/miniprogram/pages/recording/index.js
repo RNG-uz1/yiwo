@@ -5,6 +5,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+  route_time:'',
+
     route_id: "",
 
     flag: false,
@@ -48,6 +50,19 @@ Page({
     }]
   },
 
+  //获取时间
+  getDate(){
+    var d = new Date
+    var datetime = new Date();
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
+    var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
+    console.log(year+'年'+month+'月'+date+'日')
+    this.setData({
+      time:year+'年'+month+'月'+date+'日'
+    })
+  },
+
   //评分完成关闭弹窗
   close() {
     var that = this
@@ -59,6 +74,9 @@ Page({
         start_latitude: that.data.startLatitude,
         end_longitude: that.data.endLongitude,
         end_latitude: that.data.endLatitude,
+        time:that.data.time,
+        title: '编辑一下行程的名字吧',
+        description: '来描述一下奇妙的今天吧',
         score: that.data.score,
       },
       success(res) {
@@ -94,14 +112,6 @@ Page({
   pushPoint() {
     var that = this
     console.log(777)
-    that.data.frontSrc.forEach((item, index) => {
-      console.log(item)
-      wx.cloud.database().collection('point').add({
-        data: {
-          photo: item
-        }
-      })
-    })
     that.data.markers.forEach((item, index) => {
       wx.cloud.database().collection('point').add({
         data: {
@@ -231,6 +241,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+
+    this.getDate()
 
     var that = this
     //进入页面时获取起点位置

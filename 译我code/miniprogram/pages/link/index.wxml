@@ -1,6 +1,13 @@
-<!--pages/link/index.wxml-->
-<view>背景是地图</view>
-<view class="locate">
-  <image class="locate-picture" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/g7jo98rva5cb8mz46vfdc5shb5ik3uvq_.jpg"></image>
-  <image class="locate-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"></image>
+<map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}"></map>
+
+<view class="description">
+  <view class="time">
+    <time-text>时间 ：2021-12-26</time-text>
+  </view>
+  <view class="des">
+    <text class="des-text">今日描述：{{description}}</text>
+  </view>
 </view>
+<!-- 
+
+ -->
