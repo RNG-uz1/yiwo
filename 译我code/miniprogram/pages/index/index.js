@@ -9,17 +9,11 @@ Page({
 
   },
 
-  //获取当前位置
-  getLocation() {
-    var that = this
-    wx.getLocation({
-      success(res) {
-        console.log(res)
-        that.setData({
-          longitude: res.longitude,
-          latitude: res.latitude,
-        })
-      }
+  //弹窗
+  popUp() {
+    wx.showToast({
+      title: `左上角登录后再来哦`,
+      icon: 'none'
     })
   },
 
@@ -42,26 +36,40 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      user: app.globalData.userInfo
-    })
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log(app.globalData.userInfo)
-    this.setData({
-      user: app.globalData.userInfo
-    })
+    var that = this
+    setTimeout(function () {
+      console.log(app.globalData.userInfo)
+      that.setData({
+        user: app.globalData.userInfo
+      })
+    }, 1000)
+
+    //隐藏左上角
+    wx.hideHomeButton({
+      success: function () {
+        console.log("hide home success");
+      },
+      fail: function () {
+        console.log("hide home fail");
+      },
+      complete: function () {
+        console.log("hide home complete");
+      },
+    });
+
   },
 
   /**

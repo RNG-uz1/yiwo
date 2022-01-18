@@ -22,12 +22,27 @@
 }
 
 .line .description .description-time{
+  display: flex;
+  flex-direction: row;
   font-size: 30rpx;
   margin-bottom: 30rpx;
 }
 
 .line .description .description-name{
+  display: flex;
+  flex-direction: row;
   font-size: 30rpx;
-
 }
 
+.line .description .description-name .nameTitle{
+  width: 150rpx;
+}
+.line .description .description-name .btn{
+  position: absolute;
+  width: 70rpx;
+  height: 70rpx;
+  left: 400rpx;
+}
+.nameEdit{
+  width: 200rpx;
+}

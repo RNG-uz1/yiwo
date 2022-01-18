@@ -16,6 +16,7 @@
       <image class="map" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/i7worfr6xurdmcd1w7oge7vuh2qtd32f_.jpg"></image>
     </view>
   </view>
+  <view wx:if="{{user== null}}" class="cover" bindtap="popUp"></view>
 <!--开始图标 -->
   <view class="start" bindtap="gotuRecording">   
     <image class="startIcon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/f85vfzh95gg05b45ybg0caucdk5q960w_.png" mode="widthFix"></image>

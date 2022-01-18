@@ -82,4 +82,11 @@
   width: 200rpx;
 }
 
+.cover{
+
+  position: absolute;
+  bottom: 0;
+  height: 500rpx;
+  width: 100%;
+}
 
