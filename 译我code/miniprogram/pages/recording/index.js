@@ -12,7 +12,6 @@ Page({
     flag: false,
 
   
-  
 
     //图片路径
     frontSrc: ['https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png', 'https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/zf6baoy3bhhauytm5n4wseqnd8v7k64i_.png'],
@@ -20,7 +19,7 @@ Page({
     //展示弹窗
     show: 0,
     //评分
-    score: 0,
+    score: 3,
     //点
     markers: [{
         iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
@@ -78,8 +77,8 @@ Page({
         end_longitude: that.data.endLongitude,
         end_latitude: that.data.endLatitude,
         time:that.data.time,
-        route_title: '点击编辑行程名称',
-        description: '来描述一下奇妙的行程吧',
+        route_title: '',
+        description: '点击进行编辑',
         score: that.data.score,
       },
       success(res) {

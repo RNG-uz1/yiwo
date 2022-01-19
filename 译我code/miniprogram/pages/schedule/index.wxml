@@ -10,7 +10,7 @@
       </view>
       <view class="description-name">
         <view class="nameTitle">行程名称:</view>
-        <input bindblur="titleDone" 
+        <input bindblur="titleDone" placeholder="点击编辑"
         class="nameEdit"
         value="{{item.route_title}}"
         data-route-id = "{{item._id}}"

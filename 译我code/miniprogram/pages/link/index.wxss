@@ -61,10 +61,5 @@ map {
   margin-bottom: 15rpx;
 }
 
-.pop .popTitle {
-  font-size: 30rpx;
-}
 
-.input{
-  background-color: #f8f8f8;
-}
+
