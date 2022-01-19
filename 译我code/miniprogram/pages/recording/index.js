@@ -48,7 +48,7 @@ Page({
         longitude: 102.835588
       }],
       width: 4,
-      color: '#15cda8',
+      color: "#15cda8",
       dottedLine: false
     }]
   },
@@ -78,8 +78,8 @@ Page({
         end_longitude: that.data.endLongitude,
         end_latitude: that.data.endLatitude,
         time:that.data.time,
-        title: '编辑一下行程的名字吧',
-        description: '来描述一下奇妙的今天吧',
+        route_title: '点击编辑行程名称',
+        description: '来描述一下奇妙的行程吧',
         score: that.data.score,
       },
       success(res) {
@@ -229,10 +229,6 @@ Page({
     that.setData({
       score: e.detail.value
     })
-
-
-
-
   },
 
 

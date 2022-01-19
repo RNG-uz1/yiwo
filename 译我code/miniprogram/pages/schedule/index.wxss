@@ -1,7 +1,8 @@
 .line{
-  margin-top: 80rpx;
+  margin-top: 40rpx;
   display: flex;
   flex-direction: row;
+  align-items: center;
   height: 150rpx;
   width: 650rpx;
 }
@@ -10,12 +11,13 @@
   width: 100rpx;
   height: 100rpx;
   position: absolute;
-  left: 80rpx;
+  left: 70rpx;
 
 }
 
 .line .description{
   display: flex;
+  width: 65%;
   flex-direction: column;
   position: absolute;
   left: 250rpx;
@@ -23,6 +25,7 @@
 
 .line .description .description-time{
   display: flex;
+  width: 100%;
   flex-direction: row;
   font-size: 30rpx;
   margin-bottom: 30rpx;
@@ -30,8 +33,10 @@
 
 .line .description .description-name{
   display: flex;
+  width: 100%;
   flex-direction: row;
   font-size: 30rpx;
+  position: relative;
 }
 
 .line .description .description-name .nameTitle{
@@ -45,4 +50,14 @@
 }
 .nameEdit{
   width: 200rpx;
+  pointer-events: all;
+  z-index: 1;
+
+}
+
+.line .line-icon2{
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  right: 80rpx;
 }

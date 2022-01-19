@@ -5,27 +5,48 @@ Page({
    * 页面的初始数据
    */
   data: {
-    description:'',
+    show:0,
 
-    point_data:[],
+    description: '',
 
-    longitude:'',
-    latitude:'',
+    point_data: [],
 
-    polyline:[{
-      points:[],
+    longitude: '',
+    latitude: '',
+
+    polyline: [{
+      points: [],
       width: 4,
       color: '#15cda8',
       dottedLine: false
     }]
   },
 
-  getDes(){
+
+  back(){
+    wx.navigateBack({
+      delta : 1
+    })
+  },
+
+  textDone(e){
     var that = this
-    var des
-    wx.cloud.database().collection('route').doc('54ad1eea61e5717507e4a9b137c6d39a').get().then(res=>{
-      console.log(res.description)
-      des = res.data.description
+    console.log(e)
+    wx.cloud.database().collection('route').doc(that.data.routeId).update({
+      data :{
+        description:e.detail.value
+      }     
+    })
+    setTimeout(function () {
+      that.setData({
+        description : e.detail.value
+      })
+    }, 1000)
+  },
+
+  change(){
+    this.setData({
+      show : 1
     })
   },
 
@@ -33,35 +54,56 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var that = this
+    console.log(options)
+    //拿到route里的时间与描述
+    var des1
+    var time1
+    wx.cloud.database().collection('route').doc(options.route_id).get().then(res => {
+      console.log(res)
+      des1 = res.data.description
+      time1 = res.data.time
+    })
+
+    //拿到point里面的点
     var start_longitude
     var start_latitude
     var point_data
-    var that = this 
-    //从对于route_ id的
+    var newPoints
+    var points1 = null
     wx.cloud.database().collection('point').where({
-      route_id :"54ad1eea61e5717507e4a9b137c6d39a"
+      route_id: options.route_id
     }).get({
       success(res) {
-        console.log(res)
+        console.log(res.data)
         point_data = res.data
-        start_longitude = res.data[0].longitude
-        start_latitude = res.data[0].latitude
-        //that.getStartPoint()
-        
+        start_longitude = res.data[res.data.length-1].longitude    //起点是该数组的最后一个值
+        start_latitude = res.data[res.data.length-1].latitude      
+        res.data.forEach((item,index) =>{
+          newPoints = [{latitude :item.latitude,longitude : item.longitude}]
+          console.log(newPoints)
+          points1 = newPoints.concat(points1)
+        })
       }
     })
-    setTimeout(function () { 
-      // that.getDes()
-      that.data.polyline[0].points = point_data
-      console.log(that.data.polyline[0])
-      that.setData({ 
-        latitude : start_latitude,
-        longitude : start_longitude,
-        markers : point_data,
-        polyline : that.data.polyline[0]
+
+    setTimeout(function () {
+      points1.pop()
+      console.log(points1)
+      that.data.polyline[0].points = points1
+      console.log(that.data.polyline)
+      that.setData({
+        latitude: start_latitude,
+        longitude: start_longitude,
+        markers: point_data,
+        polyline: that.data.polyline,
+        time: time1,
+        description: des1,
+        routeId:options.route_id
       })
     }, 1000)
-   
+
+
   },
 
   /**
@@ -75,7 +117,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.hideHomeButton({
+      success: function () {
+        console.log("hide home success");
+      },
+      fail: function () {
+        console.log("hide home fail");
+      },
+      complete: function () {
+        console.log("hide home complete");
+      },
+    });
   },
 
   /**

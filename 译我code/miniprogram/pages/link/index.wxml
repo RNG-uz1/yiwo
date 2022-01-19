@@ -1,13 +1,33 @@
 <map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}"></map>
-
 <view class="description">
   <view class="time">
-    <time-text>时间 ：2021-12-26</time-text>
+    <time-text>时间 ：{{time}}</time-text>
   </view>
   <view class="des">
-    <text class="des-text">今日描述：{{description}}</text>
+    <text class="des-text" bindtap="change" >今日描述：{{description}}</text>
   </view>
 </view>
-<!-- 
-
- -->
+<page-container
+    show="{{show}}"
+    round="{{true}}"
+    overlay="{{true}}"
+    position="{{'bottom'}}"
+    close-on-slide-down="{{false}}"
+    custom-style="{{'z-index: 999;'}}"
+    overlay-style="{{'z-index: 999;'}}"
+>
+  <view class="pop">
+    <view class="border">
+      <view class="popTitle">点击下面文字编辑描述</view>
+    </view>
+   
+    <textarea class="inpute" cols="30" rows="10"
+    value="{{description}}"
+    show-confirm-bar="false"
+    adjust-position="true"
+    confirm-type="done"
+    auto-focus="ture"
+    bindblur="textDone"
+    ></textarea>
+  </view>
+</page-container>

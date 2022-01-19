@@ -1,17 +1,22 @@
-<!--pages/watch makes me/index.wxml-->
-<view class="line">
+
+<view class="line" wx:for="{{routeList}}" wx:key="index"  
+ data-route-id = "{{item._id}}">
     <image class="line-icon" 
-    src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/n9s61jn50rf4omjeapj1le8hitj9w4c6_.png"
+    src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-19/2sbz5w87sllfuaaex75ucula07he7o11_.png"
     ></image>
     <view class="description">
       <view class="description-time">
-        <view class="timeTitle">时间:</view>
-        <view class="time">2022-1-10</view>
+        <view class="timeTitle">时间: {{item.time}}</view>
       </view>
       <view class="description-name">
         <view class="nameTitle">行程名称:</view>
-        <input bindinput="getName" class="nameEdit" placeholder="点击进行编辑"></input>
-        <image src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-18/qso7p7jxsyejhpme64mua5myfw0r95go_.png" class="btn" bindtap="addData"></image>
+        <input bindblur="titleDone" 
+        class="nameEdit"
+        value="{{item.route_title}}"
+        data-route-id = "{{item._id}}"
+        ></input>
       </view>
     </view>
+    <image class="line-icon2" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-19/34pzamsd6wvs03wdf5080s3zyfzhq3f2_.png" 
+    data-route-id = "{{item._id}}" bindtap="goto" ></image>
 </view>
