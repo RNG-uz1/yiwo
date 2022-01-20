@@ -1,26 +1,27 @@
-
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
-  */
+   */
 
   data: {
 
-    src: '',//拍照后图像路径(临时路径)
-    show: false,//相机视图显示隐藏标识
+    src: '', //拍照后图像路径(临时路径)
+    show: false, //相机视图显示隐藏标识
     cameraPos: "back",
+    photoID:''
   },
 
 
   // 取消/重新拍照按钮
   cancelBtn() {
-    this.setData({//更新数据
+    this.setData({ //更新数据
       show: false
     })
   },
 
-  changePos(){
+  changePos() {
     this.setData({
       cameraPos: this.data.cameraPos == "back" ? "front" : "back"
     })
@@ -42,23 +43,40 @@ Page({
     // 实拍照片配置
     ctx.takePhoto({
 
-        quality: 'high',//成像质量
+      quality: 'high', //成像质量
 
-        success: (res) => {//成功回调
-          this.setData({
-            src: res.tempImagePath,//tempImagePath为api返回的照片路径
-            show: true
-          })
-        },
+      success: (res) => { //成功回调
+        this.setData({
+          src: res.tempImagePath, //tempImagePath为api返回的照片路径
+          show: true
+        })
+      },
 
-        fail: (error) => {//失败回调
-          //友好提示...
-        }
+      fail: (error) => { //失败回调
+        //友好提示...
+      }
 
     })
   },
 
-
+  upload(src) {
+    var that = this
+    var photoID
+    var openid = this.data.openid
+    console.log(src)
+      wx.cloud.uploadFile({
+        cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
+        filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
+        config: {
+          env: 'prod-0gkou9lr594aa38f' // 微信云托管环境ID
+        },
+        success:res =>{
+          that.setData({
+            photoID : res.fileID
+          })
+        }
+      })   
+  },
 
 
   // 保存图片/更改主页数据(用户最终点击确定按钮√)
@@ -75,7 +93,7 @@ Page({
     var prevPage = '';
 
     // 如果长度大于等于2
-    if(pages.length >= 2){//则对上面定义的flag赋值
+    if (pages.length >= 2) { //则对上面定义的flag赋值
 
       // 当前页
       currentPage = pages[pages.length - 1];
@@ -83,28 +101,31 @@ Page({
       // 上一页
       prevPage = pages[pages.length - 2];
     }
-    
+
+
 
     // 刷新上一页(也就是主页面)数据-包含图片路径及标识
-    if(prevPage) {
-
-      // 获取当前图片路径(用户拍下的照片)
-      var src = currentPage.data.src;
-      
-      // 动态更新数据(不懂移步文章)
-      // https://blog.csdn.net/weixin_44198965/article/details/107821802 获取页面栈后 可以访问页面栈中的数据-这样达到的不同页面更新数据
-      var newFrontSrc = [src]
-      console.log(prevPage.data)
-      prevPage.setData({
+    if (prevPage) {
+      var that = this
+      var src = currentPage.data.src;// 获取当前图片路径(用户拍下的照片)
+      new Promise(function(resolve,reject){
+        that.upload(src) //把图片上传到云托管  
+        resolve()
+      }).then(function(value){
+        console.log(that.data)
+        console.log(that.data.photoID)
+        prevPage.setData({
           //frontShow: false,//显示图片 
-          newFrontSrc: src,//照片路径
-          flag:true
+          newFrontSrc: that.data.photoID, //照片路径
+          flag: true
+        })
       })
-   }
+    
+    }
 
     // 最后返回上一页(也就是主页)
     wx.navigateBack({
-      delta : 1
+      delta: 1
     })
   },
 
@@ -114,7 +135,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(app.globalData.userInfo._openid)
+    this.setData({
+      openid: app.globalData.userInfo._openid
+    })
   },
 
   /**
@@ -128,7 +152,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

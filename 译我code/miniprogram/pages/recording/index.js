@@ -88,6 +88,7 @@ Page({
           end_latitude: that.data.endLatitude,
         }).get({
           success(result) {
+            console.log(result)
             that.data.route_id = result.data[0]._id
             that.pushPoint()
           }
@@ -244,7 +245,7 @@ Page({
    */
   onLoad: function (options) {
 
-    this.getDate()
+    this.getDate()   //获取时间
 
     var that = this
     //进入页面时获取起点位置
