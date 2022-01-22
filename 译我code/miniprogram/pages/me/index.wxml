@@ -15,10 +15,8 @@
     </view>
 
     <view class="tags">
-    <view class="tag">绘画</view>
-    <view class="tag">绘画</view>
-    <view class="tag">游泳</view>
-    <view class="tag">游泳</view>
+    <view class="tag">敬请期待</view>
+
    
     <image class="addTags" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/ef81jf48bmpmtqa5yd2msjyobor16kev_.png"></image>
     </view>

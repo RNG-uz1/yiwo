@@ -65,7 +65,7 @@
   display: flex;
   color: #fff;
   margin: 30rpx;
-  width: 100rpx;
+  width: 200rpx;
   height: 50rpx;
   background-color: #FFB26B;
   border-radius: 20rpx;
