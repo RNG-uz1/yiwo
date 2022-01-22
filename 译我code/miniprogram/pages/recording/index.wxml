@@ -14,6 +14,13 @@
    <view class="btn" bindtap="endRoute">结束路径</view>
   </view>
 
+<view class="backGround" wx:if="{{photoShow}}">
+  <view class="content" >
+    <image class="currentPhoto" src="{{currentPhoto}}"> </image>
+    <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
+  </view>
+</view>
+
 
   <page-container
   show="{{show}}"

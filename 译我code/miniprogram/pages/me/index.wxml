@@ -26,7 +26,7 @@
 
   <view class="watchMakesMe" 
   wx:if="{{userInfo != null}}"
-  bindtap="gotoWatch">watchMakesMe</view>
+  bindtap="gotoWatch">What Makes Me</view>
 
   <view class="watchMakesMe" 
   wx:if="{{userInfo == null}}"

@@ -11,45 +11,21 @@ Page({
 
     flag: false,
 
-
+    photoShow:0,
 
     //图片路径
-    frontSrc: ['https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png', 'https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/zf6baoy3bhhauytm5n4wseqnd8v7k64i_.png'],
+    frontSrc: [],
     newFrontSrc: '',
     //展示弹窗
     show: 0,
     //评分
     score: 3,
     //点
-    markers: [{
-        iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
-        longitude: 102.835588,
-        latitude: 24.883896,
-        id: 1642779692500,
-        width: 50,
-        heigth: 50,
-        photoID: "cloud://prod-0gkou9lr594aa38f.7072-prod-0gkou9lr594aa38f-1308472708/pointPhoto/o8Lpk5eyo7Z_E0ZKnSoDjlt1kNxo/16427518762504.jpg"
-      },
-      {
-        iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
-        longitude: 102.834558,
-        latitude: 24.881694,
-        id: 1642779692511,
-        width: 50,
-        heigth: 50,
-        photoID: "cloud://prod-0gkou9lr594aa38f.7072-prod-0gkou9lr594aa38f-1308472708/pointPhoto/o8Lpk5eyo7Z_E0ZKnSoDjlt1kNxo/16427518762505.jpg"
-      }
-    ],
+    markers: [],
 
     //线
     polyline: [{
-      points: [{
-        latitude: 24.881694,
-        longitude: 102.834558
-      }, {
-        latitude: 24.883896,
-        longitude: 102.835588
-      }],
+      points: [],
       width: 4,
       color: "#15cda8",
       dottedLine: false
@@ -69,6 +45,12 @@ Page({
     console.log(year + '年' + month + '月' + date + '日')
     this.setData({
       time: year + '年' + month + '月' + date + '日'
+    })
+  },
+
+  closePhoto(){
+    this.setData({
+      photoShow : 0
     })
   },
 
@@ -198,33 +180,40 @@ Page({
   endRoute() {
     var timestamp
     var that = this
-    wx.getLocation({
-      isHighAccuracy: true, // 开启地图精准定位
-      type: 'gcj02', // 地图类型写这个
-      success(res) {
-        new Promise(function (resolve, reject) {
-
-          that.setData({
-            longitude: res.longitude,
-            latitude: res.latitude,
-            endLongitude: res.longitude,
-            endLatitude: res.latitude,
+    if(this.data.markers.length >= 1){          //只有用户打点了之后才会继续下一步，没打点就直接返回首页
+      wx.getLocation({
+        isHighAccuracy: true, // 开启地图精准定位
+        type: 'gcj02', // 地图类型写这个
+        success(res) {
+          new Promise(function (resolve, reject) {
+  
+            that.setData({
+              longitude: res.longitude,
+              latitude: res.latitude,
+              endLongitude: res.longitude,
+              endLatitude: res.latitude,
+            })
+            resolve()
+          }).then(function (value) {
+            timestamp = new Date().getTime();        
+          }).then(function (value) {
+            that.setData({
+              routeTime: timestamp,
+              show: 1
+            })
           })
-          resolve()
-        }).then(function (value) {
-          timestamp = new Date().getTime();        
-        }).then(function (value) {
-          that.setData({
-            routeTime: timestamp,
-            show: 1
-          })
-        })
+  
+        },
+        fail(res) {
+          console.log(res)
+        }
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/index/index',
+      })
+    }
 
-      },
-      fail(res) {
-        console.log(res)
-      }
-    })
 
   },
 
@@ -244,6 +233,15 @@ Page({
 
   markertap(e) {
     console.log(e)
+    this.data.markers.forEach((item,index)=>{
+      console.log(item.id)
+      if(e.detail.markerId == item.id){
+        this.setData({
+          currentPhoto : item.photoID,
+          photoShow : 1
+        })
+      }
+    })
   },
 
   //调相机
@@ -302,6 +300,7 @@ Page({
   onShow: function (options) {
     if (this.data.flag == true) {
       var that = this
+      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())
       wx.getLocation({
         //isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02', // 地图类型写这个
@@ -315,7 +314,7 @@ Page({
 
           //向markers数组里添加新的markers
           var newMarkers = [{
-            id: (new Date()).getTime() + Math.floor(9 * Math.random()),
+            id: markerID,
             photoID: that.data.newFrontSrc,
             iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
             longitude: res.longitude,

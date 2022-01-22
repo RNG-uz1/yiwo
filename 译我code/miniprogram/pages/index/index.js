@@ -37,13 +37,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
- var that = this
-    setTimeout(function () {
-      console.log(app.globalData.userInfo)
-      that.setData({
-        user: app.globalData.userInfo
-      })
-    }, 1000)
+
   },
 
   /**
@@ -55,7 +49,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-   
+    var that = this
+    setTimeout(function () {
+      console.log(app.globalData.userInfo)
+      that.setData({
+        user: app.globalData.userInfo
+      })
+    }, 1000)
 
     //隐藏左上角
     wx.hideHomeButton({
