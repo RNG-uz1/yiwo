@@ -23,6 +23,8 @@ Page({
   },
 
  
+
+ 
   titleDone(e){
       var that = this
       console.log(e)
@@ -49,7 +51,7 @@ Page({
         openid = res.result.openid
         wx.cloud.database().collection('route').where({
           _openid : openid
-        }).get().then(res1=>{
+        }).orderBy('routeTime', 'desc').get().then(res1=>{
           that.setData({
             routeList:res1.data,
           })

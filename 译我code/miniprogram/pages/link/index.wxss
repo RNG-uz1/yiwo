@@ -1,3 +1,9 @@
+page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 map {
   height: 70%;
   width: 100%;
@@ -61,5 +67,35 @@ map {
   margin-bottom: 15rpx;
 }
 
+.backGround{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.content {
+  margin-top: 15%;
+  height: 70%;
+  width: 80%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content .close {
+  margin-top: 30rpx;
+  width: 70rpx;
+  height: 70rpx;
+}
+
+.content .currentPhoto{
+  height: 85%;
+  width: 100%;
+}
 
 

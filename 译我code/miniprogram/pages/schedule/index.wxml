@@ -3,13 +3,14 @@
  data-route-id = "{{item._id}}">
     <image class="line-icon" 
     src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-19/2sbz5w87sllfuaaex75ucula07he7o11_.png"
+    bindtap="goto" data-route-id = "{{item._id}}"
     ></image>
     <view class="description">
       <view class="description-time">
-        <view class="timeTitle">时间: {{item.time}}</view>
+        <view class="timeTitle" bindtap="goto" data-route-id = "{{item._id}}">时间: {{item.time}}</view>
       </view>
       <view class="description-name">
-        <view class="nameTitle">行程名称:</view>
+        <view class="nameTitle" bindtap="goto" data-route-id = "{{item._id}}">行程名称:</view>
         <input bindblur="titleDone" placeholder="点击编辑"
         class="nameEdit"
         value="{{item.route_title}}"

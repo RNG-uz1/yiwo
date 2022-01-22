@@ -5,13 +5,13 @@ Page({
    * 页面的初始数据
    */
   data: {
-  route_time:'',
+    route_time: '',
 
     route_id: "",
 
     flag: false,
 
-  
+
 
     //图片路径
     frontSrc: ['https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png', 'https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/zf6baoy3bhhauytm5n4wseqnd8v7k64i_.png'],
@@ -25,15 +25,19 @@ Page({
         iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
         longitude: 102.835588,
         latitude: 24.883896,
+        id: 1642779692500,
         width: 50,
         heigth: 50,
+        photoID: "cloud://prod-0gkou9lr594aa38f.7072-prod-0gkou9lr594aa38f-1308472708/pointPhoto/o8Lpk5eyo7Z_E0ZKnSoDjlt1kNxo/16427518762504.jpg"
       },
       {
         iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
         longitude: 102.834558,
         latitude: 24.881694,
+        id: 1642779692511,
         width: 50,
         heigth: 50,
+        photoID: "cloud://prod-0gkou9lr594aa38f.7072-prod-0gkou9lr594aa38f-1308472708/pointPhoto/o8Lpk5eyo7Z_E0ZKnSoDjlt1kNxo/16427518762505.jpg"
       }
     ],
 
@@ -53,15 +57,18 @@ Page({
   },
 
   //获取时间
-  getDate(){
+  getDate() {
+    // wx.setInterval(() => {
+
+    // }, 5000);
     var d = new Date
     var datetime = new Date();
     var year = datetime.getFullYear();
     var month = datetime.getMonth() + 1 < 10 ? "0" + (datetime.getMonth() + 1) : datetime.getMonth() + 1;
     var date = datetime.getDate() < 10 ? "0" + datetime.getDate() : datetime.getDate();
-    console.log(year+'年'+month+'月'+date+'日')
+    console.log(year + '年' + month + '月' + date + '日')
     this.setData({
-      time:year+'年'+month+'月'+date+'日'
+      time: year + '年' + month + '月' + date + '日'
     })
   },
 
@@ -69,23 +76,23 @@ Page({
   close() {
     var that = this
 
-    //路径传入数据库里
+    new Promise(function(resolve,reject){
+      //路径传入数据库里
     wx.cloud.database().collection('route').add({
       data: {
         start_longitude: that.data.startLongitude,
         start_latitude: that.data.startLatitude,
         end_longitude: that.data.endLongitude,
         end_latitude: that.data.endLatitude,
-        time:that.data.time,
+        routeTime:that.data.routeTime,  //路径时间戳，用来区别同一地点不同路径
+        time: that.data.time,    //路径时间  用来展示
         route_title: '',
         description: '点击进行编辑',
         score: that.data.score,
       },
       success(res) {
         wx.cloud.database().collection('route').where({
-          start_longitude: that.data.startLongitude,
-          end_longitude: that.data.endLongitude,
-          end_latitude: that.data.endLatitude,
+          routeTime : that.data.routeTime
         }).get({
           success(result) {
             console.log(result)
@@ -95,18 +102,23 @@ Page({
         })
       }
     })
-
-    setTimeout(function () {
+      resolve()
+    }).then(function(value){
       wx.navigateTo({
         url: `/pages/index/index`
       })
+    }).then(function(value){
       that.setData({
         show: 0
       })
-    }, 1000)
-
+    })
 
     
+
+
+
+
+
     //console.log(this.data.score)
 
   },
@@ -118,10 +130,15 @@ Page({
     that.data.markers.forEach((item, index) => {
       wx.cloud.database().collection('point').add({
         data: {
+          id: item.id,
           route_id: that.data.route_id,
           longitude: item.longitude,
           latitude: item.latitude,
+          photoID: item.photoID
         },
+        success(res) {
+          console.log('点存入成功')
+        }
       })
     })
 
@@ -143,74 +160,68 @@ Page({
   },
 
   getLocation() {
-    var promise = new Promise(function (resolve, reject) {
-      var that = this
-      wx.getLocation({
-        //isHighAccuracy: true, // 开启地图精准定位
-        type: 'gcj02', // 地图类型写这个
-        success(res) {
-          console.log(222)
-          //向point数组里添加新的point
-          var newPoint = [{
-            latitude: res.latitude,
-            longitude: res.longitude
-          }]
-          that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
-
-          //向markers数组里添加新的markers
-          var newMarkers = [{
-            iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
-            longitude: res.longitude,
-            latitude: res.latitude,
-            width: 50,
-            heigth: 50,
-          }]
-          that.data.markers = that.data.markers.concat(newMarkers)
-
-          //刷新数据
-          that.setData({
-            longitude: res.longitude,
-            latitude: res.latitude,
-            markers: that.data.markers,
-            polyline: that.data.polyline
-          })
-        }
-      })
-      resolve("调用成功");
-    })
-
-  },
-
-  //点击结束路径
-  endRoute() {
     var that = this
     wx.getLocation({
       //isHighAccuracy: true, // 开启地图精准定位
       type: 'gcj02', // 地图类型写这个
       success(res) {
-        //向markers数组里添加终点markers
-        // var newMarkers = [{
-        //   iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/8jkfruwj4sg7i1xcb6hblsxubu9ds97t_.png",
-        //   longitude: res.longitude,
-        //   latitude: res.latitude,
-        //   width: 50,
-        //   heigth: 50,
-        // }]
-        // that.data.markers = that.data.markers.concat(newMarkers)
-        //把终点路径存入data里
+        console.log(222)
+        //向point数组里添加新的point
+        var newPoint = [{
+          latitude: res.latitude,
+          longitude: res.longitude
+        }]
+        that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
+
+        //向markers数组里添加新的markers
+        var newMarkers = [{
+          iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
+          longitude: res.longitude,
+          latitude: res.latitude,
+          width: 50,
+          heigth: 50,
+        }]
+        that.data.markers = that.data.markers.concat(newMarkers)
+
+        //刷新数据
         that.setData({
           longitude: res.longitude,
           latitude: res.latitude,
-          endLongitude: res.longitude,
-          endLatitude: res.latitude,
+          markers: that.data.markers,
+          polyline: that.data.polyline
         })
-        setTimeout(function () {
+      }
+    })
+  },
+
+  //点击结束路径
+  endRoute() {
+    var timestamp
+    var that = this
+    wx.getLocation({
+      isHighAccuracy: true, // 开启地图精准定位
+      type: 'gcj02', // 地图类型写这个
+      success(res) {
+        new Promise(function (resolve, reject) {
+
           that.setData({
+            longitude: res.longitude,
+            latitude: res.latitude,
+            endLongitude: res.longitude,
+            endLatitude: res.latitude,
+          })
+          resolve()
+        }).then(function (value) {
+          timestamp = new Date().getTime();        
+        }).then(function (value) {
+          that.setData({
+            routeTime: timestamp,
             show: 1
           })
-        }, 1000)
+        })
+
       },
-      fail(res){
+      fail(res) {
         console.log(res)
       }
     })
@@ -231,7 +242,9 @@ Page({
     })
   },
 
-
+  markertap(e) {
+    console.log(e)
+  },
 
   //调相机
   getCamera() {
@@ -245,7 +258,7 @@ Page({
    */
   onLoad: function (options) {
 
-    this.getDate()   //获取时间
+    this.getDate() //获取时间
 
     var that = this
     //进入页面时获取起点位置
@@ -293,7 +306,6 @@ Page({
         //isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02', // 地图类型写这个
         success(res) {
-          console.log(222)
           //向point数组里添加新的point
           var newPoint = [{
             latitude: res.latitude,
@@ -303,6 +315,8 @@ Page({
 
           //向markers数组里添加新的markers
           var newMarkers = [{
+            id: (new Date()).getTime() + Math.floor(9 * Math.random()),
+            photoID: that.data.newFrontSrc,
             iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
             longitude: res.longitude,
             latitude: res.latitude,
@@ -312,8 +326,8 @@ Page({
           that.data.markers = that.data.markers.concat(newMarkers)
 
           //向frontSrc数组里添加新的照片路径
-          var newSrc = [that.data.newFrontSrc]
-          that.data.frontSrc = that.data.frontSrc.concat(newSrc)
+          // var newSrc = [that.data.newFrontSrc]
+          // that.data.frontSrc = that.data.frontSrc.concat(newSrc)
 
           //刷新数据
           that.setData({
@@ -322,12 +336,12 @@ Page({
             markers: that.data.markers,
             polyline: that.data.polyline,
             frontSrc: that.data.frontSrc,
-            flag : false
+            flag: false
           })
         }
       })
 
-      
+
     }
   },
 

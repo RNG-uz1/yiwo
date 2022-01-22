@@ -1,4 +1,10 @@
-<map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}"></map>
+<map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}" bindmarkertap="markertap" include-points="{{markers}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}"></map>
+<view class="backGround" wx:if="{{photoShow}}">
+  <view class="content" >
+    <image class="currentPhoto" src="{{photoID}}"> </image>
+    <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="close"></image>
+  </view>
+</view>
 <view class="description">
   <view class="time">
     <time-text>时间 ：{{time}}</time-text>

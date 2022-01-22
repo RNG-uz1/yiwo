@@ -6,7 +6,7 @@ Page({
    */
   data: {
     show:0,
-
+    photoShow : 0,
     description: '',
 
     point_data: [],
@@ -26,6 +26,36 @@ Page({
   back(){
     wx.navigateBack({
       delta : 1
+    })
+  },
+
+  markertap(e){
+    var that = this
+    var currentPhoto
+    var newPoint =e.currentTarget.dataset
+    console.log(this.data.markers)
+    console.log(e.markerId)
+    new Promise(function(resolve,rejact){
+      that.data.markers.forEach((item,index)=>{
+        if(e.markerId == item.id){
+          currentPhoto = item.photoID
+        }
+      })
+      resolve()
+    }).then(function(value){
+      that.setData({
+        photoID : currentPhoto,
+        latitude : newPoint.latitude,
+        longitude: newPoint.longitude,
+        photoShow:1
+      })
+      console.log(that.data.photoID)
+    })   
+  },
+
+  close(){
+    this.setData({
+      photoShow : 0
     })
   },
 
@@ -76,7 +106,9 @@ Page({
     }).get({
       success(res) {
         console.log(res.data)
-        point_data = res.data
+
+        
+        point_data = res.data   //
         start_longitude = res.data[res.data.length-1].longitude    //起点是该数组的最后一个值
         start_latitude = res.data[res.data.length-1].latitude      
         res.data.forEach((item,index) =>{
@@ -168,5 +200,5 @@ Page({
 })
 
 wx.setNavigationBarTitle({
-  title: "游西安day1"
+  title: ""
 })

@@ -5,6 +5,7 @@
     latitude="{{latitude}}"
     markers="{{markers}}"
     polyline="{{polyline}}"
+    bindmarkertap="markertap"
     ></map>
   </view>
 
@@ -25,7 +26,7 @@
 
     <view class="pop">
       <view class="popTitle">请您对本次行程打个分吧</view>
-      <rate value="3" allow-half="{{false}}" bindchange="showResult"></rate>
+      <rate value="0" allow-half="{{false}}" bindchange="showResult"></rate>
       <view class="end"  bindtap="close">
       <image class="end_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png"></image>
       <view class="text">结束</view>

@@ -10,7 +10,7 @@ Page({
     src: '', //拍照后图像路径(临时路径)
     show: false, //相机视图显示隐藏标识
     cameraPos: "back",
-    photoID:''
+    test2:222
   },
 
 
@@ -61,27 +61,29 @@ Page({
 
   upload(src) {
     var that = this
-    var photoID
     var openid = this.data.openid
     console.log(src)
-      wx.cloud.uploadFile({
-        cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
-        filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
-        config: {
-          env: 'prod-0gkou9lr594aa38f' // 微信云托管环境ID
-        },
-        success:res =>{
-          that.setData({
-            photoID : res.fileID
-          })
-        }
-      })   
+    wx.cloud.uploadFile({
+      cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
+      filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
+      config: {
+        env: 'prod-0gkou9lr594aa38f' // 微信云托管环境ID
+      },
+      success: res => {
+        that.setData({
+          photoID: res.fileID
+        })
+      }
+    })
   },
 
 
   // 保存图片/更改主页数据(用户最终点击确定按钮√)
   saveImg() {
-
+      wx.showToast({
+        title: '正在保存请稍等',
+        duration: 2000,
+      })
     // 获取所有页面(不懂请移步下面这篇文章)
     // https://blog.csdn.net/weixin_44198965/article/details/107821802
     let pages = getCurrentPages()
@@ -107,26 +109,42 @@ Page({
     // 刷新上一页(也就是主页面)数据-包含图片路径及标识
     if (prevPage) {
       var that = this
-      var src = currentPage.data.src;// 获取当前图片路径(用户拍下的照片)
-      new Promise(function(resolve,reject){
-        that.upload(src) //把图片上传到云托管  
-        resolve()
-      }).then(function(value){
-        console.log(that.data)
-        console.log(that.data.photoID)
-        prevPage.setData({
-          //frontShow: false,//显示图片 
-          newFrontSrc: that.data.photoID, //照片路径
-          flag: true
-        })
+      var src = currentPage.data.src; // 获取当前图片路径(用户拍下的照片)
+
+      var openid = that.data.openid
+
+      wx.cloud.uploadFile({
+        cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
+        filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
+        config: {
+          env: 'prod-0gkou9lr594aa38f' // 微信云托管环境ID
+        },
+        success: res => {
+          that.setData({
+            photoID: res.fileID,
+            test:111
+          })
+
+          prevPage.setData({
+            //frontShow: false,//显示图片 
+            newFrontSrc: that.data.photoID, //照片路径
+            flag: true
+          })
+
+        },
+
       })
-    
     }
 
+    setTimeout(function () {
+      wx.navigateBack({
+        delta: 1
+      })
+    }, 2000)
+
+
     // 最后返回上一页(也就是主页)
-    wx.navigateBack({
-      delta: 1
-    })
+
   },
 
 
