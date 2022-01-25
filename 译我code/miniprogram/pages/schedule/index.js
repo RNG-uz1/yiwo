@@ -48,10 +48,12 @@ Page({
     wx.cloud.callFunction({
       name: 'login_get_openid',
       success(res){
+        console.log(res)
         openid = res.result.openid
         wx.cloud.database().collection('route').where({
           _openid : openid
         }).orderBy('routeTime', 'desc').get().then(res1=>{
+          console.log(res1)
           that.setData({
             routeList:res1.data,
           })

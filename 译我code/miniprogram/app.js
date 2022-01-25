@@ -3,7 +3,7 @@ App({
   onLaunch: function () {
     //云开发环境初始化
     wx.cloud.init({
-      env: 'yiwo-4gsw4af5a186d6b7',
+      env: 'yiwo-nft-9gw5pymu18ae114f',
       traceUser: true,
     });
 
