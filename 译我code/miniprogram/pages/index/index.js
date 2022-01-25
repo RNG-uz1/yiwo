@@ -28,9 +28,10 @@ Page({
 
   //跳转页面  打卡记录
   gotuRecording(e) {
-    wx.navigateTo({
+      //页面跳转
+      wx.navigateTo({
       url: `/pages/recording/index`
-    })
+    })  
   },
 
   /**
@@ -69,6 +70,10 @@ Page({
         console.log("hide home complete");
       },
     });
+
+
+
+
 
   },
 

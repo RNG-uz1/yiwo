@@ -20,8 +20,12 @@ App({
           _openid: res.result.opendi
         }).get({
           success(result){
-            console.log(result)
             that.globalData.userInfo = result.data[0]
+            if(result.data[0].isLoad == true){
+              wx.navigateTo({
+                url: `/pages/recording/index`,
+              })
+            }
           }
         })
       }
