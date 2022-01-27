@@ -3,7 +3,7 @@ App({
   onLaunch: function () {
     //云开发环境初始化
     wx.cloud.init({
-      env: 'yiwo-4gsw4af5a186d6b7',
+      env: 'yiwo-nft-9gw5pymu18ae114f',
       traceUser: true,
     });
 
@@ -13,11 +13,11 @@ App({
       name: 'login_get_openid',
       success(res) {
         console.log(res)
-        that.globalData.opendi = res.result.opendi
+        that.globalData.openid = res.result.openid
 
         //查找数据库用户表里是否有这个用户记录
         wx.cloud.database().collection('user').where({ //查找数据库内openid相同的信息
-          _openid: res.result.opendi
+          _openid: res.result.openid
         }).get({
           success(result){
             that.globalData.userInfo = result.data[0]

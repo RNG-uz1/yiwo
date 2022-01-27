@@ -34,7 +34,7 @@ Page({
 
   closePhoto() {
     this.setData({
-      photoShow : 0
+      photoShow: 0
     })
   },
 
@@ -42,14 +42,33 @@ Page({
   close() {
     var that = this
 
-      //点击关闭更改用户状态
-      wx.cloud.database().collection('user').where({     
+    new Promise(function (resolve, reject) {
+      //点击结束更改用户状态
+      wx.cloud.database().collection('user').where({
         _openid: app.globalData.userInfo._openid
       }).update({
         data: {
           isLoad: false
         }
       })
+      resolve()
+    }).then(function (value) {
+      //更新路径信息
+      wx.cloud.database().collection('route').where({
+        _id: that.data.route_id
+      }).update({
+        data: {
+          score: that.data.score,
+          end_longitude: that.data.endLongitude,
+          end_latitude: that.data.endLatitude,
+        }
+      })
+    }).then(function (value) {
+      //跳转页面
+      wx.navigateTo({
+        url: `/pages/index/index`
+      })
+    })
 
     // new Promise(function (resolve, reject) {
     //   //路径传入数据库里
@@ -79,13 +98,13 @@ Page({
     //   })
     //   resolve()
     // }).then(function (value) {
-    //   wx.navigateTo({
-    //     url: `/pages/index/index`
-    //   })
+    // wx.navigateTo({
+    //   url: `/pages/index/index`
+    // })
     // }).then(function (value) {
-    //   that.setData({
-    //     show: 0
-    //   })
+    // that.setData({
+    //   show: 0
+    // })
     // })
     //console.log(this.data.score)
   },
@@ -103,45 +122,6 @@ Page({
     }
   },
 
-  getLocation() {
-    var that = this
-    wx.getLocation({
-      //isHighAccuracy: true, // 开启地图精准定位
-      type: 'gcj02', // 地图类型写这个
-      success(res) {
-        console.log(222)
-        //向point数组里添加新的point
-        var newPoint = [{
-          latitude: res.latitude,
-          longitude: res.longitude
-        }]
-        that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
-
-        //向markers数组里添加新的markers
-        var newMarkers = [{
-          iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
-          longitude: res.longitude,
-          latitude: res.latitude,
-          width: 50,
-          heigth: 50,
-        }]
-        that.data.markers = that.data.markers.concat(newMarkers)
-
-        //刷新数据
-        that.setData({
-          longitude: res.longitude,
-          latitude: res.latitude,
-          markers: that.data.markers,
-          polyline: that.data.polyline
-        })
-      }
-    })
-
-    //把点存入数据库
-
-
-  },
-
   //点击结束路径
   endRoute() {
     var that = this
@@ -150,8 +130,8 @@ Page({
         isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02', // 地图类型写这个
         success(res) {
+          console.log(321)
           new Promise(function (resolve, reject) {
-
             that.setData({
               longitude: res.longitude,
               latitude: res.latitude,
@@ -160,16 +140,33 @@ Page({
             })
             resolve()
           }).then(function (value) {
-            show: 1
+            that.setData({
+              show: 1
+            })
           })
         },
         fail(res) {
           console.log(res)
         }
       })
-    } else {
-      wx.navigateTo({
-        url: '/pages/index/index',
+    } else { //当本次路径没有点时
+      //删除本条路径
+      wx.cloud.database().collection('route').doc(that.data.route_id).remove({
+        success(res) {
+          //更改用户状态
+          wx.cloud.database().collection('user').where({
+            _openid: app.globalData.userInfo._openid
+          }).update({
+            data: {
+              isLoad: false
+            }
+          })
+
+          //页面跳转
+          wx.navigateTo({
+            url: '/pages/index/index',
+          })
+        }
       })
     }
 
@@ -179,52 +176,45 @@ Page({
   onLoad: function (options) {
     var isload
     var that = this
-    new Promise(function(resolve,reject){
+    new Promise(function (resolve, reject) {
       that.getDate() //获取时间,字符串形式
 
-    //进入页面时获取起始位置与信息
-    wx.getLocation({
-      //isHighAccuracy: true, // 开启地图精准定位
-      type: 'gcj02',
-      success(res) {       
-        that.setData({
-          routeTime: (new Date()).getTime() + Math.floor(9 * Math.random()),
-          longitude: res.longitude,
-          latitude: res.latitude,
-          startLongitude: res.longitude,
-          startLatitude: res.latitude,
-          openid: app.globalData.userInfo._openid,
-        })
-      }
-    })
+      //进入页面时获取起始位置与信息
+      wx.getLocation({
+        //isHighAccuracy: true, // 开启地图精准定位
+        type: 'gcj02',
+        success(res) {
+          that.setData({
+            routeTime: (new Date()).getTime() + Math.floor(9 * Math.random()),
+            longitude: res.longitude,
+            latitude: res.latitude,
+            startLongitude: res.longitude,
+            startLatitude: res.latitude,
+            openid: app.globalData.userInfo._openid,
+          })
+        }
+      })
       resolve()
-    }).then(function(value){
-      wx.cloud.database().collection('user').where({   //查看用户状态
+    }).then(function (value) {
+      wx.cloud.database().collection('user').where({ //查看用户状态
         _openid: app.globalData.userInfo._openid
       }).get({
         success(res) {
           console.log(res)
           isload = res.data[0].isLoad
-          if (isload == false) {               //用户状态为false时，改变用户状态，并且存入一条路径
-            wx.cloud.database().collection('user').where({     
+          if (isload == false) { //用户状态为false时，改变用户状态，并且存入一条路径
+            wx.cloud.database().collection('user').where({
               _openid: app.globalData.userInfo._openid
             }).update({
-              data: { isLoad: true }
-            }).then(res=>{
-              console.log(that.data)
-              that.createRoute()      //存入一条路径
-            })
-          }else{        //用户状态为true时,加载上一条路径的状态
-            wx.cloud.database().collection('route').where({
-              _openid : app.globalData.userInfo._openid
-            }).orderBy('routeTime', 'desc').get({
-              success(res){
-                console.log(res)
-                that.setData({
-                  route_id : res.data[0]._id
-                })
+              data: {
+                isLoad: true
               }
+            }).then(res => {
+              console.log(that.data)
+              that.createRoute() //存入一条路径
             })
+          } else { //用户状态为true时,加载上一条路径的状态
+            that.loadRoute()
           }
         }
       })
@@ -251,11 +241,8 @@ Page({
           var newMarkers = [{
             id: markerID,
             photoID: that.data.newFrontSrc,
-            iconPath: "https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-15/updam9bnagcpcc2u167lb7ycu0u39gc8_.png",
             longitude: res.longitude,
             latitude: res.latitude,
-            width: 50,
-            heigth: 50,
           }]
           that.data.markers = that.data.markers.concat(newMarkers)
 
@@ -270,20 +257,17 @@ Page({
           })
 
           wx.cloud.database().collection('point').add({
-            data:{
-              id : markerID,
-              latitude : res.latitude,
+            data: {
+              id: markerID,
+              latitude: res.latitude,
               longitude: res.longitude,
               photoID: that.data.newFrontSrc,
-              route_id : that.data.route_id
+              route_id: that.data.route_id
             }
           })
         }
       })
-
-
     }
-
   },
 
   /**
@@ -297,7 +281,23 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    //用户返回时如果没有打点，就删除路径
+    var that = this
+    if (this.data.markers.length == 0) {
+      wx.cloud.database().collection('route').doc(that.data.route_id).remove({
+        success(res) {
+          //更改用户状态
+          console.log(555)
+          wx.cloud.database().collection('user').where({
+            _openid: app.globalData.userInfo._openid
+          }).update({
+            data: {
+              isLoad: false
+            }
+          })
+        }
+      })
+    }
   },
 
 
@@ -379,7 +379,7 @@ Page({
   },
 
   //加载页面时 状态由true改为false  创建一条路径数据并存入
-  createRoute(){
+  createRoute() {
     var that = this
     console.log(this.data)
     wx.cloud.database().collection('route').add({
@@ -393,15 +393,66 @@ Page({
         score: that.data.score,
       },
       success(res) {
-        wx.cloud.database().collection('route').where({
-          routeTime: that.data.routeTime
-        }).get({
-          success(result) {
-            console.log(result)
-            that.data.route_id = result.data[0]._id
-          }
+        console.log(res)
+        that.setData({
+          route_id: res._id
         })
       }
     })
+  },
+
+  //加载上一条路径状态
+  loadRoute() {
+    var that = this
+    var marker
+    var newPoint = [{
+      latitude: '',
+      longitude: ''
+    }]
+    new Promise(function (resolve, reject) {
+      //先获取上一条路径的id
+      wx.cloud.database().collection('route').where({
+        _openid: app.globalData.userInfo._openid
+      }).orderBy('routeTime', 'desc').get({
+        success(res) {
+          console.log(res)
+          that.setData({
+            route_id: res.data[0]._id
+          })
+          resolve(res.data[0]._id)
+        }
+      })
+    }).then(function (value) {
+      //用路径id来获取路径上的点
+      console.log(value)
+      wx.cloud.database().collection('point').where({
+        route_id: value
+      }).get({
+        success(res) {
+          console.log(res)
+          //数据渲染
+          new Promise(function (resolve, reject) {
+            res.data.forEach((item, index) => {
+              console.log(item)
+              marker = item
+              newPoint.longitude = item.longitude
+              newPoint.latitude = item.latitude
+            })
+            resolve()
+          }).then(function (res) {
+            that.data.markers = that.data.markers.concat(marker),
+              that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
+          }).then(function (res) {
+            //刷新数据
+            that.setData({
+              markers: that.data.markers,
+              polyline: that.data.polyline,
+            })
+          })
+        }
+      })
+    })
   }
+
+
 })
