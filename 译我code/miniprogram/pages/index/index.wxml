@@ -13,7 +13,7 @@
 <!--点亮地图-->
   <view class="chinaMap">    
     <view class="lightMap">
-      <image class="map" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/m8usuhbxfjp4m3ccqzssk10qb8hgssu4_.png" mode="aspectFit"></image>
+      <image class="map" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-01-29/yfc57lwfcveociniwx082m284264zcr1_.jpg" mode="aspectFit"></image>
     </view>
   </view>
   <view wx:if="{{user== null}}" class="cover" bindtap="popUp"></view>

@@ -369,12 +369,12 @@ Page({
   //加载页面时 状态由true改为false  创建一条路径数据并存入
   createRoute() {
     var that = this
-    console.log(this.data)
+    console.log(routeTime1)
     wx.cloud.database().collection('route').add({
       data: {
         start_longitude: that.data.startLongitude,
         start_latitude: that.data.startLatitude,
-        routeTime : that.data.routeTime, //路径时间戳，用来区别同一地点不同路径
+        routeTime : routeTime1, //路径时间戳，用来区别同一地点不同路径
         time: that.data.time, //路径时间  用来展示
         route_title: '',
         description: '点击进行编辑',
