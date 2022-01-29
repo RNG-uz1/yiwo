@@ -1,4 +1,5 @@
 const app = getApp()
+var routeTime1
 Page({
 
   /**
@@ -69,44 +70,6 @@ Page({
         url: `/pages/index/index`
       })
     })
-
-    // new Promise(function (resolve, reject) {
-    //   //路径传入数据库里
-    //   wx.cloud.database().collection('route').add({
-    //     data: {
-    //       start_longitude: that.data.startLongitude,
-    //       start_latitude: that.data.startLatitude,
-    //       end_longitude: that.data.endLongitude,
-    //       end_latitude: that.data.endLatitude,
-    //       routeTime: that.data.routeTime, //路径时间戳，用来区别同一地点不同路径
-    //       time: that.data.time, //路径时间  用来展示
-    //       route_title: '',
-    //       description: '点击进行编辑',
-    //       score: that.data.score,
-    //     },
-    //     success(res) {
-    //       wx.cloud.database().collection('route').where({
-    //         routeTime: that.data.routeTime
-    //       }).get({
-    //         success(result) {
-    //           console.log(result)
-    //           that.data.route_id = result.data[0]._id
-    //           that.pushPoint()
-    //         }
-    //       })
-    //     }
-    //   })
-    //   resolve()
-    // }).then(function (value) {
-    // wx.navigateTo({
-    //   url: `/pages/index/index`
-    // })
-    // }).then(function (value) {
-    // that.setData({
-    //   show: 0
-    // })
-    // })
-    //console.log(this.data.score)
   },
 
   //点击拍照打卡，获取当前位置
@@ -176,16 +139,18 @@ Page({
   onLoad: function (options) {
     var isload
     var that = this
+
+
     new Promise(function (resolve, reject) {
       that.getDate() //获取时间,字符串形式
-
+      routeTime1 = (new Date()).getTime() + Math.floor(9 * Math.random())
       //进入页面时获取起始位置与信息
       wx.getLocation({
         //isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02',
         success(res) {
           that.setData({
-            routeTime: (new Date()).getTime() + Math.floor(9 * Math.random()),
+            routeTime: routeTime1,
             longitude: res.longitude,
             latitude: res.latitude,
             startLongitude: res.longitude,
@@ -218,55 +183,78 @@ Page({
           }
         }
       })
+    }).then(function (value) {
+      wx.showToast({
+        title: '请确保使用过程中已开启定位，否则将导致定位不准确',
+        icon: 'none',
+        duration: 2500
+      })
     })
   },
 
 
   onShow: function (options) {
+
     if (this.data.flag == true) {
+      wx.startLocationUpdate({
+        success: (res) => {
+          console.log(res);
+            wx.onLocationChange(_locationChangeFn)
+        },
+      })
       var that = this
-      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())
-      wx.getLocation({
-        //isHighAccuracy: true, // 开启地图精准定位
-        type: 'gcj02', // 地图类型写这个
-        success(res) {
+      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())     
+        const _locationChangeFn = function(res){   
+        const longitude1 = res.longitude
+        const latitude1 = res.latitude
+        new Promise(function (resolve, reject) {
+
           //向point数组里添加新的point
           var newPoint = [{
-            latitude: res.latitude,
-            longitude: res.longitude
+            latitude: latitude1,
+            longitude: longitude1
           }]
           that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
+
+          resolve()
+        }).then(function (value) {
 
           //向markers数组里添加新的markers
           var newMarkers = [{
             id: markerID,
             photoID: that.data.newFrontSrc,
-            longitude: res.longitude,
-            latitude: res.latitude,
+            longitude: longitude1,
+            latitude: latitude1,
           }]
           that.data.markers = that.data.markers.concat(newMarkers)
 
+        }).then(function (value) {
+
           //刷新数据
           that.setData({
-            longitude: res.longitude,
-            latitude: res.latitude,
+            longitude: longitude1,
+            latitude: latitude1,
             markers: that.data.markers,
             polyline: that.data.polyline,
             frontSrc: that.data.frontSrc,
             flag: false
           })
 
+        }).then(function (value) {
+
           wx.cloud.database().collection('point').add({
             data: {
               id: markerID,
-              latitude: res.latitude,
-              longitude: res.longitude,
+              latitude: latitude1,
+              longitude: longitude1,
               photoID: that.data.newFrontSrc,
               route_id: that.data.route_id
             }
           })
-        }
-      })
+        }).then(function(value){
+          wx.offLocationChange(_locationChangeFn)
+        })
+      }
     }
   },
 
@@ -386,7 +374,7 @@ Page({
       data: {
         start_longitude: that.data.startLongitude,
         start_latitude: that.data.startLatitude,
-        routeTime: that.data.routeTime, //路径时间戳，用来区别同一地点不同路径
+        routeTime : that.data.routeTime, //路径时间戳，用来区别同一地点不同路径
         time: that.data.time, //路径时间  用来展示
         route_title: '',
         description: '点击进行编辑',
@@ -404,7 +392,6 @@ Page({
   //加载上一条路径状态
   loadRoute() {
     var that = this
-    var marker
     var newPoint = [{
       latitude: '',
       longitude: ''
@@ -427,21 +414,19 @@ Page({
       console.log(value)
       wx.cloud.database().collection('point').where({
         route_id: value
-      }).get({
+      }).orderBy('id', 'desc').get({
         success(res) {
           console.log(res)
           //数据渲染
           new Promise(function (resolve, reject) {
             res.data.forEach((item, index) => {
               console.log(item)
-              marker = item
-              newPoint.longitude = item.longitude
-              newPoint.latitude = item.latitude
+           
+              that.data.markers = that.data.markers.concat(item),
+              that.data.polyline[0].points = that.data.polyline[0].points.concat(item)
+              console.log(item.id + 'OK')
             })
             resolve()
-          }).then(function (res) {
-            that.data.markers = that.data.markers.concat(marker),
-              that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
           }).then(function (res) {
             //刷新数据
             that.setData({

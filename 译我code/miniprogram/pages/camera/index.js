@@ -119,6 +119,10 @@ Page({
         config: {
           env: 'prod-4gmcir0na5d0ba08' // 微信云托管环境ID
         },
+        fali:res=>{
+          console.log(123)
+
+        },
 
         success: res => {
           console.log(123)

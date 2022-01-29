@@ -1,5 +1,10 @@
+page{
+  height: auto;
+}
+
 .line{
   margin-top: 40rpx;
+  margin-bottom: 1rpx;
   display: flex;
   flex-direction: row;
   align-items: center;

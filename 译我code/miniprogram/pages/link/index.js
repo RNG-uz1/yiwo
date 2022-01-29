@@ -80,12 +80,49 @@ Page({
     })
   },
 
+  isDel(){
+    var that = this
+    wx.showModal({
+      content: '确定要删除路线吗？',
+      showCancel:true,
+      confirmText :'确定',
+      cancelText:'取消',
+      
+      success(res){
+        if(res.confirm){
+          new Promise(function(resolve,reject){
+            wx.cloud.database().collection('route').doc(that.data.routeId).remove({
+            success:function(res){
+              console.log(res.data)
+            }
+          })
+            resolve()
+          }).then(function(value){
+          wx.cloud.database().collection('point').where({
+            route_id : that.data.routeId
+          }).remove({
+            success:function(res){
+              console.log(res.data)
+            }
+          })
+          }).then(function(value){
+            wx.redirectTo({
+              url: '/pages/schedule/index'
+            })
+          })
+        }
+      }
+    })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     var that = this
-    console.log(options)
+    this.setData({
+      routeId:options.route_id
+    })
     //拿到route里的时间与描述
     var des1
     var time1
@@ -103,7 +140,7 @@ Page({
     var points1 = null
     wx.cloud.database().collection('point').where({
       route_id: options.route_id
-    }).get({
+    }).orderBy('id', 'desc').get({
       success(res) {
         console.log(res.data)
 

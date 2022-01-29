@@ -45,9 +45,8 @@ Page({
                 data: {
                   nickName: user.nickName,
                   avatarUrl: user.avatarUrl,
-                  gender: user.gender
+                  isLoad:false
                 },
-
                 success(res) {
                   console.log(res)
                   wx.showToast({

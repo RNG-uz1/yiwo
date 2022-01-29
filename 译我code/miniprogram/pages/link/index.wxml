@@ -1,4 +1,8 @@
-<map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}" bindmarkertap="markertap" include-points="{{markers}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}"></map>
+<map name="link-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline}}" bindmarkertap="markertap" include-points="{{markers}}" data-longitude="{{longitude}}" data-latitude="{{latitude}}">
+
+</map>
+<image class="del" bindtap="isDel" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-01-29/iei3o6w4ev56pjvnknlz9dwo7efgl017_.png"></image>
+
 <view class="backGround" wx:if="{{photoShow}}">
   <view class="content" >
     <image class="currentPhoto" src="{{photoID}}"> </image>
