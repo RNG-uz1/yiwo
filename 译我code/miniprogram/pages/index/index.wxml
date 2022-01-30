@@ -1,6 +1,27 @@
 <!--第一个界面 -->
 <view class="home">   
 
+<!-- 使用说明按钮 -->
+<view class="useBtn" bindtap="showInfo">
+  <image class="useIcon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-01-30/qvu635ix25mrqf2lup7ksed4p7e1bh27_.png"></image>
+  <view class="useText">使用说明</view>
+</view>
+
+<view class="backGround" wx:if="{{howToUse}}">
+  <view class="content" >
+    <view class="info">
+      <view class="title">一份操作指南请您签收</view>
+      <view class="text">
+        <view class="p">1、点击开始记录后，小程序会记录您的打卡地点并拍摄照片，您可以点击坐标点位置来查看拍摄的照片。</view>
+        <view class="p">2、点击个人主页“What Makes Me”按钮可查看过往的旅行相册，同样，可以点击路径上的坐标来查看拍摄的照片，也可以编辑旅行的相关信息。</view>
+        <view class="p">3、如果遇到BUG或者有更好的意见，请通过个人主页的用户反馈按钮进行反馈。</view>
+        <view class="p">4、如有需要，可以通过用户反馈联系我们，感谢您的使用</view>
+      </view>
+    </view>
+    <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="close"></image>
+  </view>
+</view>
+
 <!-- 去登陆 -->
 <view class="login" wx:if="{{user== null}}" bindtap="gotoMe">
   <image class="login_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/wvzxxvr41ikwaxe0bifa5djc64el59o2_.png"></image>
