@@ -1,4 +1,3 @@
-
 .introduce {
   width: 50%;
   display: flex;
@@ -54,33 +53,87 @@
 .myTag .tags {
   position: absolute;
   padding-left: 20rpx;
+  padding-right: 20rpx;
   width: 100%;
   height: 80%;
   bottom: 0rpx;
   border-radius: 40rpx;
   background-color: rgba(0,0,0,0.05);
 }
-
-.myTag .tags .tag {
+/* label */
+.determine_button{
+  background: #099A97;
+  color: white;
+  border-radius: 10rpx;
+  height: 60rpx;
+  line-height:60rpx;
+  position: fixed;
+  bottom: 5rpx;
+  left: 8rpx;
+  width: 43%;
+  margin-bottom: 45rpx;
+}
+.determine_button1{
+  background: #099A97;
+  color: white;
+  border-radius: 10rpx;
+  height: 60rpx;
+  line-height:60rpx;
+  position: fixed;
+  bottom: 5rpx;
+  right: 8rpx;
+  width: 43%;
+  margin-bottom: 45rpx;
+}
+.label_view{
   display: flex;
-  color: #fff;
-  margin: 30rpx;
-  width: 200rpx;
-  height: 50rpx;
-  background-color: #FFB26B;
-  border-radius: 20rpx;
-  font-size: 40rpx;
   justify-content: center;
-  line-height: 50rpx;
+  align-items: center;
+  padding: 1rpx 10rpx;
+  width: 140rpx;
+  height: 65rpx;
+  border: 1rpx solid #ffffff;
+  background-color:rgb(255, 178, 107);
+  font-size: 35rpx;
+  border-radius: 40rpx;
+  color:#ffff;
+  margin-right: 5rpx;
+  margin-top: 30rpx;
+  margin-left: 10rpx;
 }
+.btn_view{
+  margin: 10rpx 15rpx;
+  font-size: 32rpx;
+  color: rgb(99, 95, 95);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
 
-.myTag .tags .addTags{
-  position: absolute;
-  right: 25rpx;
-  bottom: 25rpx;
-  width: 150rpx;
-  height: 150rpx;
 }
+.btn_view text{
+  display: flex;
+  align-items: center;
+}
+.btn_view .img{
+  margin-top: 17rpx;
+  width: 100rpx;
+  height: 100rpx;
+}
+.input_view{
+  font-size: 28rpx;
+  border-radius: 75%;
+  width: 400rpx;
+  height: 270rpx;
+  margin: 20rpx 20rpx;
+}
+.input{
+  margin-top: 30rpx;
+  margin-left: 22rpx;
+  width: 350rpx;
+  border: 1px #aaa solid
+}
+/* label */
 
 .watchMakesMe {
   display: flex;
