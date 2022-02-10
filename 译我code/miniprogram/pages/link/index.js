@@ -106,8 +106,8 @@ Page({
             }
           })
           }).then(function(value){
-            wx.redirectTo({
-              url: '/pages/schedule/index'
+            wx.navigateBack({
+              delta: 1
             })
           })
         }
@@ -119,6 +119,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var draw
     var that = this
     this.setData({
       routeId:options.route_id
@@ -126,8 +127,10 @@ Page({
     //拿到route里的时间与描述
     var des1
     var time1
+    
     wx.cloud.database().collection('route').doc(options.route_id).get().then(res => {
       console.log(res)
+      draw = res.data.draw   //拿到路线
       des1 = res.data.description
       time1 = res.data.time
     })
@@ -153,13 +156,17 @@ Page({
           console.log(newPoints)
           points1 = newPoints.concat(points1)
         })
+        console.log(points1)
       }
     })
 
     setTimeout(function () {
-      points1.pop()
-      console.log(points1)
-      that.data.polyline[0].points = points1
+      if(draw == null ){
+        points1.pop()
+         that.data.polyline[0].points = points1
+      }else{
+        that.data.polyline[0].points = draw
+      }  
       console.log(that.data.polyline)
       that.setData({
         latitude: start_latitude,

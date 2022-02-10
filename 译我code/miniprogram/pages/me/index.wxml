@@ -22,12 +22,6 @@
     </view>
   </view>
 
-  <view class="watchMakesMe" 
-  wx:if="{{userInfo != null}}"
-  bindtap="gotoWatch">What Makes Me</view>
-
-  <view class="watchMakesMe" 
-  wx:if="{{userInfo == null}}"
-  bindtap="gotoWatch">登录后查看哦</view>
+  <view class="watchMakesMe"  bindtap="gotoWatch">What Makes Me</view>
 
   <button open-type="feedback" class="feedBack">用户反馈</button>

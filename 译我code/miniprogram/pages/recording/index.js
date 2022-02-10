@@ -1,5 +1,6 @@
 const app = getApp()
 var routeTime1
+var i
 Page({
 
   /**
@@ -26,6 +27,16 @@ Page({
 
     //线
     polyline: [{
+      points: [{
+        latitude: '',
+        longitude: '',
+      }],
+      width: 4,
+      color: "#15cda8",
+      dottedLine: false
+    }],
+
+    polyline1: [{
       points: [],
       width: 4,
       color: "#15cda8",
@@ -64,6 +75,9 @@ Page({
           end_latitude: that.data.endLatitude,
         }
       })
+    }).then(function (value) {
+      clearInterval(i)
+      wx.offLocationChange()
     }).then(function (value) {
       //跳转页面
       wx.navigateTo({
@@ -124,7 +138,7 @@ Page({
               isLoad: false
             }
           })
-
+          clearInterval(i)
           //页面跳转
           wx.navigateTo({
             url: '/pages/index/index',
@@ -137,8 +151,9 @@ Page({
   },
 
   onLoad: function (options) {
-    var isload
+
     var that = this
+
 
 
     new Promise(function (resolve, reject) {
@@ -160,29 +175,16 @@ Page({
         }
       })
       resolve()
+    }).then(function (values) {
+
+      //查看用户状态，判断是加载未完成还是新建路径
+      that.checkUser()
+
     }).then(function (value) {
-      wx.cloud.database().collection('user').where({ //查看用户状态
-        _openid: app.globalData.userInfo._openid
-      }).get({
-        success(res) {
-          console.log(res)
-          isload = res.data[0].isLoad
-          if (isload == false) { //用户状态为false时，改变用户状态，并且存入一条路径
-            wx.cloud.database().collection('user').where({
-              _openid: app.globalData.userInfo._openid
-            }).update({
-              data: {
-                isLoad: true
-              }
-            }).then(res => {
-              console.log(that.data)
-              that.createRoute() //存入一条路径
-            })
-          } else { //用户状态为true时,加载上一条路径的状态
-            that.loadRoute()
-          }
-        }
-      })
+
+      //画线路
+      that.drawRoute()
+
     }).then(function (value) {
       wx.showToast({
         title: '请确保使用过程中已开启定位，否则将导致定位不准确',
@@ -199,12 +201,12 @@ Page({
       wx.startLocationUpdate({
         success: (res) => {
           console.log(res);
-            wx.onLocationChange(_locationChangeFn)
+          wx.onLocationChange(_locationChangeFn)
         },
       })
       var that = this
-      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())     
-        const _locationChangeFn = function(res){   
+      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())
+      const _locationChangeFn = function (res) {
         const longitude1 = res.longitude
         const latitude1 = res.latitude
         new Promise(function (resolve, reject) {
@@ -223,8 +225,11 @@ Page({
           var newMarkers = [{
             id: markerID,
             photoID: that.data.newFrontSrc,
+            iconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
             longitude: longitude1,
             latitude: latitude1,
+            height:27,
+            width:33
           }]
           that.data.markers = that.data.markers.concat(newMarkers)
 
@@ -248,32 +253,34 @@ Page({
               latitude: latitude1,
               longitude: longitude1,
               photoID: that.data.newFrontSrc,
-              route_id: that.data.route_id
+              iconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
+              route_id: that.data.route_id,
+              height:27,
+              width:33
             }
           })
-        }).then(function(value){
+        }).then(function (value) {
           wx.offLocationChange(_locationChangeFn)
         })
       }
     }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
   onHide: function () {
 
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
+
   onUnload: function () {
     //用户返回时如果没有打点，就删除路径
     var that = this
     if (this.data.markers.length == 0) {
       wx.cloud.database().collection('route').doc(that.data.route_id).remove({
         success(res) {
+
+          //取消获取实时位置的定时器
+          clearInterval(i)
+          wx.offLocationChange()
           //更改用户状态
           console.log(555)
           wx.cloud.database().collection('user').where({
@@ -289,18 +296,13 @@ Page({
   },
 
 
-  /**
-   * 用户点击右上角分享
-   */
+
   onShareAppMessage: function () {
 
   },
 
   //获取时间
   getDate() {
-    // wx.setInterval(() => {
-
-    // }, 5000);
     var d = new Date
     var datetime = new Date();
     var year = datetime.getFullYear();
@@ -374,15 +376,17 @@ Page({
       data: {
         start_longitude: that.data.startLongitude,
         start_latitude: that.data.startLatitude,
-        routeTime : routeTime1, //路径时间戳，用来区别同一地点不同路径
+        routeTime: routeTime1, //路径时间戳，用来区别同一地点不同路径
         time: that.data.time, //路径时间  用来展示
         route_title: '',
         description: '点击进行编辑',
         score: that.data.score,
+        draw: []
       },
       success(res) {
         console.log(res)
         that.setData({
+          drawTap: true,
           route_id: res._id
         })
       }
@@ -392,10 +396,7 @@ Page({
   //加载上一条路径状态
   loadRoute() {
     var that = this
-    var newPoint = [{
-      latitude: '',
-      longitude: ''
-    }]
+
     new Promise(function (resolve, reject) {
       //先获取上一条路径的id
       wx.cloud.database().collection('route').where({
@@ -403,16 +404,20 @@ Page({
       }).orderBy('routeTime', 'desc').get({
         success(res) {
           console.log(res)
+          that.data.polyline1[0].points = res.data[0].draw
           that.setData({
-            route_id: res.data[0]._id
+            route_id: res.data[0]._id,
+            polyline1 : that.data.polyline1,   //获取未完成的路线的点
           })
+          console.log('该路径已经有的点',res.data[0].draw)
           resolve(res.data[0]._id)
         }
       })
     }).then(function (value) {
       //用路径id来获取路径上的点
       console.log(value)
-      wx.cloud.database().collection('point').where({
+      console.log(that.data)
+      wx.cloud.database().collection('point').where({   //拿到markers
         route_id: value
       }).orderBy('id', 'desc').get({
         success(res) {
@@ -421,9 +426,8 @@ Page({
           new Promise(function (resolve, reject) {
             res.data.forEach((item, index) => {
               console.log(item)
-           
               that.data.markers = that.data.markers.concat(item),
-              that.data.polyline[0].points = that.data.polyline[0].points.concat(item)
+              // that.data.polyline[0].points = that.data.polyline[0].points.concat(item)
               console.log(item.id + 'OK')
             })
             resolve()
@@ -431,13 +435,97 @@ Page({
             //刷新数据
             that.setData({
               markers: that.data.markers,
-              polyline: that.data.polyline,
             })
           })
         }
       })
     })
-  }
+  },
 
+  drawRoute() {
+    var that = this
+    var lat1, lng1, lat2, lng2
+    lat1 = 0
+    lng1 = 0
+
+    i = setInterval(function (result) {
+      console.log(i)
+      wx.startLocationUpdateBackground({
+        success(res) {
+          wx.onLocationChange(_locationChangeDraw)
+        },
+      })
+      const _locationChangeDraw = function (result1) {
+        lat2 = result1.latitude
+        lng2 = result1.longitude
+        var D = that.GetDistance(lat1, lng1, lat2, lng2) //计算这次坐标距上次的距离
+        console.log('距离',D)
+        console.log('倒计时执行1次')
+        console.log('速度',result1.speed)
+        if (result1.speed > 0.2 && D > 10) {  //若速度大于0.2且距上一个点10m就存入
+          console.log('速度大于0.2,且距离大于10米')
+          var newPoint = [{
+            latitude: result1.latitude,
+            longitude: result1.longitude
+          }]
+          that.data.polyline1[0].points = newPoint.concat(that.data.polyline1[0].points)
+          that.setData({
+            polyline1: that.data.polyline1
+          })
+          lat1 = lat2
+          lng1 = lng2
+        }
+        wx.offLocationChange()
+      }
+      wx.cloud.database().collection('route').doc(that.data.route_id).update({
+        data: {
+          draw: that.data.polyline1[0].points
+        }
+      })
+    }, 10000)
+  },
+
+  Rad(d) {
+    return d * Math.PI / 180.0; //经纬度转换成三角函数中度分表形式。
+  },
+
+  GetDistance(lat1, lng1, lat2, lng2) {
+    var radLat1 = this.Rad(lat1);
+    var radLat2 = this.Rad(lat2);
+    var a = radLat1 - radLat2;
+    var b = this.Rad(lng1) - this.Rad(lng2);
+    var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) +
+      Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+    s = s * 6378.137; // 地球半径;
+    s = Math.round(s * 10000) / 10; //输出为米
+    return s;
+  },
+
+  checkUser() {
+    var that = this
+    var isload
+    wx.cloud.database().collection('user').where({ //查看用户状态
+      _openid: app.globalData.userInfo._openid
+    }).get({
+      success(res) {
+        console.log(res)
+        isload = res.data[0].isLoad
+        if (isload == false) { //用户状态为false时，改变用户状态，并且存入一条路径
+          wx.cloud.database().collection('user').where({
+            _openid: app.globalData.userInfo._openid
+          }).update({
+            data: {
+              isLoad: true
+            }
+          }).then(res => {
+            console.log(that.data)
+            that.createRoute() //存入一条路径
+          })
+        } else { //用户状态为true时,加载上一条路径的状态
+          that.loadRoute()
+        }
+      }
+    })
+  }
 
 })

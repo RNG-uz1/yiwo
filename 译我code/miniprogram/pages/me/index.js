@@ -9,7 +9,7 @@ Page({
   },
 
 
-  //未完成  跳转到watch界面
+ 
   gotoWatch(e) {
     wx.navigateTo({
       url: '/pages/schedule/index',
@@ -18,7 +18,6 @@ Page({
 
   //用户登录
   login() {
-
     var that = this
     wx.getUserProfile({
       desc: '用于完善信息',
@@ -31,7 +30,6 @@ Page({
         that.setData({
           userInfo: user
         })
-
 
         //检查之前是否登录过
         wx.cloud.database().collection('user').where({ //查找数据库内openid相同的信息
@@ -68,6 +66,8 @@ Page({
       }
     })
   },
+
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -102,7 +102,9 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    // wx.navigateTo({
+    //   url: '/pages/index/index',
+    // })
   },
 
   /**

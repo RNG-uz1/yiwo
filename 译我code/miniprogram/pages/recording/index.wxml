@@ -4,7 +4,7 @@
     longitude="{{longitude}}"
     latitude="{{latitude}}"
     markers="{{markers}}"
-    polyline="{{polyline}}"
+    polyline="{{polyline1}}"
     bindmarkertap="markertap"
     ></map>
   </view>
