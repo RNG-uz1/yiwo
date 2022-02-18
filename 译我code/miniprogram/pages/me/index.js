@@ -27,27 +27,40 @@ Page({
         success(res){
           if (res.confirm) {
               //确定按钮，添加数组达到添加标签的作用
-           inputValue=res.content
-        console.log(inputValue)
-        var obtnArry = that.data.obtnArry;
-        console.log(obtnArry)
-        var newData = { num: obtnArry.length, name: res.content };
-        
-        obtnArry.push(newData);
-        
-        that.setData({
-          obtnArry:obtnArry
-        })
-        console.log(obtnArry)
-      
-        //将输入的标签存入数据库
-        db.collection('label').where({
-          _openid: app.globalData.openid
-        }).update({
-          data:{
-            habit:that.data.obtnArry
+        inputValue=res.content
+        console.log(inputValue.length)
+        if (inputValue.length>4) {
+          wx.showToast({
+            title: '最多输入4个字哦',
+            icon:'none'
+          })
+        }
+        else{
+          var obtnArry = that.data.obtnArry;
+          if (res.content=="") {
+            wx.showToast({
+              title: '输入为空请重新输入',
+              icon:'none'
+            })
           }
-        })
+          else{
+            var newData = { num: obtnArry.length, name: res.content };
+            obtnArry.push(newData);
+            that.setData({
+              obtnArry:obtnArry
+            })
+            console.log(obtnArry)
+                
+            //将输入的标签存入数据库
+            db.collection('label').where({
+              _openid: app.globalData.openid
+            }).update({
+              data:{
+                habit:that.data.obtnArry
+              }
+            })
+          }
+        }
       
           }
         }
@@ -112,6 +125,9 @@ Page({
     })
   },
 
+ 
+
+
   isDel(e){
     var that=this
     wx.showModal({
@@ -124,8 +140,11 @@ Page({
           var index=e.currentTarget.dataset.index//获取点击的下标
           var habit=that.data.obtnArry//获得整个数组
           console.log(habit)
-          var a=habit.splice(index,1)
-          console.log(habit)
+          if (index>-1) { 
+            var a=habit.splice(index,1) 
+          }
+        
+         console.log(habit)
           db.collection('label').where({
             _openid: app.globalData.openid
           }).update({
@@ -133,14 +152,17 @@ Page({
               habit:habit
             }
           })
+
           db.collection('label').where({ //查找数据库内openid相同的信息
             _openid: app.globalData.openid
-          }).get().then(res=>{
+          }).get().then(res=>{ 
             console.log(habit)
            that.setData({
             obtnArry:habit
            })
           })
+
+
         }
       }
     })
@@ -175,7 +197,17 @@ Page({
     db.collection('label').where({ //查找数据库内openid相同的信息
       _openid: app.globalData.openid
     }).get().then(res=>{
-      console.log(res.data[0].habit)
+      var habit=res.data[0].habit
+      for(var i = 0 ;i<habit.length;i++)  
+      {  
+         //这里为过滤的值
+          if(habit[i] == null )  
+          {  
+              habit.splice(i,1);
+              i= i-1;
+          }  
+      }  
+      console.log(habit)
      that.setData({
       obtnArry:res.data[0].habit
      })
