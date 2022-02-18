@@ -1,29 +1,62 @@
 <view class="recording">
   <view class="map">
-    <map name="recording-map"
-    longitude="{{longitude}}"
-    latitude="{{latitude}}"
-    markers="{{markers}}"
-    polyline="{{polyline1}}"
-    bindmarkertap="markertap"
-    ></map>
+    <map name="recording-map" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" polyline="{{polyline1}}" bindmarkertap="markertap"></map>
   </view>
 
   <view class="floatBtns">
-   <view class="btn" bindtap="photoButton">拍照打卡</view>
-   <view class="btn" bindtap="endRoute">结束路径</view>
+    <view class="btn" bindtap="photoButton">拍照打卡</view>
+    <view class="btn" bindtap="endRoute">结束路径</view>
   </view>
 
-<view class="backGround" wx:if="{{photoShow}}">
-  <view class="content" >
+  <view class="backGround" wx:if="{{photoShow}}">
+
+    <view class="swiper">
+      <swiper bindchange="onChange" indicator-dots="true" indicator-color="rgba(0, 0, 0, .3)" indicator-active-color="#fff" bindchange="onChange">
+        <swiper-item wx:for="{{currentPhoto}}" wx:key="index">
+          <image class="currentPhoto" mode="aspectFit" src="{{item}}" bindtap="upLoad" data-upload-id="{{item}}"> </image>
+        </swiper-item>
+      </swiper>
+      <view class="btn-box">
+        <view class="btn">
+          <image class="btn-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
+          <view class="btn-des" bindtap="closePhoto">关闭</view>
+        </view>
+        <view class="btn">
+          <image class="btn-icon" bindtap="delPhoto" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-16/p1au6hd801p73li8utap2oqi63vbslfc_.png"></image>
+          <view class="btn-des" bindtap="delPhoto">删除照片</view>
+        </view>
+      </view>
+    </view>
+    <!-- <view class="float-swiper-dots">
+  <view class="swiper-dots">
+      <view class="dot  {{current !== index || 'active'}}" wx:for="{{currentPhoto}}" wx:key="index"></view>
+  </view>
+</view> -->
+    <!-- <view class="content">
     <image class="currentPhoto" src="{{currentPhoto}}"> </image>
     <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
+  </view> -->
   </view>
-</view>
 
+  <page-container show="{{show}}" round="{{true}}" overlay="{{true}}" position="{{'bottom'}}" close-on-slide-down="{{false}}" custom-style="{{'z-index: 999;'}}" overlay-style="{{'z-index: 999;'}}">
 
-  <page-container
-  show="{{show}}"
+    <view class="chose" wx:if="{{chose}}">
+      <view class="onlyPoint" bindtap="onlyPoint">仅打卡，自己上传图片</view>
+      <view class="pointAndPhoto" bindtap="pointAndPhoto">打卡拍照</view>
+    </view>
+
+    <view class="pop" wx:if="{{end}}">
+      <view class="popTitle">请您对本次行程打个分吧</view>
+      <rate value="0" allow-half="{{false}}" bindchange="showResult"></rate>
+      <view class="end" bindtap="close">
+        <image class="end_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png"></image>
+        <view class="text">结束</view>
+      </view>
+    </view>
+  </page-container>
+
+  <!-- <page-container
+    show="{{show}}"
     round="{{true}}"
     overlay="{{true}}"
     position="{{'bottom'}}"
@@ -31,15 +64,8 @@
     custom-style="{{'z-index: 999;'}}"
     overlay-style="{{'z-index: 999;'}}">
 
-    <view class="pop">
-      <view class="popTitle">请您对本次行程打个分吧</view>
-      <rate value="0" allow-half="{{false}}" bindchange="showResult"></rate>
-      <view class="end"  bindtap="close">
-      <image class="end_icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-16/cmwto5dk6egl104yk7vxw7f155alefd5_.png"></image>
-      <view class="text">结束</view>
-      </view>
-    </view>
-  </page-container>
+>
+  </page-container> -->
 
 
 </view>

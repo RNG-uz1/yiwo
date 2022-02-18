@@ -7,6 +7,16 @@ Page({
    * 页面的初始数据
    */
   data: {
+
+
+    show: false, //控制pagecontent
+    chose: false,
+    end: false,
+
+    current: 0,
+    tempLat: 0,
+    tempLng: 0,
+
     route_time: '',
 
     route_id: "",
@@ -26,15 +36,6 @@ Page({
     markers: [],
 
     //线
-    polyline: [{
-      points: [{
-        latitude: '',
-        longitude: '',
-      }],
-      width: 4,
-      color: "#15cda8",
-      dottedLine: false
-    }],
 
     polyline1: [{
       points: [],
@@ -44,13 +45,15 @@ Page({
     }]
   },
 
+  //点击关闭展示中的照片
   closePhoto() {
     this.setData({
-      photoShow: 0
+      photoShow: 0,
+      current: 0
     })
   },
 
-  //评分完成关闭弹窗
+  //评分，关闭弹窗
   close() {
     var that = this
 
@@ -70,64 +73,42 @@ Page({
         _id: that.data.route_id
       }).update({
         data: {
-          score: that.data.score,
-          end_longitude: that.data.endLongitude,
-          end_latitude: that.data.endLatitude,
+          score: that.data.score, //保存打分
         }
       })
     }).then(function (value) {
-      clearInterval(i)
-      wx.offLocationChange()
+      clearInterval(i) //关闭保存路径时产生的倒计时）
+      wx.offLocationChange() //关闭获取定位接口
     }).then(function (value) {
-      //跳转页面
+      //跳转到主页
       wx.navigateTo({
         url: `/pages/index/index`
       })
     })
   },
 
-  //点击拍照打卡，获取当前位置
+  //点击拍照打卡
   photoButton() {
-    var flag = false
-    this.getCamera()
-    if (flag == true) {
-      var newFrontSrc = [frontSrc]
-      newFrontSrc = newFrontSrc.concat(frontSrc)
-      this.setData({
-        frontSrc: newFrontSrc
-      })
-    }
+    this.setData({
+      chose: true, //显示选择
+      show: true, //打开弹窗
+      end: false //不显示评分
+    })
+
   },
 
   //点击结束路径
   endRoute() {
     var that = this
-    if (this.data.markers.length >= 1) { //只有用户打点了之后才会继续下一步，没打点就直接返回首页
-      wx.getLocation({
-        isHighAccuracy: true, // 开启地图精准定位
-        type: 'gcj02', // 地图类型写这个
-        success(res) {
-          console.log(321)
-          new Promise(function (resolve, reject) {
-            that.setData({
-              longitude: res.longitude,
-              latitude: res.latitude,
-              endLongitude: res.longitude,
-              endLatitude: res.latitude,
-            })
-            resolve()
-          }).then(function (value) {
-            that.setData({
-              show: 1
-            })
-          })
-        },
-        fail(res) {
-          console.log(res)
-        }
+    //判断路径需不需要保存
+    if (this.data.markers.length >= 1) { //有打卡，保存
+      console.log('路径中有打卡，保存路径')
+      that.setData({
+        show: true,
+        end: true,
+        chose: false
       })
-    } else { //当本次路径没有点时
-      //删除本条路径
+    } else { //没有打卡，删除路径
       wx.cloud.database().collection('route').doc(that.data.route_id).remove({
         success(res) {
           //更改用户状态
@@ -138,7 +119,7 @@ Page({
               isLoad: false
             }
           })
-          clearInterval(i)
+          clearInterval(i) //关闭倒计时
           //页面跳转
           wx.navigateTo({
             url: '/pages/index/index',
@@ -146,31 +127,23 @@ Page({
         }
       })
     }
-
-
   },
 
   onLoad: function (options) {
-
     var that = this
 
-
-
     new Promise(function (resolve, reject) {
-      that.getDate() //获取时间,字符串形式
-      routeTime1 = (new Date()).getTime() + Math.floor(9 * Math.random())
+      that.getDate() //获取时间信息（字符串）
+      routeTime1 = (new Date()).getTime() + Math.floor(9 * Math.random()) //获取时间戳
       //进入页面时获取起始位置与信息
       wx.getLocation({
-        //isHighAccuracy: true, // 开启地图精准定位
         type: 'gcj02',
         success(res) {
           that.setData({
-            routeTime: routeTime1,
-            longitude: res.longitude,
             latitude: res.latitude,
-            startLongitude: res.longitude,
-            startLatitude: res.latitude,
-            openid: app.globalData.userInfo._openid,
+            longitude: res.longitude,
+            routeTime: routeTime1,
+            openid: app.globalData.userInfo._openid, //获取用户_openid
           })
         }
       })
@@ -185,7 +158,7 @@ Page({
       //画线路
       that.drawRoute()
 
-    }).then(function (value) {
+    }).then(function (value) { //开启定位提示
       wx.showToast({
         title: '请确保使用过程中已开启定位，否则将导致定位不准确',
         icon: 'none',
@@ -196,74 +169,133 @@ Page({
 
 
   onShow: function (options) {
+    var that = this
+    var pointID
+    var d
+    var longitude1
+    var latitude1
 
+    //判断用户是否确定了保存照片
     if (this.data.flag == true) {
-      wx.startLocationUpdate({
+      wx.startLocationUpdate({ //开启实时获取定位
         success: (res) => {
-          console.log(res);
-          wx.onLocationChange(_locationChangeFn)
+          wx.onLocationChange(_locationChangeFn) //监听定位
         },
       })
-      var that = this
-      var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())
       const _locationChangeFn = function (res) {
-        const longitude1 = res.longitude
-        const latitude1 = res.latitude
         new Promise(function (resolve, reject) {
-
-          //向point数组里添加新的point
-          var newPoint = [{
-            latitude: latitude1,
-            longitude: longitude1
-          }]
-          that.data.polyline[0].points = newPoint.concat(that.data.polyline[0].points)
-
+          longitude1 = res.longitude //获取经纬度信息
+          latitude1 = res.latitude
           resolve()
         }).then(function (value) {
-
-          //向markers数组里添加新的markers
-          var newMarkers = [{
-            id: markerID,
-            photoID: that.data.newFrontSrc,
-            iconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
-            longitude: longitude1,
-            latitude: latitude1,
-            height:27,
-            width:33
-          }]
-          that.data.markers = that.data.markers.concat(newMarkers)
-
+          // 计算两次打卡地点之间的距离
+          d = that.GetDistance(that.data.tempLat, that.data.tempLng, latitude1, longitude1)
+          console.log('距离', d)
         }).then(function (value) {
 
-          //刷新数据
-          that.setData({
-            longitude: longitude1,
-            latitude: latitude1,
-            markers: that.data.markers,
-            polyline: that.data.polyline,
-            frontSrc: that.data.frontSrc,
-            flag: false
-          })
-
-        }).then(function (value) {
-
-          wx.cloud.database().collection('point').add({
-            data: {
-              id: markerID,
-              latitude: latitude1,
-              longitude: longitude1,
-              photoID: that.data.newFrontSrc,
-              iconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
-              route_id: that.data.route_id,
-              height:27,
-              width:33
-            }
-          })
-        }).then(function (value) {
-          wx.offLocationChange(_locationChangeFn)
+          if (d > 20) { //如果两次打卡地点的距离大于20米，则生成新的点
+            console.log('执行了新建点')
+            that.createPoint(longitude1, latitude1, _locationChangeFn, 0) //新建point
+            console.log(pointID)
+            that.setData({ //将新点存入对比数据中
+              tempLat: latitude1,
+              tempLng: longitude1
+            })
+          } else {
+            var updatePhotoArry
+            var newPhotoArry = [that.data.newFrontSrc] //接收照片路径
+            console.log('执行了存入旧点')
+            wx.cloud.database().collection('point').doc(that.data.pointID).get({ //获取要存入的那个点
+              success(res) {
+                new Promise(function (resolve, reject) {
+                  res.data.photoID.splice(res.data.photoID.length - 1, 0, that.data.newFrontSrc) //更新该点的照片数组
+                  resolve()
+                }).then(function (value) {
+                  wx.cloud.database().collection('point').doc(that.data.pointID).update({
+                    data: {
+                      photoID: res.data.photoID //数据库中也更新
+                    }
+                  })
+                }).then(function (value) {
+                  that.data.markers[that.data.markers.length - 1].photoID = res.data.photoID
+                  console.log('更新markers')
+                }).then(function (value) {
+                  that.setData({
+                    markers: that.data.markers
+                  })
+                }).then(function (value) {
+                  wx.offLocationChange(_locationChangeFn)
+                  console.log('执行了关闭实时定位')
+                }).then(function (value) {
+                  wx.showToast({
+                    title: '两个点距离过近，已存入上一个点内',
+                    icon: 'none'
+                  })
+                })
+              }
+            })
+          }
         })
       }
     }
+  },
+
+  createPoint(longitude1, latitude1, _locationChangeFn, onlyPoiny) {
+    var that = this
+    var photoArry
+    if (onlyPoiny == 1) {
+      photoArry = ['https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-15/ptq18491i23qyhzv0l2brriwh46mdyni_.png']
+    } else {
+      photoArry = [that.data.newFrontSrc, 'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-15/ptq18491i23qyhzv0l2brriwh46mdyni_.png']
+    }
+    var markerID = (new Date()).getTime() + Math.floor(9 * Math.random())
+    new Promise(function (resolve, reject) {
+      //向markers数组里添加新的markers
+      var newMarkers = [{
+        id: markerID,
+        photoID: photoArry,
+        iconPath: 'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
+        longitude: longitude1,
+        latitude: latitude1,
+        height: 27,
+        width: 33
+      }]
+      that.data.markers = that.data.markers.concat(newMarkers)
+
+      resolve()
+    }).then(function (value) {
+
+      //刷新数据
+      that.setData({
+        markers: that.data.markers,
+        polyline: that.data.polyline,
+        frontSrc: that.data.frontSrc,
+        flag: false
+      })
+
+    }).then(function (value) {
+
+      wx.cloud.database().collection('point').add({ //向数据库中添加点
+        data: {
+          id: markerID,
+          latitude: latitude1,
+          longitude: longitude1,
+          photoID: photoArry,
+          iconPath: 'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png',
+          route_id: that.data.route_id,
+          height: 27,
+          width: 33
+        },
+        success: function (res) {
+          that.setData({
+            pointID: res._id //记录最新一个点的id
+          })
+        }
+      })
+    }).then(function (value) {
+      wx.offLocationChange(_locationChangeFn)
+    })
+
   },
 
   onHide: function () {
@@ -282,7 +314,6 @@ Page({
           clearInterval(i)
           wx.offLocationChange()
           //更改用户状态
-          console.log(555)
           wx.cloud.database().collection('user').where({
             _openid: app.globalData.userInfo._openid
           }).update({
@@ -294,7 +325,6 @@ Page({
       })
     }
   },
-
 
 
   onShareAppMessage: function () {
@@ -314,8 +344,56 @@ Page({
     })
   },
 
-  //调相机
-  getCamera() {
+  //执行值打卡，不拍照
+  onlyPoint() {
+    console.log('执行打点不拍照')
+    var d
+    var that = this
+    var latitude1
+    var longitude1
+
+    that.setData({ //不拍照时的照片路径
+      newFrontSrc: null
+    })
+
+    wx.startLocationUpdate({ //开启实时定位
+      success: (res) => {
+        wx.onLocationChange(_locationChangeFn)
+      },
+    })
+    const _locationChangeFn = function (res) {
+
+      new Promise(function (resolve, reject) {
+        longitude1 = res.longitude
+        latitude1 = res.latitude
+        resolve()
+      }).then(function (value) {
+        // 计算两次打卡地点之间的距离
+        d = that.GetDistance(that.data.tempLat, that.data.tempLng, latitude1, longitude1)
+      }).then(function (value) {
+        if (d > 20) { //如果两次打卡地点的距离大于20米，则生成新的点
+          console.log('执行了新建点')
+          that.createPoint(longitude1, latitude1, _locationChangeFn, 1)
+          that.setData({
+            tempLat: latitude1,
+            tempLng: longitude1,
+            show: false
+          })
+        } else {
+          console.log('执行了存入旧点')
+          wx.showToast({
+            title: '两点太近，您可以在上一个点中上传',
+            icon: 'none'
+          })
+          that.setData({
+            show: false
+          })
+        }
+      })
+    }
+  },
+
+  pointAndPhoto() {
     wx.navigateTo({
       url: '/pages/camera/index',
     })
@@ -323,16 +401,51 @@ Page({
 
   //点击marker展示图片
   markertap(e) {
+    var _id
+    var that = this
     console.log(e)
-    this.data.markers.forEach((item, index) => {
-      console.log(item.id)
-      if (e.detail.markerId == item.id) {
-        this.setData({
-          currentPhoto: item.photoID,
-          photoShow: 1
-        })
-      }
+    console.log(e.markerId)
+
+    new Promise(function (resolve, reject) {
+      wx.cloud.database().collection('point').where({
+        id: e.markerId
+      }).get({
+        success(res) {
+          _id = res.data[0]._id
+          resolve(res.data[0]._id)
+        }
+      })
+
+    }).then(function (value) {
+      console.log(value)
+      that.setData({
+        currentPoint_id: value,
+        currentPhotoId: e.markerId
+      })
+    }).then(function (value) {
+      that.data.markers.forEach((item, index) => {
+        if (e.detail.markerId == item.id) {
+          that.setData({
+            currentPhoto: item.photoID,
+            photoShow: 1
+          })
+        }
+      })
     })
+
+
+
+
+    // wx.cloud.database().collection('point').where({
+    //   id: e.markerId
+    // }).get({
+    //   success(res1) {
+    //     that.setData({
+    //       currentPointId = res1.data[0]._id //点击时的点的_id
+    //     })
+    //   }
+    // })
+
   },
 
   //评分
@@ -398,6 +511,10 @@ Page({
     var that = this
 
     new Promise(function (resolve, reject) {
+      wx.showToast({
+        title: '上条路径未保存',
+        icon: 'none'
+      })
       //先获取上一条路径的id
       wx.cloud.database().collection('route').where({
         _openid: app.globalData.userInfo._openid
@@ -407,9 +524,9 @@ Page({
           that.data.polyline1[0].points = res.data[0].draw
           that.setData({
             route_id: res.data[0]._id,
-            polyline1 : that.data.polyline1,   //获取未完成的路线的点
+            polyline1: that.data.polyline1, //获取未完成的路线的点
           })
-          console.log('该路径已经有的点',res.data[0].draw)
+          console.log('该路径已经有的点', res.data[0].draw)
           resolve(res.data[0]._id)
         }
       })
@@ -417,9 +534,9 @@ Page({
       //用路径id来获取路径上的点
       console.log(value)
       console.log(that.data)
-      wx.cloud.database().collection('point').where({   //拿到markers
+      wx.cloud.database().collection('point').where({ //拿到markers
         route_id: value
-      }).orderBy('id', 'desc').get({
+      }).orderBy('id', 'asc').get({
         success(res) {
           console.log(res)
           //数据渲染
@@ -427,10 +544,14 @@ Page({
             res.data.forEach((item, index) => {
               console.log(item)
               that.data.markers = that.data.markers.concat(item),
-              // that.data.polyline[0].points = that.data.polyline[0].points.concat(item)
-              console.log(item.id + 'OK')
+                console.log(item.id + 'OK')
             })
             resolve()
+          }).then(function (value) {
+            var lastPoint = that.data.markers[0]
+            that.data.pointID = res.data[0]._id
+            that.data.tempLat = lastPoint.latitude
+            that.data.tempLng = lastPoint.longitude
           }).then(function (res) {
             //刷新数据
             that.setData({
@@ -459,10 +580,10 @@ Page({
         lat2 = result1.latitude
         lng2 = result1.longitude
         var D = that.GetDistance(lat1, lng1, lat2, lng2) //计算这次坐标距上次的距离
-        console.log('距离',D)
+        console.log('距离', D)
         console.log('倒计时执行1次')
-        console.log('速度',result1.speed)
-        if (result1.speed > 0.2 && D > 10) {  //若速度大于0.2且距上一个点10m就存入
+        console.log('速度', result1.speed)
+        if (result1.speed > 0 && D > 1) { //若速度大于0.2且距上一个点10m就存入
           console.log('速度大于0.2,且距离大于10米')
           var newPoint = [{
             latitude: result1.latitude,
@@ -470,7 +591,9 @@ Page({
           }]
           that.data.polyline1[0].points = newPoint.concat(that.data.polyline1[0].points)
           that.setData({
-            polyline1: that.data.polyline1
+            polyline1: that.data.polyline1,
+            longitude: result1.longitude,
+            latitude: result1.latitude,
           })
           lat1 = lat2
           lng1 = lng2
@@ -525,6 +648,168 @@ Page({
           that.loadRoute()
         }
       }
+    })
+  },
+
+  onChange(e) {
+    const {
+      current
+    } = e.detail
+    this.setData({
+      current
+    })
+  },
+
+  delPhoto() {
+    var that = this
+    var updatePoint
+    var pointId
+    var updatePhoto
+    wx.showModal({
+      content: '确定要当前照片吗？',
+      showCancel: true,
+      confirmText: '确定',
+      cancelText: '取消',
+
+      success(res) {
+        if (res.confirm) {
+          new Promise(function (resolve, reject) {
+            wx.cloud.database().collection('point').where({
+              id: that.data.currentPhotoId
+            }).get({
+              success(res1) {
+                console.log(res1)
+                updatePoint = res1.data[0]
+                updatePhoto = res1.data[0].photoID
+                pointId = res1.data[0]._id
+                console.log(updatePhoto)
+                updatePhoto.splice(that.data.current, 1)
+                resolve()
+              }
+            })
+
+          }).then(function (value) {
+            updatePoint.photoID = updatePhoto
+            console.log('更新后的数组', updatePhoto)
+            wx.cloud.database().collection('point').doc(pointId).update({
+              data: {
+                photoID: updatePhoto
+              }
+            })
+          }).then(function (value) {
+            that.setData({
+              currentPhoto: updatePhoto
+            })
+            if (updatePhoto.length == 0) { //如果删除后没有照片了，就删除该点
+              wx.cloud.database().collection('point').doc(that.data.currentPoint_id).remove({
+                success: function (res) {
+                  console.log(res.data)
+                  wx.cloud.database().collection('point').where({ //拿到markers
+                    route_id: that.data.route_id
+                  }).orderBy('id', 'asc').get({
+                    success(res) {
+                      console.log(res.data)
+                      //数据渲染
+                      new Promise(function (resolve, reject) {
+                          that.data.markers = res.data,
+                        resolve()
+                      }).then(function (res) {
+                        //刷新数据
+                        that.setData({
+                          markers: that.data.markers,
+                          photoShow:0
+                        })
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        }
+      }
+    })
+  },
+
+  upLoad(e) {
+    var updatePhoto = this.data.currentPhoto
+    var updatePoint
+    var that = this
+    var openid = this.data.openid
+    console.log(e)
+    if (e.currentTarget.dataset.uploadId == "https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-15/ptq18491i23qyhzv0l2brriwh46mdyni_.png") {
+      console.log('执行上传照片')
+
+      new Promise(function (resolve, reject) {
+        wx.chooseMedia({
+          camera: 'camera',
+          count: 1,
+          mediaType: 'Image',
+          sourceType: 'album',
+          success(res) {
+            console.log('照片路径', res.tempFiles[0].tempFilePath)
+            updatePhoto = that.data.currentPhoto
+            resolve(res.tempFiles[0].tempFilePath)
+          }
+        })
+      }).then(function (value) {
+        that.cms(value, updatePhoto)
+      })
+      // .then(function (value) {
+      //   console.log('更新后的数组', updatePhoto)
+      //   wx.cloud.database().collection('point').doc(that.data.currentPoint_id).get({
+      //     success(res){
+      //       console.log(res)
+      //     }       
+      //   })
+      // }).then(function (value) {
+      // that.setData({
+      //   currentPhoto: updatePhoto
+      // })
+      // console.log('完成了')
+      // })
+
+    }
+  },
+
+  cms(value, updatePhoto) {
+    var that = this
+    var openid = this.data.openid
+
+
+    new Promise(function (resolve, reject) {
+      console.log('步骤一')
+      console.log(value)
+      wx.cloud.uploadFile({
+        cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径
+        filePath: value, // 微信本地文件，通过选择图片，聊天文件等接口获取
+        config: {
+          env: 'prod-4gmcir0na5d0ba08' // 微信云托管环境ID
+        },
+        success: res => {
+          console.log('上传成功', res.fileID)
+          updatePhoto.splice(updatePhoto.length - 1, 0, res.fileID)
+          resolve()
+        },
+      })
+
+    }).then(function (value) {
+      new Promise(function (resolve1, reject1) {
+        console.log('更新后的数组', updatePhoto)
+        wx.cloud.database().collection('point').doc(that.data.currentPoint_id).update({
+          data: {
+            photoID: updatePhoto
+          }
+        })
+        console.log('步骤二')
+        resolve1()
+      }).then(function (value) {
+        that.setData({
+          currentPhoto: updatePhoto
+        })
+        console.log('步骤三')
+      })
+
     })
   }
 

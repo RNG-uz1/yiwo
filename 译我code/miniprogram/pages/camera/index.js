@@ -112,16 +112,11 @@ Page({
 
       var openid = that.data.openid
       console.log(123)
-      wx.cloud.uploadFile({
-        
+      wx.cloud.uploadFile({      
         cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
         filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
         config: {
           env: 'prod-4gmcir0na5d0ba08' // 微信云托管环境ID
-        },
-        fali:res=>{
-          console.log(123)
-
         },
 
         success: res => {
@@ -132,7 +127,7 @@ Page({
 
           prevPage.setData({
             //frontShow: false,//显示图片 
-            newFrontSrc: that.data.photoID, //照片路径
+            newFrontSrc: res.fileID, //照片路径
             flag: true
           })
         },
