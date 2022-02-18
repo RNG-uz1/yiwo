@@ -1,4 +1,6 @@
 // pages/link/index.js
+const app = getApp()
+const db = wx.cloud.database()  
 Page({
 
   /**
@@ -7,12 +9,15 @@ Page({
   data: {
     show:0,
     photoShow : 0,
+    albumShow:0,
     description: '',
 
     point_data: [],
 
     longitude: '',
     latitude: '',
+
+    albumID:[],
 
     polyline: [{
       points: [],
@@ -33,6 +38,7 @@ Page({
     var that = this
     var currentPhoto
     var newPoint =e.currentTarget.dataset
+    console.log(this.data.markers[0].photoID)
     console.log(this.data.markers)
     console.log(e.markerId)
     new Promise(function(resolve,rejact){
@@ -55,9 +61,12 @@ Page({
 
   close(){
     this.setData({
-      photoShow : 0
+      photoShow : 0,
+      albumShow:0
     })
   },
+
+
 
   textDone(e){
     var that = this
@@ -77,6 +86,22 @@ Page({
   change(){
     this.setData({
       show : 1
+    })
+  },
+
+  //打开相册
+  openAlbum(e){
+    var that=this
+    console.log(that.data.routeId)
+    console.log(that.data)
+   
+    db.collection('point').where({
+      route_id:that.data.routeId
+    }).get().then(res=>{
+      that.setData({
+        albumID:res.data,
+        albumShow:1
+      })
     })
   },
 
