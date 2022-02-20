@@ -1,15 +1,15 @@
 // pages/link/index.js
 const app = getApp()
-const db = wx.cloud.database()  
+const db = wx.cloud.database()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    show:0,
-    photoShow : 0,
-    albumShow:0,
+    show: 0,
+    photoShow: 0,
+    albumShow: 0,
     description: '',
 
     point_data: [],
@@ -17,7 +17,7 @@ Page({
     longitude: '',
     latitude: '',
 
-    albumID:[],
+    albumID: [],
 
     polyline: [{
       points: [],
@@ -28,111 +28,119 @@ Page({
   },
 
 
-  back(){
+  back() {
     wx.navigateBack({
-      delta : 1
+      delta: 1
     })
   },
 
-  markertap(e){
+  markertap(e) {
     var that = this
     var currentPhoto
-    var newPoint =e.currentTarget.dataset
+    var newPoint = e.currentTarget.dataset
     console.log(this.data.markers[0].photoID)
     console.log(this.data.markers)
     console.log(e.markerId)
-    new Promise(function(resolve,rejact){
-      that.data.markers.forEach((item,index)=>{
-        if(e.markerId == item.id){
+    new Promise(function (resolve, rejact) {
+      that.data.markers.forEach((item, index) => {
+        if (e.markerId == item.id) {
           currentPhoto = item.photoID
         }
       })
       resolve()
-    }).then(function(value){
+    }).then(function (value) {
       that.setData({
-        photoID : currentPhoto,
-        latitude : newPoint.latitude,
+        photoID: currentPhoto,
+        latitude: newPoint.latitude,
         longitude: newPoint.longitude,
-        photoShow:1
+        photoShow: 1
       })
       console.log(that.data.photoID)
-    })   
+    })
   },
 
-  close(){
+  close() {
     this.setData({
-      photoShow : 0,
-      albumShow:0
+      photoShow: 0,
+      albumShow: 0
     })
   },
 
 
 
-  textDone(e){
+  textDone(e) {
     var that = this
     console.log(e)
     wx.cloud.database().collection('route').doc(that.data.routeId).update({
-      data :{
-        description:e.detail.value
-      }     
+      data: {
+        description: e.detail.value
+      }
     })
     setTimeout(function () {
       that.setData({
-        description : e.detail.value
+        description: e.detail.value
       })
     }, 1000)
   },
 
-  change(){
+  change() {
     this.setData({
-      show : 1
+      show: 1
     })
   },
 
   //打开相册
-  openAlbum(e){
-    var that=this
+  openAlbum(e) {
+    var that = this
     console.log(that.data.routeId)
     console.log(that.data)
-   
+
     db.collection('point').where({
-      route_id:that.data.routeId
-    }).get().then(res=>{
+      route_id: that.data.routeId
+    }).get().then(res => {
       that.setData({
-        albumID:res.data,
-        albumShow:1
+        albumID: res.data,
+        albumShow: 1
       })
     })
   },
 
-  isDel(){
+  isDel() {
     var that = this
     wx.showModal({
       content: '确定要删除路线吗？',
-      showCancel:true,
-      confirmText :'确定',
-      cancelText:'取消',
-      
-      success(res){
-        if(res.confirm){
-          new Promise(function(resolve,reject){
+      showCancel: true,
+      confirmText: '确定',
+      cancelText: '取消',
+
+      success(res) {
+        if (res.confirm) {
+          new Promise(function (resolve, reject) {
             wx.cloud.database().collection('route').doc(that.data.routeId).remove({
-            success:function(res){
-              console.log(res.data)
-            }
-          })
+              success: function (res) {
+                console.log(res.data)
+              }
+            })
             resolve()
-          }).then(function(value){
-          wx.cloud.database().collection('point').where({
-            route_id : that.data.routeId
-          }).remove({
-            success:function(res){
-              console.log(res.data)
-            }
-          })
-          }).then(function(value){
-            wx.navigateBack({
-              delta: 1
+          }).then(function (value) {
+            wx.cloud.database().collection('point').where({
+              route_id: that.data.routeId
+            }).remove({
+              success: function (res) {
+                new Promise(function(resolve,reject){
+                  let pages = getCurrentPages()
+                  var prevPage = pages[pages.length - 2]
+
+                  prevPage.setData({
+                    isLoad:true
+                  })
+
+                  resolve()
+                })
+                  wx.navigateBack({
+                    delta: 1
+                  })             
+              }
             })
           })
         }
@@ -147,15 +155,15 @@ Page({
     var draw
     var that = this
     this.setData({
-      routeId:options.route_id
+      routeId: options.route_id
     })
     //拿到route里的时间与描述
     var des1
     var time1
-    
+
     wx.cloud.database().collection('route').doc(options.route_id).get().then(res => {
       console.log(res)
-      draw = res.data.draw   //拿到路线
+      draw = res.data.draw //拿到路线
       des1 = res.data.description
       time1 = res.data.time
     })
@@ -172,12 +180,15 @@ Page({
       success(res) {
         console.log(res.data)
 
-        
-        point_data = res.data   //
-        start_longitude = res.data[res.data.length-1].longitude    //起点是该数组的最后一个值
-        start_latitude = res.data[res.data.length-1].latitude      
-        res.data.forEach((item,index) =>{
-          newPoints = [{latitude :item.latitude,longitude : item.longitude}]
+
+        point_data = res.data //
+        start_longitude = res.data[res.data.length - 1].longitude //起点是该数组的最后一个值
+        start_latitude = res.data[res.data.length - 1].latitude
+        res.data.forEach((item, index) => {
+          newPoints = [{
+            latitude: item.latitude,
+            longitude: item.longitude
+          }]
           console.log(newPoints)
           points1 = newPoints.concat(points1)
         })
@@ -186,12 +197,12 @@ Page({
     })
 
     setTimeout(function () {
-      if(draw == null ){
+      if (draw == null) {
         points1.pop()
-         that.data.polyline[0].points = points1
-      }else{
+        that.data.polyline[0].points = points1
+      } else {
         that.data.polyline[0].points = draw
-      }  
+      }
       console.log(that.data.polyline)
       that.setData({
         latitude: start_latitude,
@@ -200,7 +211,7 @@ Page({
         polyline: that.data.polyline,
         time: time1,
         description: des1,
-        routeId:options.route_id
+        routeId: options.route_id
       })
     }, 1000)
 

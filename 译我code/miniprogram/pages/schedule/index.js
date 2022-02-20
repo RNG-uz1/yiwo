@@ -4,22 +4,24 @@ Page({
 
   data: {
     routeList: [],
-    show:false
+    show: false,
+    totalPages: 1,
+    currentPage: 1,
+    isLoad: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log('onLoad')
     this.loadRoute()
-
   },
 
   goto(e) {
     console.log(e.currentTarget.dataset.routeId)
     wx.navigateTo({
       url: `../link/index?route_id=${e.currentTarget.dataset.routeId}`,
-
     })
   },
 
@@ -46,70 +48,83 @@ Page({
 
   loadRoute() {
     var that = this
-    var time1
-    var title1
-    var openid
     wx.cloud.callFunction({
       name: 'login_get_openid',
       success(res) {
-        console.log(res)
-        openid = res.result.openid
-        wx.cloud.database().collection('route').where({
-          _openid: openid
-        }).orderBy('routeTime', 'desc').get().then(res1 => {
-          console.log(res1)
+        new Promise(function (resolve, reject) {
           that.setData({
-            routeList: res1.data,
+            openid: res.result.openid
           })
+          resolve()
+        }).then(function (value) {
+          that.getRouteList()
         })
       }
-
     })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
+  getRouteList() {
+    var that = this
+    //if(that.data.isLoad == true){
+    wx.cloud.database().collection('route').where({
+      _openid: that.data.openid
+    }).count().then(res => {
+      const total = res.total //获取条数
+      that.data.totalPages = Math.ceil(total / 10) //获取总页数
+      wx.cloud.database().collection('route').where({
+        _openid: that.data.openid
+      }).orderBy('routeTime', 'desc').skip((that.data.currentPage - 1) * 10).limit(10).get().then(res1 => {
+        console.log(res1)
+        console.log(that.data.totalPages)
+        that.setData({
+          routeList: [...that.data.routeList, ...res1.data],
 
+        })
+      })
+    })
+    // }
   },
+
+
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.onLoad()
-
+    if(this.data.isLoad){
+      var that = this
+      console.log('onshow')
+      wx.cloud.database().collection('route').where({
+        _openid: that.data.openid
+      }).orderBy('routeTime', 'desc').limit(10).get().then(res1 => {
+        that.setData({
+          routeList: res1.data,
+          currentPage:1,
+          isLoad:false
+        })
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-    // wx.navigateTo({
-    //   url: '/pages/me/index',
-    // })
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
+    var that = this
+    //判断还有没有下一页数据
+    if (that.data.currentPage >= that.data.totalPages) {
+      wx.showToast({
+        title: '已经没有了~',
+      })
+    } else {
+      new Promise(function (resolve, reject) {
+        that.data.currentPage = that.data.currentPage + 1
+        that.setData({
 
+          currentPage: that.data.currentPage
+        })
+        resolve()
+      }).then(function (value) {
+        that.getRouteList()
+      })
+    }
   },
 
   /**

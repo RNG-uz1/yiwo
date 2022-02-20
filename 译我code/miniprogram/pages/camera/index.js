@@ -83,17 +83,15 @@ Page({
         title: '正在保存请稍等',
         duration: 2000,
       })
-    // 获取所有页面(不懂请移步下面这篇文章)
-    // https://blog.csdn.net/weixin_44198965/article/details/107821802
+
     let pages = getCurrentPages()
 
-    // 当前页面-flag
+ 
     var currentPage = '';
 
-    // 上一页-flag
+
     var prevPage = '';
 
-    // 如果长度大于等于2
     if (pages.length >= 2) { //则对上面定义的flag赋值
 
       // 当前页

@@ -41,7 +41,7 @@
   },
   "appid": "wx8f0c0315bd0ce792",
   "projectname": "%E8%AF%91%E6%88%91",
-  "libVersion": "2.20.1",
+  "libVersion": "2.19.6",
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
   "condition": {
     "search": {

@@ -48,6 +48,20 @@
   align-items: center;
 }
 
+.me {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.me .text{
+  height: 50rpx;
+  width: 200rpx;
+  margin-top: 10rpz;
+  margin-left: 40rpx;
+}
+
 .p {
   margin-bottom: 20rpx;
   font-size: 35rpx;
@@ -112,7 +126,6 @@
 .userHead {
   margin-left: 30rpx;
   margin-top: 30rpx;
-  position: absolute;
   height: 150rpx;
   width: 150rpx;
   border-radius: 50%;
