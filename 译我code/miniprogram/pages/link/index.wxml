@@ -5,22 +5,39 @@
 <image class="del" bindtap="isDel" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-01-29/iei3o6w4ev56pjvnknlz9dwo7efgl017_.png"></image>
 
 <view class="backGround" wx:if="{{albumShow}}">
-  <swiper indicator-dots="true">
-    <block  wx:for="{{albumID}}" wx:key="index">
-      <swiper-item>
-        <image class="album_photo" src="{{item.photoID}}"> </image>
+  <view class="swiper">
+  <swiper  bindchange="onChange" indicator-dots="true" indicator-color="rgba(0, 0, 0, .3)" indicator-active-color="#fff" >
+    <swiper-item wx:for="{{albumID}}" wx:key="index">
+    <image class="currentPhoto" mode="aspectFit" src="{{item}}" data-upload-id="{{item}}"> </image>
       </swiper-item>
-    </block>
   </swiper>
-  <image class="close-album" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" 
-bindtap="close"></image>
+  <view class="btn-box">
+    <view class="btn">
+      <image class="btn-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
+      <view class="btn-des" >关闭</view>
+    </view>
+  </view>
+ </view>
 </view>
 
 
 <view class="backGround" wx:if="{{photoShow}}">
-  <view class="content" >
-    <image class="currentPhoto" src="{{photoID}}"> </image>
-    <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="close"></image>
+  <view class="swiper">
+   <swiper bindchange="onChange" indicator-dots="true" indicator-color="rgba(0, 0, 0, .3)" indicator-active-color="#fff" >
+     <swiper-item wx:for="{{currentPhoto}}" wx:key="index">
+       <image class="currentPhoto" mode="aspectFit" src="{{item}}" data-upload-id="{{item}}" bindtap="upLoad"> </image>
+     </swiper-item>
+   </swiper>
+   <view class="btn-box">
+     <view class="btn">
+       <image class="btn-icon" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
+       <view class="btn-des" bindtap="closePhoto">关闭</view>
+     </view>
+     <view class="btn">
+       <image class="btn-icon" bindtap="delPhoto" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-16/p1au6hd801p73li8utap2oqi63vbslfc_.png"></image>
+       <view class="btn-des" bindtap="delPhoto">删除照片</view>
+     </view>
+   </view>
   </view>
 </view>
 <view class="description">

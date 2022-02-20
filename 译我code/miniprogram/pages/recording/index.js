@@ -568,7 +568,7 @@ Page({
         lng2 = result1.longitude
         var D = that.GetDistance(lat1, lng1, lat2, lng2) //计算这次坐标距上次的距离
 
-        if (result1.speed > 0 && D > 1) { //若速度大于0.2且距上一个点10m就存入
+        if (result1.speed > 0.2 && D > 10) { //若速度大于0.2且距上一个点10m就存入
           console.log('速度大于0.2,且距离大于10米')
           var newPoint = [{
             latitude: result1.latitude,
@@ -758,20 +758,6 @@ Page({
       }).then(function (value) {
         that.cms(value, updatePhoto) //照片上传云托管
       })
-      // .then(function (value) {
-      //   console.log('更新后的数组', updatePhoto)
-      //   wx.cloud.database().collection('point').doc(that.data.currentPoint_id).get({
-      //     success(res){
-      //       console.log(res)
-      //     }       
-      //   })
-      // }).then(function (value) {
-      // that.setData({
-      //   currentPhoto: updatePhoto
-      // })
-      // console.log('完成了')
-      // })
-
     } else {
       console.log('不是上传图标')
     }
@@ -817,5 +803,4 @@ Page({
 
     })
   }
-
 })
