@@ -158,12 +158,6 @@ Page({
       //画线路
       that.drawRoute()
 
-    }).then(function (value) { //开启定位提示
-      wx.showToast({
-        title: '请确保使用过程中已开启定位，否则将导致定位不准确',
-        icon: 'none',
-        duration: 2500
-      })
     })
   },
 
@@ -498,10 +492,6 @@ Page({
     var that = this
 
     new Promise(function (resolve, reject) {
-      wx.showToast({
-        title: '上条路径未保存',
-        icon: 'none'
-      })
       //先获取上一条路径的id
       wx.cloud.database().collection('route').where({
         _openid: app.globalData.userInfo._openid
@@ -619,18 +609,35 @@ Page({
         console.log(res)
         isload = res.data[0].isLoad
         if (isload == false) { //用户状态为false时，改变用户状态，并且存入一条路径
-          wx.cloud.database().collection('user').where({
-            _openid: app.globalData.userInfo._openid
-          }).update({
-            data: {
-              isLoad: true
+          wx.showModal({
+            content: '开始记录您的旅程，请确保定位开启',
+            showCancel: false,
+            confirmText: '确定',
+
+            success(res){
+              wx.cloud.database().collection('user').where({
+                _openid: app.globalData.userInfo._openid
+              }).update({
+                data: {
+                  isLoad: true
+                }
+              }).then(res => {
+                console.log(that.data)
+                that.createRoute() //存入一条路径
+              })
             }
-          }).then(res => {
-            console.log(that.data)
-            that.createRoute() //存入一条路径
           })
+
         } else { //用户状态为true时,加载上一条路径的状态
-          that.loadRoute()
+          wx.showModal({
+            content: '将继续您未完成的旅程',
+            showCancel: false,
+            confirmText: '确定',
+
+            success(res){
+              that.loadRoute()
+            }
+          })    
         }
       }
     })
