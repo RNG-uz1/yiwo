@@ -169,70 +169,10 @@ Page({
     var longitude1
     var latitude1
 
-    //判断用户是否确定了保存照片
-    if (this.data.flag == true) {
-      wx.startLocationUpdate({ //开启实时获取定位
-        success: (res) => {
-          wx.onLocationChange(_locationChangeFn) //监听定位
-        },
-      })
-      const _locationChangeFn = function (res) {
-        new Promise(function (resolve, reject) {
-          longitude1 = res.longitude //获取经纬度信息
-          latitude1 = res.latitude
-          resolve()
-        }).then(function (value) {
-          // 计算两次打卡地点之间的距离
-          d = that.GetDistance(that.data.tempLat, that.data.tempLng, latitude1, longitude1)
-          console.log('距离', d)
-        }).then(function (value) {
+    console.log('onshow')
 
-          if (d > 20) { //如果两次打卡地点的距离大于20米，则生成新的点
-            console.log('执行了新建点')
-            that.createPoint(longitude1, latitude1, _locationChangeFn, 0) //新建point
-            console.log(pointID)
-            that.setData({ //将新点存入对比数据中
-              tempLat: latitude1,
-              tempLng: longitude1
-            })
-          } else {
-            var updatePhotoArry
-            var newPhotoArry = [that.data.newFrontSrc] //接收照片路径
-            console.log('执行了存入旧点')
-            wx.cloud.database().collection('point').doc(that.data.pointID).get({ //获取要存入的那个点
-              success(res) {
-                new Promise(function (resolve, reject) {
-                  res.data.photoID.splice(res.data.photoID.length - 1, 0, that.data.newFrontSrc) //更新该点的照片数组
-                  resolve()
-                }).then(function (value) {
-                  wx.cloud.database().collection('point').doc(that.data.pointID).update({
-                    data: {
-                      photoID: res.data.photoID //数据库中也更新
-                    }
-                  })
-                }).then(function (value) {
-                  that.data.markers[that.data.markers.length - 1].photoID = res.data.photoID
-                  console.log('更新markers')
-                }).then(function (value) {
-                  that.setData({
-                    markers: that.data.markers,
-                    flag: false
-                  })
-                }).then(function (value) {
-                  wx.offLocationChange(_locationChangeFn)
-                  console.log('执行了关闭实时定位')
-                }).then(function (value) {
-                  wx.showToast({
-                    title: '两个点距离过近，已存入上一个点内',
-                    icon: 'none'
-                  })
-                })
-              }
-            })
-          }
-        })
-      }
-    }
+    //判断用户是否确定了保存照片
+
   },
 
   createPoint(longitude1, latitude1, _locationChangeFn, onlyPoiny) {
@@ -387,9 +327,110 @@ Page({
   },
 
   pointAndPhoto() {
-    wx.navigateTo({
-      url: '/pages/camera/index',
+    var that = this
+    var pointID
+    var d
+    var longitude1
+    var latitude1
+
+    new Promise(function(resolve,reject){
+      wx.chooseMedia({
+        camera: 'camera',
+        count: 1,
+        mediaType: ['image'],
+        sourceType: ['album', 'camera'],
+        success(res) {
+         wx.showToast({
+           title: '正在保存照片',
+           duration: 2000
+         })
+          console.log('照片路径', res.tempFiles[0].tempFilePath)
+          wx.cloud.uploadFile({
+            cloudPath: "pointPhoto/" + (that.data.openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
+            filePath: res.tempFiles[0].tempFilePath, // 微信本地文件，通过选择图片，聊天文件等接口获取
+            config: {
+              env: 'prod-4gmcir0na5d0ba08' // 微信云托管环境ID
+            },
+            success: res1 => {
+              console.log('上传cms成功')
+              that.setData({
+                newFrontSrc: res1.fileID, //照片路径
+                flag: true
+              })
+              resolve()
+            },
+          })
+          //updatePhoto = that.data.currentPhoto
+        }
+      })
+    }).then(function(value){
+      // if (that.data.flag == true) {
+        console.log('执行保存点')
+        wx.startLocationUpdate({ //开启实时获取定位
+          success: (res) => {
+            wx.onLocationChange(_locationChangeFn) //监听定位
+          },
+        })
+        const _locationChangeFn = function (res) {
+          new Promise(function (resolve, reject) {
+            longitude1 = res.longitude //获取经纬度信息
+            latitude1 = res.latitude
+            resolve()
+          }).then(function (value) {
+            // 计算两次打卡地点之间的距离
+            d = that.GetDistance(that.data.tempLat, that.data.tempLng, latitude1, longitude1)
+            console.log('距离', d)
+          }).then(function (value) {
+  
+            if (d > 20) { //如果两次打卡地点的距离大于20米，则生成新的点
+              console.log('执行了新建点')
+              that.createPoint(longitude1, latitude1, _locationChangeFn, 0) //新建point
+              console.log(pointID)
+              that.setData({ //将新点存入对比数据中
+                tempLat: latitude1,
+                tempLng: longitude1
+              })
+            } else {
+              var updatePhotoArry
+              var newPhotoArry = [that.data.newFrontSrc] //接收照片路径
+              console.log('执行了存入旧点')
+              wx.cloud.database().collection('point').doc(that.data.pointID).get({ //获取要存入的那个点
+                success(res) {
+                  new Promise(function (resolve, reject) {
+                    res.data.photoID.splice(res.data.photoID.length - 1, 0, that.data.newFrontSrc) //更新该点的照片数组
+                    resolve()
+                  }).then(function (value) {
+                    wx.cloud.database().collection('point').doc(that.data.pointID).update({
+                      data: {
+                        photoID: res.data.photoID //数据库中也更新
+                      }
+                    })
+                  }).then(function (value) {
+                    that.data.markers[that.data.markers.length - 1].photoID = res.data.photoID
+                    console.log('更新markers')
+                  }).then(function (value) {
+                    that.setData({
+                      markers: that.data.markers,
+                      flag: false
+                    })
+                  }).then(function (value) {
+                    wx.offLocationChange(_locationChangeFn)
+                    console.log('执行了关闭实时定位')
+                  }).then(function (value) {
+                    wx.showToast({
+                      title: '两个点距离过近，已存入上一个点内',
+                      icon: 'none'
+                    })
+                  })
+                }
+              })
+            }
+          })
+        }
+      // }
     })
+
+
     this.setData({
       show: false
     })
@@ -398,7 +439,7 @@ Page({
   //点击marker展示图片
   markertap(e) { //修改过
 
-      var withoutNull
+    var withoutNull
 
     var that = this
     console.log(e)
@@ -408,7 +449,7 @@ Page({
       id: e.markerId
     }).get({
       success(res) {
-        new Promise(function(resolve,reject){
+        new Promise(function (resolve, reject) {
           var newArry = res.data[0].photoID
           console.log(newArry)
           for (var i = 0; i < newArry.length; i++) { //排除照片中的null
@@ -418,7 +459,7 @@ Page({
             }
           }
           resolve(newArry)
-        }).then(function(value){
+        }).then(function (value) {
           that.setData({
             currentPhoto: value,
             currentPoint_id: res.data[0]._id,
@@ -615,7 +656,7 @@ Page({
             showCancel: false,
             confirmText: '确定',
 
-            success(res){
+            success(res) {
               wx.cloud.database().collection('user').where({
                 _openid: app.globalData.userInfo._openid
               }).update({
@@ -635,10 +676,10 @@ Page({
             showCancel: false,
             confirmText: '确定',
 
-            success(res){
+            success(res) {
               that.loadRoute()
             }
-          })    
+          })
         }
       }
     })
@@ -673,12 +714,12 @@ Page({
                 console.log('打印点的数据', res1.data[0])
                 updatePhoto = res1.data[0].photoID //把点内照片赋值
                 console.log('步骤一，打印删除前的照片', res1.data[0].photoID)
-                newUpdate = that.del(res1.data[0].photoID)   //删除数据且排除null
+                newUpdate = that.del(res1.data[0].photoID) //删除数据且排除null
                 resolve(newUpdate)
               }
             })
           }).then(function (value) {
-            console.log('步骤四，删除且排除null',value)
+            console.log('步骤四，删除且排除null', value)
             //更新数据库
 
             wx.cloud.database().collection('point').doc(that.data.currentPoint_id).update({
@@ -725,12 +766,12 @@ Page({
 
   del(updatePhoto) {
     var that = this
-    new Promise(function(resolve1,reject){
-      console.log('步骤二，执行删除，删除前数据为',updatePhoto)
+    new Promise(function (resolve1, reject) {
+      console.log('步骤二，执行删除，删除前数据为', updatePhoto)
       updatePhoto.splice(that.data.current, 1)
       resolve1()
-    }).then(function(value){
-      console.log('步骤三，执行删除之后未排除null的数据为',updatePhoto)
+    }).then(function (value) {
+      console.log('步骤三，执行删除之后未排除null的数据为', updatePhoto)
       for (var i = 0; i < updatePhoto.length; i++) { //排除照片中的null
         if (updatePhoto[i] == null) {
           updatePhoto.splice(i, 1)
@@ -738,7 +779,7 @@ Page({
         }
       }
     })
-      return updatePhoto;
+    return updatePhoto;
 
   },
 
@@ -755,8 +796,8 @@ Page({
         wx.chooseMedia({
           camera: 'camera',
           count: 1,
-          mediaType: 'image',
-          sourceType: 'album',
+          mediaType: ['image'],
+          sourceType: ['album'],
           success(res) {
             console.log('照片路径', res.tempFiles[0].tempFilePath)
             updatePhoto = that.data.currentPhoto

@@ -41,7 +41,7 @@
   <page-container show="{{show}}" round="{{true}}" overlay="{{true}}" position="{{'bottom'}}" close-on-slide-down="{{false}}" custom-style="{{'z-index: 999;'}}" overlay-style="{{'z-index: 999;'}}">
 
     <view class="chose" wx:if="{{chose}}">
-      <view class="onlyPoint" bindtap="onlyPoint">仅打卡，自己上传图片</view>
+      <view class="onlyPoint" bindtap="onlyPoint">标点，随后上传</view>
       <view class="pointAndPhoto" bindtap="pointAndPhoto">打卡拍照</view>
     </view>
 
@@ -54,18 +54,5 @@
       </view>
     </view>
   </page-container>
-
-  <!-- <page-container
-    show="{{show}}"
-    round="{{true}}"
-    overlay="{{true}}"
-    position="{{'bottom'}}"
-    close-on-slide-down="{{false}}"
-    custom-style="{{'z-index: 999;'}}"
-    overlay-style="{{'z-index: 999;'}}">
-
->
-  </page-container> -->
-
 
 </view>

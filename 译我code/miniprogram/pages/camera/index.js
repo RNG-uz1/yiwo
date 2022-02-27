@@ -45,34 +45,16 @@ Page({
     })
   },
 
-  // upload(src) {
-  //   var that = this
-  //   var openid = this.data.openid
-  //   console.log(src)
-  //   wx.cloud.uploadFile({
-  //     cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
-  //     filePath: src, // 微信本地文件，通过选择图片，聊天文件等接口获取
-  //     config: {
-  //       env: 'yiwo-nft-7gcgmeqx53a4441b' // 微信云托管环境
-  //     },
-  //     success: res => {
-  //       that.setData({
-  //         photoID: res.fileID
-  //       })
-  //     }
-  //   })
-  // },
-
 
   // 保存图片/更改主页数据(用户最终点击确定按钮√)
   saveImg() {
-    console.log(111)
+    console.log('执行保存图片')
     var that = this
     var openid = this.data.openid
     var prevPage 
 
 
-    new Promise(function (resolve, reject) {
+    // new Promise(function (resolve, reject) {
       wx.cloud.uploadFile({
         cloudPath: "pointPhoto/" + (openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
         filePath: that.data.src, // 微信本地文件，通过选择图片，聊天文件等接口获取
@@ -80,6 +62,7 @@ Page({
           env: 'prod-4gmcir0na5d0ba08' // 微信云托管环境ID
         },
         success: res => {
+
           that.setData({
             photoID: res.fileID,
           })
@@ -92,20 +75,23 @@ Page({
             newFrontSrc: res.fileID, //照片路径
             flag: true
           })
-          resolve()
+          // resolve()
+          setTimeout(function(){
+            console.log('执行跳转')
+            wx.navigateBack({
+              success(res){
+                console.log('成功',res)
+              },
+              fail(res){
+                console.log('失败',res)
+              }
+            })
+          },2000)
         },
       })
-    }).then(function (value) {
-      console.log('执行跳转')
-      wx.navigateBack({
-        success(res){
-          console.log('成功',res)
-        },
-        fail(res){
-          console.log('失败',res)
-        }
-      })
-    })
+    // }).then(function (value) {
+
+    // })
 
   },
 
