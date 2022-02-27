@@ -215,7 +215,8 @@ Page({
                   console.log('更新markers')
                 }).then(function (value) {
                   that.setData({
-                    markers: that.data.markers
+                    markers: that.data.markers,
+                    flag: false
                   })
                 }).then(function (value) {
                   wx.offLocationChange(_locationChangeFn)
@@ -754,7 +755,7 @@ Page({
         wx.chooseMedia({
           camera: 'camera',
           count: 1,
-          mediaType: 'Image',
+          mediaType: 'image',
           sourceType: 'album',
           success(res) {
             console.log('照片路径', res.tempFiles[0].tempFilePath)
