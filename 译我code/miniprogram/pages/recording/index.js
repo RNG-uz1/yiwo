@@ -285,6 +285,11 @@ Page({
     var latitude1
     var longitude1
 
+    wx.showToast({
+      title: '正在保存',
+      duration: 2000
+    })
+
     that.setData({ //不拍照时的照片路径
       newFrontSrc: null
     })
@@ -335,7 +340,6 @@ Page({
 
     new Promise(function(resolve,reject){
       wx.chooseMedia({
-        camera: 'camera',
         count: 1,
         mediaType: ['image'],
         sourceType: ['album', 'camera'],
@@ -361,6 +365,9 @@ Page({
             },
           })
           //updatePhoto = that.data.currentPhoto
+        },
+        fail(res){
+          console.log('失败',res)
         }
       })
     }).then(function(value){
@@ -794,7 +801,6 @@ Page({
 
       new Promise(function (resolve, reject) {
         wx.chooseMedia({
-          camera: 'camera',
           count: 1,
           mediaType: ['image'],
           sourceType: ['album'],
