@@ -392,7 +392,6 @@ Page({
       console.log('执行上传照片')
       new Promise(function (resolve, reject) {
         wx.chooseMedia({
-          camera: 'camera',
           count: 1,
           mediaType: 'Image',
           sourceType: 'album',
