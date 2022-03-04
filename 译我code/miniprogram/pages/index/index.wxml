@@ -30,7 +30,7 @@
 
   <!--头像 -->
   <view class="me" bindtap="gotoMe" wx:if="{{user != null}}">
-    <image class="userHead"  bindtap="gotoMe" src="{{user.avatarUrl}}"></image>
+    <image class="userHead"  src="{{user.avatarUrl}}"></image>
     <view class="text">个人主页</view>
   </view>
 

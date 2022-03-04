@@ -19,6 +19,7 @@ Page({
 
   //跳转页面——我的
   gotoMe(e) {
+    console.log('调用一次')
     wx.navigateTo({
       url: `/pages/me/index`
     })

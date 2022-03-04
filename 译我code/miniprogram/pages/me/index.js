@@ -172,7 +172,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
- 
+    
+    console.log(456)
     var that=this
     this.setData({
       userInfo : app.globalData.userInfo
@@ -225,7 +226,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log(123)
   },
 
   /**

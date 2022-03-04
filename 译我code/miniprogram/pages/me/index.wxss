@@ -11,6 +11,8 @@
 .login_button {
   margin-top: 40%;
   margin-bottom: 30%;
+  background-color: #099A97;
+  color: #fff;
 }
 
 .userHead {

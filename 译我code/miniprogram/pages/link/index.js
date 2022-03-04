@@ -17,6 +17,7 @@ Page({
     longitude: '',
     latitude: '',
 
+
     albumID: [],
 
 
@@ -47,37 +48,57 @@ Page({
   //点击marker展示图片
     markertap(e) { //修改过
           var withoutNull
-
         var that = this
         console.log(e)
+        console.log(app)
         console.log(e.markerId) //拿对应点的id
-    
-        wx.cloud.database().collection('point').where({ //通过id来数据库里找点
-          id: e.markerId
-        }).get({
-          success(res) {
-            console.log(res)
-            new Promise(function(resolve,reject){
-              var newArry = res.data[0].photoID
-              console.log(newArry)
-              for (var i = 0; i < newArry.length; i++) { //排除照片中的null
-                if (newArry[i] == null) {
-                  newArry.splice(i, 1)
-                  i = i - 1
-                }
-              }
-              resolve(newArry)
-            }).then(function(value){
-              console.log(res.data[0]._id)
-              that.setData({
-                currentPhoto: value,
-                currentPoint_id: res.data[0]._id,
-                currentPhotoId: e.markerId,
-                photoShow: true
-              })
-            })
-          }
-        })
+     wx.cloud.database().collection('point').where({ //通过id来数据库里找点
+      id: e.markerId
+    }).get({
+      success(res) {
+        console.log(res.data[0].iconPath)
+        if (res.data[0].iconPath=='https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-08/cr3uiumk4d4qtb7gdl8v5jlv39nb6ubp_.png') {
+          console.log('打印现在的照片')
+          new Promise(function(resolve,reject){
+            var newArry = res.data[0].photoID
+            console.log(newArry)
+            for (var i = 0; i < newArry.length; i++) { //排除照片中的null
+              if (newArry[i] == null) {
+                newArry.splice(i, 1)
+                i = i - 1
+              }
+            }
+            resolve(newArry)
+          }).then(function(value){
+            console.log(res.data[0]._id)
+            that.setData({
+              currentPhoto: value,
+              currentPoint_id: res.data[0]._id,
+              currentPhotoId: e.markerId,
+              photoShow: true
+            })
+          })
+        }
+        else{
+          console.log('打印原来的照片')
+          var newArry = [res.data[0].photoID]
+          console.log(newArry)
+          for (var i = 0; i < newArry.length; i++) { //排除照片中的null
+            if (newArry[i] == null) {
+              newArry.splice(i, 1)
+              i = i - 1
+            }
+          }
+          that.setData({
+            currentPhoto:newArry,
+            currentPoint_id: res.data[0]._id,
+            currentPhotoId: e.markerId,
+            photoShow: true
+          })
+        }
+      }
+    })
+
       },
 
 
@@ -104,63 +125,68 @@ Page({
     cancelText: '取消',
     success(res) {
       if (res.confirm) {
-        console.log(that.data.currentPhotoId)
-        new Promise(function (resolve, reject) {
-          wx.cloud.database().collection('point').where({
-            id: that.data.currentPhotoId
-          }).get({
-            success(res1) {
-              console.log('打印点的数据', res1.data[0])
-              updatePhoto = res1.data[0].photoID //点内的照片赋值
-              updatePhoto = res1.data[0].photoID //把点内照片赋值
-              console.log('步骤一，打印删除前的照片', res1.data[0].photoID)
-              newUpdate = that.del(res1.data[0].photoID)   //删除数据且排除null
-              resolve(newUpdate)
-            }
-          })
-        }).then(function (value) {
-            console.log('步骤四，删除且排除null',value)
-          //更新数据库
-          wx.cloud.database().collection('point').doc(that.data.currentPoint_id).
-update({
-            data: {
-              photoID: value
-            }
-          })
-           that.setData
-          ({
-              currentPhoto: value,
-          })
-            updatePhoto = value
-            console.log('更新数据')
-        }).then(function (value) {
-          if (updatePhoto.length == 0) { //如果删除后没有照片了，就删除该点
-            wx.cloud.database().collection('point').doc(that.data.currentPoint_id)
-            .remove({
-              success: function (res) {
-                console.log(res.data)
-                wx.cloud.database().collection('point').where({ //拿到markers
-                  route_id: that.data.routeId
-                }).orderBy('id', 'asc').get({
-                  success(res) {
-                    console.log(res.data)
-                    //数据渲染
-                    new Promise(function (resolve, reject) {
-                        that.data.markers = res.data,
-                      resolve()
-                    }).then(function (res) {
-                      //刷新数据
-                      that.setData({
-                        markers: that.data.markers,
-                        photoShow:false
-                      })
-                    })
-                  }
-                })
+          console.log("删除现在的照片")
+          console.log(that.data.currentPhotoId)
+          new Promise(function (resolve, reject) {
+            wx.cloud.database().collection('point').where({
+              id: that.data.currentPhotoId
+            }).get({
+              success(res1) {
+                console.log('打印点的数据', res1.data[0])
+                updatePhoto = res1.data[0].photoID //点内的照片赋值
+                updatePhoto = res1.data[0].photoID //把点内照片赋值
+                console.log(updatePhoto)
+                console.log('步骤一，打印删除前的照片', res1.data[0].photoID)
+                
+                newUpdate = that.del(res1.data[0].photoID)   //删除数据且排除null
+                resolve(newUpdate)
+                console.log(newUpdate)
               }
             })
-          }
-        })
+          }).then(function (value) {
+              console.log('步骤四，删除且排除null',value)
+            //更新数据库
+            wx.cloud.database().collection('point').doc(that.data.currentPoint_id).
+   update({
+              data: {
+                photoID: value
+              }
+            })
+             that.setData
+            ({
+                currentPhoto: value,
+            })
+              updatePhoto = value
+              console.log('更新数据')
+          }).then(function (value) {
+            if (updatePhoto.length == 0) { //如果删除后没有照片了，就删除该点
+              wx.cloud.database().collection('point').doc(that.data.currentPoint_id)
+              .remove({
+                success: function (res) {
+                  console.log(res.data)
+                  wx.cloud.database().collection('point').where({ //拿到markers
+                    route_id: that.data.routeId
+                  }).orderBy('id', 'asc').get({
+                    success(res) {
+                      console.log(res.data)
+                      //数据渲染
+                      new Promise(function (resolve, reject) {
+                          that.data.markers = res.data,
+                        resolve()
+                      }).then(function (res) {
+                        //刷新数据
+                        that.setData({
+                          markers: that.data.markers,
+                          photoShow:false
+                        })
+                      })
+                    }
+                  })
+                }
+              })
+            }
+          })
+        
       }
     }
   })
