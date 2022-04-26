@@ -29,13 +29,14 @@ map {
   display: flex;
   flex-direction: row;
   align-items: center;
-  bottom: 200rpx;
+  bottom: 150rpx;
 }
 
 .floatBtns .btn {
   display: flex;
   justify-content: center;
-  background-color: #099A97;
+  background:url("https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-24/tu9y48s7eh8fkl4pzfs83q62trz9np97_.png");
+  box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.4);
   border-radius: 30rpx;
   line-height: 60rpx;
   color: #fff;

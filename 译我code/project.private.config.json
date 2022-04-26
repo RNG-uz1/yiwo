@@ -59,6 +59,12 @@
           "pathName": "pages/text/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "",
+          "pathName": "pages/village/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

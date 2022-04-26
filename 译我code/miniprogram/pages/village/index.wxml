@@ -1,0 +1,23 @@
+<view class="box">
+  <view class="top">
+    <image class="photo" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-21/xiik9tjwu4cvdrkt64aff7hrkbsd26u5_.png" mode="aspectFill"></image>
+  </view>
+  <view class="mid">
+    <image class="start" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-22/1fa0qteqzmxnkg6cjb8hy8d5bwx6l55a_.jpg" mode="aspectFill"></image>
+  <view class="float">
+    <view class="item">
+      <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/ir97eto91p225oyzr9draewbscawn5pe_.png"></image>
+      <text>农产品商城</text>
+    </view>
+    <view class="item">
+      <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/cwsejepi6akmjn601e51lt8s2okidsma_.png"></image>
+      <text>旅游攻略</text>
+    </view>
+    <view class="item">
+      <image class="icon2" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/pjs5ziyhsefv1e907xbvemtw3gnw3mce_.png"></image>
+      <text>乡土文化</text>
+    </view>
+  </view>
+    <image class="photo" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-21/sqylz82tm5kz7tzui1t5mlenivrrf4jy_.png" mode="aspectFill"></image>
+  </view>
+</view>

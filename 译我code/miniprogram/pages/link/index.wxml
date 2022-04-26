@@ -4,7 +4,7 @@
 <image class="album" bindtap="openAlbum" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-02-17/5oxwvq3z3qxcv4cplpzh75zv7m3yh7f9_.png"></image>
 <image class="del" bindtap="isDel" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-01-29/iei3o6w4ev56pjvnknlz9dwo7efgl017_.png"></image>
 
-<view class="backGround" wx:if="{{albumShow}}">
+<!-- <view class="backGround" wx:if="{{albumShow}}">
   <view class="swiper">
   <swiper  bindchange="onChange" indicator-dots="true" indicator-color="rgba(0, 0, 0, .3)" indicator-active-color="#fff" >
     <swiper-item wx:for="{{albumID}}" wx:key="index">
@@ -18,7 +18,7 @@
     </view>
   </view>
  </view>
-</view>
+</view> -->
 
 
 <view class="backGround" wx:if="{{photoShow}}">

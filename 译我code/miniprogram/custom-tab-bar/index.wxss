@@ -1,0 +1,33 @@
+.tTabBar{
+  padding-bottom: constant(safe-area-inset-bottom); /* 兼容 iOS < 11.2 */
+  padding-bottom: env(safe-area-inset-bottom); /* 兼容 iOS >= 11.2 */
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 110rpx;
+  border-radius: 50rpx;
+  background: #f8f8f8f8;
+  box-shadow: 0px -2px 10px 2px rgba(0, 0, 0, 0.2);
+}  
+.tTabBar-item{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+    .tTabBar-item-image{
+      display: inline-block;
+      width: 60rpx;
+      height: 60rpx;
+      margin-bottom: 8rpx;
+    }
+    tTabBar-item-name{
+      font-size: 5rpx;
+      line-height: 15rpx;
+      color: #8a8a8a;
+    }
+

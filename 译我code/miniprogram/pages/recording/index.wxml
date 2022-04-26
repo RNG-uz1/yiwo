@@ -27,15 +27,6 @@
         </view>
       </view>
     </view>
-    <!-- <view class="float-swiper-dots">
-  <view class="swiper-dots">
-      <view class="dot  {{current !== index || 'active'}}" wx:for="{{currentPhoto}}" wx:key="index"></view>
-  </view>
-</view> -->
-    <!-- <view class="content">
-    <image class="currentPhoto" src="{{currentPhoto}}"> </image>
-    <image class="close" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-22/r07luzi1nbioz85qhh2hlb2yqfedbbig_.png" bindtap="closePhoto"></image>
-  </view> -->
   </view>
 
   <page-container show="{{show}}" round="{{true}}" overlay="{{true}}" position="{{'bottom'}}" close-on-slide-down="{{false}}" custom-style="{{'z-index: 999;'}}" overlay-style="{{'z-index: 999;'}}">

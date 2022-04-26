@@ -1,35 +1,44 @@
-
-  <view class="introduce" wx:if="{{userInfo != null}}">
-    <image class="userHead" src="{{userInfo.avatarUrl}}"></image>
-    <view class="nickName" >昵称：{{userInfo.nickName}}</view>
-
-    
-  </view>
-
-  <button class="login_button" bindtap="login" wx:if="{{userInfo == null}}">点击登录</button>
-
-  <view class="myTag">
-    <view class="title">
-      <image class="iconTag" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/y8w2qhck41ipz5b7rryk6rv25ykmol3j_.png"></image>
-      <view class="text">我的标签</view>
+<view class="box">
+  <view class="top">
+    <image class="photo" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/t8bdl5fqi3kypab6oqhua3bb38d36krj_.png" mode="aspectFill"></image>
+    <view class="userInfo" wx:if="{{userInfo != null}}">
+      <image class="touxiang" src="{{userInfo.avatarUrl}}"></image>
+      <text class="userName">{{userInfo.nickName}}</text>
     </view>
-
-  <view class="tags">
-    <view class='btn_view'>
-        <block wx:for="{{obtnArry}}"  >
-          <view class='label_view' bindtap="isDel" data-value="{{item.name}}"   data-index="{{index}}">
-            {{item.name}}
-          </view>
-        </block>
-        <image bindtap="addinput"  class="img" src="https://7969-yiwo-4gsw4af5a186d6b7-1308472708.tcb.qcloud.la/cloudbase-cms/upload/2022-01-14/ef81jf48bmpmtqa5yd2msjyobor16kev_.png" ></image>
-    </view>
-
-
-
+    <button class="login_button" bindtap="login" wx:if="{{userInfo == null}}">登录</button>
   </view>
-  
+  <view class="mid">
+    <view class="midTop">
+      <view class="item">
+        <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/oun8p06er5qgw4jogkuzprnnnc3wjg6d_.png" bindtap="gotoWatch"></image>
+        <text>旅行相册</text>
+      </view>
+      <view class="item">
+        <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/whelj7vqjmh764zchh1d5etqx8lrxzgu_.png"></image>
+        <text>我的攻略</text>
+      </view>
+      <view class="item">
+        <image class="icon2" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/vx5hr686e5ai71v1tiqy4xll0b6l51vv_.png"></image>
+        <text>我的收藏</text>
+      </view>
+    </view>  
+    <view class="list">
+      <view class="li">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/jepwocwnieimi89p0o5lpuaw3cu67oke_.png"></image>
+        <text>订单</text>
+      </view>
+      <!-- <button class="li" open-type="openSetting">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/1bwj5phm7ydyittjxztykoy3sdwkhn1o_.png"></image>
+        <text>设置</text>
+      </button> -->
+      <view class="li" open-type="feedback">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/fa8j74us3ptvvxc15w0x9jmleyfg31et_.png"></image>
+        <text>帮助文档</text>
+      </view>
+      <button class="li" open-type="feedback">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/fqx2iic79vnven3lutbxgjqi50s90lnr_.png"></image>
+        <text>反馈</text>
+      </button>
+    </view>
+  </view>
 </view>
-
-  <view class="watchMakesMe"  bindtap="gotoWatch">What Makes Me</view>
-
-  <button open-type="feedback" class="feedBack">用户反馈</button>

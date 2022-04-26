@@ -14,7 +14,6 @@ App({
       success(res) {
         console.log(res)
         that.globalData.openid = res.result.openid
-
         //查找数据库用户表里是否有这个用户记录
         wx.cloud.database().collection('user').where({ //查找数据库内openid相同的信息
           _openid: res.result.openid
@@ -38,6 +37,8 @@ App({
     userInfo: null,
     openid: null
   },
+
+  
 
   //获取权限
   getAuth() {

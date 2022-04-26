@@ -226,7 +226,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log(123)
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({  // 文档中有介绍 getTabBar用于获取当前组件实例
+        selected: 2,
+        show:true
+      })
+    }
   },
 
   /**

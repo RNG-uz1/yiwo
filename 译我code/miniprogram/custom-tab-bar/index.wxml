@@ -1,0 +1,17 @@
+<!--custom-tab-bar/index.wxml-->
+<cover-view class="tTabBar">
+  <cover-view 
+    class="tTabBar-item" 
+    wx:for="{{list}}" 
+    wx:key="index"
+    bindtap="switchLab"
+    data-jumpPath="{{item.pagePath}}"
+    data-index="{{index}}"
+    style="font-size: 25rpx;"
+  >
+    <cover-image class="tTabBar-item-image" src="{{selected === index?item.selectedIconPath:item.iconPath}}" />
+    <cover-view class="tTabBar-item-name" style="{{selected === index?'color:#0A9996':'color:#8a8a8a'}} ">
+      {{item.text}}
+    </cover-view>
+  </cover-view>
+</cover-view>
