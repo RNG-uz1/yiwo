@@ -74,6 +74,18 @@ Page({
     })
   },
 
+  gotoCar(){
+    wx.navigateTo({
+      url: '/pages/cart/index',
+    })
+  },
+
+  gotoOrder(){
+    wx.navigateTo({
+      url: '/pages/myOrder/index',
+    })
+  },
+
   //用户登录
   login() {
     var that = this
