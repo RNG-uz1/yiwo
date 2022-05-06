@@ -5,7 +5,7 @@
   <view class="mid">
     <image class="start" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-22/1fa0qteqzmxnkg6cjb8hy8d5bwx6l55a_.jpg" mode="aspectFill"></image>
   <view class="float">
-    <view class="item">
+    <view class="item" bindtap="gotoMall">
       <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/ir97eto91p225oyzr9draewbscawn5pe_.png"></image>
       <text>农产品商城</text>
     </view>

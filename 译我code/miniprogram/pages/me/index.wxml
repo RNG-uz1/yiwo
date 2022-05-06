@@ -23,14 +23,14 @@
       </view>
     </view>  
     <view class="list">
-      <view class="li">
+      <view class="li" bindtap="gotoOrder">
         <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/jepwocwnieimi89p0o5lpuaw3cu67oke_.png"></image>
         <text>订单</text>
       </view>
-      <!-- <button class="li" open-type="openSetting">
-        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/1bwj5phm7ydyittjxztykoy3sdwkhn1o_.png"></image>
-        <text>设置</text>
-      </button> -->
+      <button class="li" bindtap="gotoCar">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-30/it89xt09qtm97j48fplp4cx4q49zr8k3_.png"></image>
+        <text>购物车</text>
+      </button>
       <view class="li" open-type="feedback">
         <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/fa8j74us3ptvvxc15w0x9jmleyfg31et_.png"></image>
         <text>帮助文档</text>

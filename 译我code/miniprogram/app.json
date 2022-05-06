@@ -5,7 +5,14 @@
     "pages/recording/index",
     "pages/me/index",
     "pages/schedule/index",
-    "pages/link/index"
+    "pages/link/index",
+    "pages/mall/index",
+    "pages/detail/index",
+    "pages/cart/index",
+    "pages/myOrder/index",
+    "pages/pay/index",
+    "pages/myComment/index"
+
   ],
 
   "tabBar": {
