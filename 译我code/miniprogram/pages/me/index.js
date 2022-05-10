@@ -85,6 +85,16 @@ Page({
       url: '/pages/myOrder/index',
     })
   },
+  gotoHelpDocument(){
+    wx.navigateTo({
+      url: '/pages/helpDocument/helpDocument',
+    })
+  },
+  gotoMyCollect(){
+    wx.navigateTo({
+      url: '/pages/myCollect/myCollect',
+    })
+  },
 
   //用户登录
   login() {

@@ -1,0 +1,17 @@
+<!--pages/helpDocument/helpDocument.wxml-->
+<view class='help'>
+    <view class='help_item' wx:for="{{questList}}" wx:key="index">
+        <view class='title' data-index='{{index}}' catchtap='panel'>
+            <view class='title_title'>{{item.title}}</view>
+            <view class='title_icon'>
+                <view class="cu-item">
+                    <text class="{{item.t ? 'cuIcon-fold lg text-gray':'cuIcon-unfold lg text-gray'}}"></text>
+                </view>
+            </view>
+        </view>
+        <scroll-view class='detail' style="height:{{ item.t?'':0}};" scroll-y="true">
+            <rich-text nodes="{{item.content}}"></rich-text>
+        </scroll-view>
+    </view>
+</view>
+<view wx:if="{{unloading==true}}" class="cu-load {{'over'}}" style="margin-top:50rpx;width: 100%;border-bottom: 1rpx solid rgba(0, 0, 0, 0.048);"></view> <!-- 处理内容到底部情况 -->

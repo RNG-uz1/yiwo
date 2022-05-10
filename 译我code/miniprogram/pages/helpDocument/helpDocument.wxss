@@ -1,0 +1,54 @@
+/* pages/helpDocument/helpDocument.wxss */
+@import "/pages/guide/icon.wxss";
+@import "/pages/guide/main-help.wxss";
+
+.help {
+    width: 100%;
+  }
+  
+  .help .help_item {
+    width: 100%;
+  }
+  
+  /*标题容器，包括标题名称，折叠图标*/
+  .help .help_item .title {
+    height: 100rpx;
+    line-height: 80rpx;
+    /* background: #e2e2e2; */
+    border-top: 1rpx solid #eeeeee;
+    border-bottom: 50% solid #eeeeee;
+    display: flex;
+  }
+  
+    /*帮助文档标题*/
+  .help .help_item .title .title_title {
+    width: 100%;
+    height: 80rpx;
+    padding-left: 20rpx;
+  }
+  
+  /*帮助文档折叠图标*/
+  .help .help_item .title .title_icon {
+    width: 50rpx;
+    height: 60rpx;
+    text-align: center;
+    margin-right: 30rpx;
+  }
+  
+/*帮助文档内容*/
+  .help .help_item .detail {
+    letter-spacing: 4rpx;    
+    padding-left: 20rpx;
+    line-height: 40rpx;
+    font-size: 25rpx;
+    background-color: rgba(231, 231, 231, 0.274);
+    height: 340rpx;
+    transition: height 1s;
+    -moz-transition: height 1s;
+    /* Firefox 4 */
+    -webkit-transition: height 1s;
+    /* Safari and Chrome */
+    -o-transition: height 1s;
+    /* Opera */
+    overflow: hidden;
+  }

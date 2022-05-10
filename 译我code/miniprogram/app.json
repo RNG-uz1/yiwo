@@ -11,8 +11,13 @@
     "pages/cart/index",
     "pages/myOrder/index",
     "pages/pay/index",
-    "pages/myComment/index"
-
+    "pages/myComment/index",
+    "pages/helpDocument/helpDocument",
+    "pages/guide/guide",
+    "pages/guideArticle/guideArtivle",
+    "pages/myCollect/myCollect",
+    "pages/localCulture/localCulture",
+    "pages/localCultureArticle/localCultureArticle"
   ],
 
   "tabBar": {

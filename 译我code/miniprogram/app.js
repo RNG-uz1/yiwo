@@ -203,4 +203,17 @@ App({
     }
     return desc;
   },
+    //判断用户是否登录
+    checkUserInfo_collect(){
+      if(this.globalData.userInfo_collect && this.globalData.userInfo_collect.nickName){
+        return true;
+      }
+      let userInfo_collect = wx.getStorageSync('userInfo_collect');
+      if(userInfo_collect && userInfo_collect.nickName){
+        this.globalData.userInfo_collect = userInfo_collect;
+        return true;
+      }else{
+        return false;
+      }
+    },
 });

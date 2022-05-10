@@ -39,6 +39,16 @@ Page({
       url: '/pages/mall/index',
     })
   },
+  gotoGuide(){
+    wx.navigateTo({
+      url: '/pages/guide/guide',
+    })
+  },
+  gotoLocalCulture(){
+    wx.navigateTo({
+      url: '/pages/localCulture/localCulture',
+    })
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
