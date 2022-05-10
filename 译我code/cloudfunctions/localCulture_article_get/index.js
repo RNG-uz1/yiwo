@@ -30,7 +30,7 @@ exports.main = async (event, context) => {
     }).orderBy("likeTime","desc").limit(5).get();
 
     //获取是否收藏了
-    let myresiscollect = await db.collection("guide_collect").where({
+    let myresiscollect = await db.collection("localCulture_collect").where({
         guide_id: id,       //以文章id，用户openid筛选
         openid: openid
     }).count();

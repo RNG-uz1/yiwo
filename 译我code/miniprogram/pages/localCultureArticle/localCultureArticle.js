@@ -91,7 +91,7 @@ Page({
         });        
         let collectTime = Date.now();
         wx.cloud.callFunction({
-          name: "guide_collect_add",
+          name: "localCulture_collect_add",
           data: {
             avatarUrl: app.globalData.userInfo_collect.avatarUrl,
             nickName: app.globalData.userInfo_collect.nickName,
