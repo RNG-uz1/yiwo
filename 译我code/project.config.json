@@ -38,7 +38,8 @@
     "minifyWXML": true,
     "showES6CompileOption": false,
     "useCompilerPlugins": false,
-    "useStaticServer": true
+    "useStaticServer": true,
+    "ignoreUploadUnusedFiles": true
   },
   "appid": "wx8f0c0315bd0ce792",
   "projectname": "%E8%AF%91%E6%88%91",
