@@ -1,0 +1,87 @@
+<!--pages/guideArticle/guideArtivle.wxml-->
+<wxs module="change" src="./wxs/change.wxs"></wxs> <!-- 时间戳和大数转换 -->
+<view class="article_detail">
+  <view class="article_title">{{article.title}}</view>
+  <view class="article_content">
+    <rich-text nodes="{{article.content}}"></rich-text>
+  </view>
+  <view class="article_info">
+    <view class="row">
+      <text class="cuIcon-github lg text-gray"></text>
+      <text> {{article.author}}</text>
+    </view>
+    <view class="row">
+      <text class="cuIcon-time lg text-gray"></text>
+      <text> {{change.getTime(article._createTime)}}</text>
+    </view>
+    <view class="row">
+      <text class="cuIcon-read lg text-gray"></text>
+      <text> {{change.getNumber(article.readCount)}}</text>
+    </view>
+    <view class="row">
+      <text class="cuIcon-location lg text-gray"></text>
+      <text> {{article.province}}</text>
+    </view>
+  </view>
+
+<!-- 收藏 -->
+<view class="article_recommend cu-list grid col-3" style="background-color: #ffffff00;" bindtap="clickCollect">
+    <view class="cu-item">
+      <text class="{{article.iscollect?'cuIcon-favorfill lg text-gray':'cuIcon-favor lg text-gray'}}"></text>
+    </view>
+  </view>
+
+<!-- 点赞 -->
+  <view class="article_recommend cu-list grid col-3" style="background-color: #ffffff00;" bindtap="clickLike">
+    <view class="cu-item" style="margin-top: 50rpx;">
+      <text class="{{article.islike?'cuIcon-appreciatefill lg text-gray':'cuIcon-appreciate lg text-gray'}}"></text>
+      <text>{{article.likeCount}}</text>
+    </view>
+  </view>
+
+  
+
+  <view class="article_userinfo">
+    <view class="text">- 赞过的用户 -</view>
+    <view class="padding">
+      <view class="cu-avatar-group">
+        <view class="cu-avatar round lg" wx:for="{{article.userArr}}" wx:key style="background-image:url({{item.avatarUrl}});"></view>
+      </view>
+    </view>
+  </view>
+
+</view>
+
+
+
+<view class="guide_comment">
+  <view>{{commentCount}}条评论</view>
+  <view wx:if="{{commentCount == 0}}" style="position: absolute;margin-left: 25%;margin-top: 25%;">当前0条评论，快来发表吧！</view>
+  <view class="myComment" wx:for="{{commentArr}}">
+      <view class="padding" style="margin-left: -59rpx;">
+        <view class="cu-avatar radius margin-left" style="background-image:url({{item.avatarUrl}});">
+          <view style="margin-left: 180rpx;color:rgba(0, 0, 0, 0.719);font-size: 40rpx;letter-spacing: 5rpx;"><text>{{item.nickName}}</text></view>
+        </view>
+        <view class="guide_comment_text">
+          <text>
+            {{item.guide_comment}}
+          </text>      
+        </view>
+      </view>
+      
+  </view>
+</view>
+
+
+
+
+<view class="comment_public cu-bar search bg-white">
+  <view class="search-form round">
+    <text class="cuIcon-edit lg text-gray"></text>
+    <input type="text" placeholder="我也来说两句..." confirm-type="search" model:value="{{guide_comment}}"  bindinput="getComment" bindconfirm='goComment'></input>
+  </view>
+  <view class="action">
+
+    <button class="cu-btn shadow-blur round" style="{{guide_comment?'width: 120rpx;color: white;background-color: rgb(228, 169, 60);font-size: 30rpx;text-align: center;':'width: 120rpx;color: white;background-color: rgb(190, 190, 190);font-size: 30rpx;text-align: center;'}}"><text bindtap='goComment'>发表</text></button>
+  </view>
+</view>

@@ -1,0 +1,74 @@
+<!--pages/localCulture/localCulture.wxml-->
+<!-- 顶部图 -->
+<view class="top_backgroud"><text class="top_text">游村攻略，乡土文化</text></view>
+<!-- 底部容器 -->
+<view class="content_box">
+    <!-- 轮播图 -->
+    <swiper indicator-dots="true" indicator-color="rgba(0,0,0,.3)" indicator-active-color="white" autoplay="true" interval="3000" circular="true" class="swiper_container">
+
+        <swiper-item class="img" wx:for="{{swiperShow}}" wx:key="index">
+            <image mode="aspectFill" src="{{item.topImage}}" bindtap="gotoInfo" data-swiper_id="{{item._id}}"></image>
+        </swiper-item>
+    </swiper>
+    <!-- 新版导航栏 -->
+    <view class="lead">
+        <view class="cu-bar search bg-white">
+            <button class="cu-btn icon" style="height: 80rpx;width: 80rpx;">
+                <text style="font-size: 40rpx;color:rgb(199, 195, 195);font-family:fantasy;" bindtap="goSearch">搜</text>
+            </button>
+            <view class="search-form round">
+                <text class="cuIcon-search"></text>
+                <input type="text" placeholder="搜索图片、文章、视频" model:value="{{guide_search}}" confirm-type="search" bindinput="getSearchKey" bindconfirm='goSearch'></input>
+            </view>
+
+            <view class="action">
+                <view class="section">
+                    <picker bindchange="bindPickerChange" value="{{index}}" range="{{areaList}}">
+                        <view style="font-size:30rpx">
+                            {{objectArray[index].name}}
+                            <text class="cuIcon-triangledownfill"></text>
+                        </view>
+                    </picker>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 文章 -->
+    <!-- article容器**************begin -->
+    <view class="article_container">
+        <!-- 文章内容content容器*****wx:for循环**************begin -->
+        <view class="article_list" wx:for="{{listArr}}" wx:key="index">
+            <!-- 文章内容wx:if判断攻略文章是否已审核************begin -->
+            <view class="article_for" wx:if="{{item.check == true}}">
+
+                <!-- 点击文章跳转***********begin -->
+                <view class="article_content" bindtap="gotoCultureArticle" data-info="{{item._id}}">
+                    <!-- 文章缩略图****************begin -->
+                    <view class="article_content_img">
+                        <image class="img" mode="aspectFill" src="{{item.topImage}}" />
+                    </view>
+                    <!-- 文章缩略图****************end -->
+                    <!-- 文章内容****************************************begin -->
+                    <view class="article_content_text">
+                        <!-- 文章标题-->
+                        <view class="article_title">{{item.title}}</view>
+                        <!-- 文章信息 -->
+                        <view class="article_info">
+                            <rich-text nodes="{{item.content}}"></rich-text>
+                        </view>
+                        <!-- 文章内容****************************************end -->
+                    </view>
+                    <!-- 点击文章跳转***********end -->
+                </view>
+                <!-- 文章内容wx:if判断攻略文章是否已审核************end -->
+            </view>
+            <!-- 文章内容content容器*****wx:for循环**************end -->
+        </view>
+
+        <!-- article容器**************end -->
+    </view>
+
+</view>
+
+<view wx:if="{{unloading==true}}" class="cu-load bg-grey {{'over'}}" style="position: relative;margin-top:-130rpx;width: 100%;"></view> <!-- 处理内容到底部情况 -->

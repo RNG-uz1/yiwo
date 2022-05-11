@@ -9,12 +9,14 @@
       <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/ir97eto91p225oyzr9draewbscawn5pe_.png"></image>
       <text>农产品商城</text>
     </view>
-    <view class="item">
+    <view class="item" bindtap="gotoGuide">
       <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/cwsejepi6akmjn601e51lt8s2okidsma_.png"></image>
       <text>旅游攻略</text>
     </view>
-    <view class="item">
+
+    <view class="item" bindtap="gotoLocalCulture">
       <image class="icon2" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-05-10/6sj0gbfu83qjza9fjrfygvflnrbybupn_.png"></image>
+
       <text>乡土文化</text>
     </view>
   </view>

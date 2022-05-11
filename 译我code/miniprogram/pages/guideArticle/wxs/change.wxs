@@ -1,0 +1,42 @@
+module.exports={
+    //数量变化值
+    getNumber:function(num){
+      if(num<1000){
+        return num
+      }else if(num>=1000 && num<10000){
+        var n=(num/1000).toFixed(1)+"k"
+        return n
+      }else if(num>=10000 && num<100000){
+        var n=(num/10000).toFixed(1)+'w'
+        return n
+      }else if(num>=100000){
+        return "10w+"
+      }else{
+        return 0
+      }
+    },
+
+
+    
+
+  //多功能时间戳转时间格式方法
+  getTime:function(t,type=0){
+    var time=getDate(t);
+    var year=time.getFullYear()+"";
+    var month=time.getMonth()+1;
+    month=month<10 ? "0"+month : month+"";
+    var day=time.getDate();
+    day=day<10 ? "0"+day :day+"";
+    var hours=time.getHours();
+    hours=hours<10 ? "0"+hours : hours+"";
+    var min = time.getMinutes();
+    min=min<10 ? "0"+min :min+"";
+    var second=time.getSeconds();
+    second=second<10 ? "0"+second :second+"";
+    var arr=[
+      year+"-"+month+"-"+day,
+      year+"-"+month+"-"+day+" "+hours+":"+min+":"+second      
+    ]
+    return arr[type]    
+  }
+}

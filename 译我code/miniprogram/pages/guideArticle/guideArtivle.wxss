@@ -1,0 +1,97 @@
+/* pages/guideArticle/guideArtivle.wxss */
+@import "/pages/guide/icon.wxss";
+/*引入COLORUI*/
+@import "/pages/guide/main.wxss";
+/*引入COLORUI*/
+/*评论*/
+
+.guide_comment{  
+  width: 100%;
+  padding: 50rpx 30rpx;
+  margin-top: 30rpx;
+  margin-bottom: 100rpx;
+  min-height: 500rpx;
+  background-color: white;
+}
+
+.comment_public{
+  position: fixed;
+  width: 100%;
+  bottom:0;
+  z-index: 9999;
+}
+.myComment{
+  margin-top: 50rpx;
+}
+.guide_comment_text{
+
+  width: 90%;
+  min-height: 200rpx;
+  margin-left: 110rpx;
+  letter-spacing: 5rpx;
+  word-break:break-all;
+}
+/*评论*/
+
+
+.article_detail {
+  /*设置文章页属性*/
+  width: 100%;
+  padding: 50rpx 30rpx;
+  background-color: white;
+}
+
+.article_detail .article_title {
+  /*设置文章页标题属性*/
+  font-size: 50rpx;
+  line-height: 0.1em;
+  padding-bottom: 100rpx;
+  text-align: center;
+}
+
+.article_detail .article_content {
+  /*设置文章页内容属性*/
+  font-size: 36rpx;
+  color: #333;
+  line-height: 1.8em;
+  text-align: justify;
+  padding-bottom: 30rpx;
+}
+
+.article_detail .article_info {
+  /*设置文章页作者、阅读数量、创建时间、位置属性*/
+  padding-top: 50rpx;
+  font-size: 30rpx;
+  color: #666;
+}
+
+.article_detail .article_info .row {
+  /*设置点赞*/
+  line-height: 2em;
+}
+
+
+.article_recommend {
+  /*设置点赞*/
+  margin: 50rpx auto 50rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.article_userinfo {
+  /*赞过用户设置flex主轴位column*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 50rpx;
+}
+
+.article_userinfo .text {
+  /*赞过用户文字设置*/
+  color: #666;
+  font-size: 40rpx;
+  padding-bottom: 10rpx
+}
