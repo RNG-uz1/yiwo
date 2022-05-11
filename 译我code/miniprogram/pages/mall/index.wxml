@@ -84,9 +84,9 @@
   </scroll-view>
 </view>
 <!-- 提交订单时还未登录的弹窗 -->
-<view class='toast_box' hidden='{{!isShowAddressSetting}}' bindtap="closeLoginView">
+<!-- <view class='toast_box' hidden='{{!isShowAddressSetting}}' bindtap="closeLoginView">
   <view class='toastbg'></view>
   <view class='showToast'>
     <button class="toast_btn" type="primary" bindtap="goLogin">授权登陆</button>
   </view>
-</view>
+</view> -->

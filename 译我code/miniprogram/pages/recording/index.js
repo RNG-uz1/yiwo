@@ -37,16 +37,7 @@ Page({
 
     //线
 
-    polyline1: [{
-      points: [],
-      width: 10,
-      color: "#FCA266",
-      dottedLine: false,
-      arrowLine: true,
-      borderWidth: 2,
-      borderColor:'#FA6400',
-      arrowIconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/2au233yrbjs1nnb1d56z6h0nauvut9om_.png'
-    }]
+      
   },
 
   //点击关闭展示中的照片

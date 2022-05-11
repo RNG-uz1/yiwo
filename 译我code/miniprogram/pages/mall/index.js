@@ -331,6 +331,17 @@ Page({
   },
   // 跳转确认订单页面
   gotoOrder: function () {
+
+      let userinfo = app.globalData.userInfo;
+      if (!userinfo || !userinfo.nickName) {
+        wx.showToast({
+          icon: 'none',
+          title: '请去个人中心先登录',
+        })
+        return;
+      }
+
+
     var arr = wx.getStorageSync('cart') || [];
     if (!arr || arr.length == 0) {
       wx.showModal({

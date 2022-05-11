@@ -1,5 +1,5 @@
 page {
-  background: gainsboro;
+  background: #f4f4f4;
 }
 
 .shopcart_delete {

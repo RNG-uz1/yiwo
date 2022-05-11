@@ -11,7 +11,9 @@
     "pages/cart/index",
     "pages/myOrder/index",
     "pages/pay/index",
-    "pages/myComment/index"
+    "pages/myComment/index",
+    "pages/kefu/index"
+
 
   ],
 

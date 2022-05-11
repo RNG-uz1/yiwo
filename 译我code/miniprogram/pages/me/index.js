@@ -69,18 +69,60 @@ Page({
   },
  
   gotoWatch(e) {
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
     wx.navigateTo({
       url: '/pages/schedule/index',
     })
   },
 
   gotoCar(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
     wx.navigateTo({
       url: '/pages/cart/index',
     })
   },
 
+  gotoKefu(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
+    wx.navigateTo({
+      url: '/pages/kefu/index',
+    })
+  },
+
   gotoOrder(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录',
+      })
+      return;
+    }
     wx.navigateTo({
       url: '/pages/myOrder/index',
     })
@@ -137,7 +179,24 @@ Page({
     })
   },
 
- 
+ gotoGongLue(){
+  wx.showToast({
+    title: '开发中，敬请期待~',
+    icon: 'none',
+  })
+ },
+
+ notDenglu(){
+  let userinfo = app.globalData.userInfo;
+  if (!userinfo || !userinfo.nickName) {
+    console.log("未登录")
+    wx.showToast({
+      icon: 'none',
+      title: '请先登录~',
+    })
+    return;
+  }
+ },
 
 
   isDel(e){
