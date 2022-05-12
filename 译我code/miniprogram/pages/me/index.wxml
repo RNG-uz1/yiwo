@@ -36,11 +36,8 @@
         <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/fqx2iic79vnven3lutbxgjqi50s90lnr_.png"></image>
         <text>客服</text>
       </view>
-      <view class="li" open-type="feedback">
+      <view class="li" open-type="feedback" bindtap="gotoHelpDocument">
         <image class="icon4" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/fa8j74us3ptvvxc15w0x9jmleyfg31et_.png"></image>
-
-
-
         <text>帮助文档</text>
       </view>
       <button class="li" open-type="feedback">
