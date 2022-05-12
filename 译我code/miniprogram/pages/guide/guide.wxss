@@ -1,0 +1,173 @@
+/* pages/guide/guide.wxss */
+@import "/pages/guide/main.wxss";
+/*引入COLORUI*/
+@import "/pages/guide/icon.wxss";
+/*引入COLORUI*/
+
+
+
+/**顶部图---------------------begin*/
+.top_backgroud {
+    width: 100%;
+    height: 450rpx;
+    background-image: url("https://7068-php-vu42p-1301074337.tcb.qcloud.la/yun_img/tucome.png?sign=00add58914291c6003ad1c4fb6aef5e9&t=1650559845");
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    line-height: 260rpx;
+}
+
+.top_text {
+    color: aliceblue;
+
+    font-size: 70rpx;
+    margin-top: 55rpx;
+}
+/**顶部图---------------------end*/
+
+/**底部容器------------------begin*/
+.content_box {
+    position: relative;
+    top: -120rpx;
+    width: 100%;
+    height: auto;
+    background-color: white;
+    border-top-left-radius: 60rpx;
+    border-top-right-radius: 60rpx;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/**底部容器------------------end*/
+
+/**轮播图-------------------begin*/
+.swiper_container {
+    margin-top: 60rpx;
+    width: 90%;
+    height: 360rpx;
+}
+
+.img image {
+  border-radius: 30rpx;
+    width: 100%;
+    height: 100%;
+}
+
+/*轮播图--------------------end**/
+
+/*导航框--------------------begin**/
+.lead {
+    margin-top: 60rpx;
+}
+
+/*导航框--------------------end**/
+
+
+
+
+/**********文章页******begin**********/
+.article_container{
+    margin-top: 60rpx;
+}
+.article_content {
+    padding: 30rpx;
+    margin-bottom: 60rpx;
+    width: 100%;
+    height: 320rpx;
+    border-radius: 35rpx;
+    border: 1rpx solid #bbb6b365;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.226);
+    display: flex;
+}
+
+.article_content_img {
+    width: 250rpx;
+    height: 250rpx;
+    border-radius: 20rpx;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+}
+
+.article_content_text {
+    margin-left: 20rpx;
+    width: 350rpx;
+    height: 270rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5rpx;
+}
+
+.article_title {
+    margin-top: -15rpx;
+    font-size: 45rpx;
+    font-family: cursive;
+    /**多行文本超出begin*/
+    display: -webkit-box;
+    /*设置为弹性盒子*/
+    -webkit-line-clamp: 2;
+    /*最多显示2行*/
+    overflow: hidden;
+    /*超出隐藏*/
+    text-overflow: ellipsis;
+    /*超出显示为省略号*/
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    /*强制英文单词自动换行*/
+    /**多行文本超出end*/
+}
+
+.article_info {
+    display: -webkit-box;
+    word-break: break-all;
+
+    font-size: 30rpx;
+    font-family: cursive;
+    color: #888;
+    /**多行文本超出begin*/
+    display: -webkit-box;
+    /*设置为弹性盒子*/
+    -webkit-line-clamp: 3;
+    /*最多显示3行*/
+    overflow: hidden;
+    /*超出隐藏*/
+    text-overflow: ellipsis;
+    /*超出显示为省略号*/
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+    /*强制英文单词自动换行*/
+    /**多行文本超出end*/
+}
+
+/**********文章页******end**********/
+
+/**********触底刷新********* begin**********/
+/*外层容器，防止穿透点击*/
+.canui-load{
+    position:fixed;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left:0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index:99999;
+}
+/*关闭设置的阴影层，关闭底部距离，让它居中*/
+.canui-load .cu-load.load-modal{
+    box-shadow:inherit;
+    bottom:0;
+}
+/*修改加载圈圈颜色*/
+.canui-load .cu-load.load-modal::after{
+    border-left: 6rpx solid #0081ff;
+}
+/**********触底刷新********* end**********/

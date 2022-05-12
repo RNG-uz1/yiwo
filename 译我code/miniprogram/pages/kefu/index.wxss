@@ -1,0 +1,35 @@
+page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kefu{
+  width: 300rpx;
+  height: 300rpx;
+  margin-top: 15%;
+  margin-bottom: 40rpx;
+}
+
+.kefu2{
+  width: 300rpx;
+  height: 300rpx;
+  margin-top: 13%;
+  margin-bottom: 40rpx;
+}
+
+.des{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+text{
+  margin-bottom: 15rpx;
+}
+
+.phone{
+  margin-top: 15rpx;
+  width: 100rpx;
+  height: 100rpx;
+}

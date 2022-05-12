@@ -10,6 +10,7 @@ page{
   align-items: center;
   height: 150rpx;
   width: 650rpx;
+  border-top: 1px solid #cccbcb;
 }
 
 .line .line-icon{
@@ -22,10 +23,10 @@ page{
 
 .line .description{
   display: flex;
-  width: 65%;
+  width: 70%;
   flex-direction: column;
   position: absolute;
-  left: 250rpx;
+  left: 200rpx;
 }
 
 .line .description .description-time{

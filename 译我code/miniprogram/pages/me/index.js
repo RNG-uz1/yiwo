@@ -69,8 +69,72 @@ Page({
   },
  
   gotoWatch(e) {
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
     wx.navigateTo({
       url: '/pages/schedule/index',
+    })
+  },
+
+  gotoCar(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
+    wx.navigateTo({
+      url: '/pages/cart/index',
+    })
+  },
+
+  gotoKefu(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录~',
+      })
+      return;
+    }
+    wx.navigateTo({
+      url: '/pages/kefu/index',
+    })
+  },
+
+  gotoOrder(){
+    let userinfo = app.globalData.userInfo;
+    if (!userinfo || !userinfo.nickName) {
+      console.log("未登录")
+      wx.showToast({
+        icon: 'none',
+        title: '请先登录',
+      })
+      return;
+    }
+    wx.navigateTo({
+      url: '/pages/myOrder/index',
+    })
+  },
+  gotoHelpDocument(){
+    wx.navigateTo({
+      url: '/pages/helpDocument/helpDocument',
+    })
+  },
+  gotoMyCollect(){
+    wx.navigateTo({
+      url: '/pages/myCollect/myCollect',
     })
   },
 
@@ -125,7 +189,24 @@ Page({
     })
   },
 
- 
+ gotoGongLue(){
+  wx.showToast({
+    title: '开发中，敬请期待~',
+    icon: 'none',
+  })
+ },
+
+ notDenglu(){
+  let userinfo = app.globalData.userInfo;
+  if (!userinfo || !userinfo.nickName) {
+    console.log("未登录")
+    wx.showToast({
+      icon: 'none',
+      title: '请先登录~',
+    })
+    return;
+  }
+ },
 
 
   isDel(e){
@@ -226,7 +307,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log(123)
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({  // 文档中有介绍 getTabBar用于获取当前组件实例
+        selected: 2,
+        show:true
+      })
+    }
   },
 
   /**

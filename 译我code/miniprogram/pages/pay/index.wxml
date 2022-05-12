@@ -1,0 +1,40 @@
+<!--购物明细 -->
+<view class="mingxi_title">购物明细</view>
+<block class="item" wx:for="{{cartList}}" wx:key="index">
+	<view class="mingxi_item">
+		<text class="good_name">{{item.name}} X{{item.quantity}}</text>
+		<text class="base_color">￥{{item.price}}</text>
+	</view>
+</block>
+<!-- 总价 -->
+<view class="zongjia">合计：<span>{{totalPrice}}元，{{totalNum}}份</span></view>
+<!-- 分割线 -->
+<view class="base_line_10rpx"></view>
+<!--备注  -->
+<input class="beizhu" bindinput="getRemark" placeholder="请输入备注" value="{{remarks}}" />
+<!-- 分割线 -->
+<view class="base_line_10rpx"></view>
+<!--地址 -->
+
+	<text class='title'>请选择您的地址:</text>
+
+<view class="address">
+	<view class='item_address' wx:if="{{isShowMyAddress}}" bindtap="addAdress">
+		<text class='address_name'>{{address.userName}}</text>
+		<text class='address_phone'>{{address.phone}}</text>
+		<text class='address_desc'>{{address.address}}</text>
+		<view class='right_arrow' />
+	</view>
+	<view wx:if="{{!isShowMyAddress}}" class='my_item' bindtap="addAdress">
+		<text>添加地址</text>
+		<view class='right_arrow' />
+	</view>
+
+</view>
+
+
+
+<button class="all_money" size="{{primarySize}}" disabled="{{disabled}}" bindtap="submitOrder">
+		总计：{{totalPrice}}元，{{totalNum}}件
+</button>
+

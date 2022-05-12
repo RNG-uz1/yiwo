@@ -23,9 +23,13 @@ Page({
 
     polyline: [{
       points: [],
-      width: 4,
-      color: '#15cda8',
-      dottedLine: false
+      width: 10,
+      color: "#FCA266",
+      dottedLine: false,
+      arrowLine: true,
+      borderWidth: 2,
+      borderColor:'#FA6400',
+      arrowIconPath:"https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/2au233yrbjs1nnb1d56z6h0nauvut9om_.png"
     }]
   },
 
@@ -254,6 +258,11 @@ Page({
           albumID:albumFor,
           albumShow:1
         })
+        wx.previewImage({
+          current:'', // 当前显示图片的http链接
+          urls:albumFor // 需要预览的图片http链接列表
+      })
+      
       })
   
     // wx.cloud.database().collection('point').where({
@@ -404,6 +413,12 @@ Page({
       }).then(function (value) {
         that.cms(value, updatePhoto)
       })
+    }
+    else{
+      wx.previewImage({
+        current:e.currentTarget.dataset.uploadId, // 当前显示图片的http链接
+        urls:[e.currentTarget.dataset.uploadId] // 需要预览的图片http链接列表
+    })
     }
   },
 

@@ -1,16 +1,55 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/village/index",
     "pages/recording/index",
     "pages/me/index",
-    "pages/camera/index",
-
     "pages/schedule/index",
     "pages/link/index",
-    "pages/link-picture/index"
+    "pages/mall/index",
+    "pages/detail/index",
+    "pages/cart/index",
+    "pages/myOrder/index",
+    "pages/pay/index",
+    "pages/myComment/index",
 
+    "pages/kefu/index",
+
+
+
+    "pages/helpDocument/helpDocument",
+    "pages/guide/guide",
+    "pages/guideArticle/guideArtivle",
+    "pages/myCollect/myCollect",
+    "pages/localCulture/localCulture",
+    "pages/localCultureArticle/localCultureArticle"
 
   ],
+
+  "tabBar": {
+    "custom": true,
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "text":"首页",
+      "iconPath": "images/tBarOne.png",
+      "selectedIconPath": "images/tBarOne_color.png"
+    }, {
+      "pagePath": "pages/village/index",
+      "text":"乡村",
+      "iconPath": "images/tBarTwo.png",
+      "selectedIconPath": "images/tBarTwo_color.png"
+    },{
+      "pagePath": "pages/me/index",
+      "text":"个人",
+      "iconPath": "images/tBarThree.png",
+      "selectedIconPath": "images/tBarThree_color.png"
+    }]
+  },
+
 
   "requiredBackgroundModes": ["location"],
 
@@ -26,9 +65,10 @@
 
   "window": {
     "backgroundColor": "#F6F6F6",
-
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#099A97"
+    "navigationBarColor": "#000000",
+    "navigationBarTextStyle": "black",
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#25c2bf"
   },
 
   "sitemapLocation": "sitemap.json",
@@ -38,6 +78,5 @@
   
     "usingComponents": {
       "rate": "wechat-miniprogram-rate"
-    
   }
 }

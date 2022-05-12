@@ -6,59 +6,33 @@ Page({
    * 页面的初始数据
    */
   data: {
-    howToUse: 0
-  },
-
-  //弹窗
-  popUp() {
-    wx.showToast({
-      title: `左上角登录后再来哦`,
-      icon: 'none'
-    })
-  },
-
-  //跳转页面——我的
-  gotoMe(e) {
-    console.log('调用一次')
-    wx.navigateTo({
-      url: `/pages/me/index`
-    })
-  },
-
-  //展示使用说明
-  showInfo() {
-    if (this.data.howToUse == 0) {
-      this.setData({
-        howToUse: 1
-      })
-    }
-  },
-
-  close() {
-    this.setData({
-      howToUse: 0
-    })
   },
 
 
   //跳转页面  打卡记录
   gotuRecording(e) {
     var that = this
-    new Promise(function (resolve, reject) {
-      that.getAuth()
-      resolve()
-    }).then(function (value) {
-      wx.getSetting({
-        success(res){
-          if (res.authSetting['scope.userLocationBackground']) {
-            wx.navigateTo({
-              url: `/pages/recording/index`
-            })
+    if (app.globalData.userInfo != null){
+      new Promise(function (resolve, reject) {
+        that.getAuth()
+        resolve()
+      }).then(function (value) {
+        wx.getSetting({
+          success(res){
+            if (res.authSetting['scope.userLocationBackground']) {
+              wx.navigateTo({
+                url: `/pages/recording/index`
+              })
+            }
           }
-        }
+        })
       })
-    })
-
+    }else{
+      wx.showToast({
+        title: '请到个人页面先登录哦~',
+        icon: 'none'
+      })
+    }
   },
 
   getAuth() {
@@ -70,7 +44,7 @@ Page({
         if (!res.authSetting['scope.userLocationBackground']) {
           wx.showModal({
             confirmText: '去设置',
-            content: '请将位置信息由“使用中”更改为“使用小程序期间和离开后”',
+            content: '请将位置信息由更改为“使用小程序期间和离开后”',
             showCancel: false,
             title: '提示',
             success: (result) => {
@@ -103,12 +77,33 @@ Page({
    */
   onShow: function () {
     var that = this
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({  // 文档中有介绍 getTabBar用于获取当前组件实例
+        selected: 0,
+        show:true
+      })
+    }
+
     setTimeout(function () {
       console.log(app.globalData.userInfo)
-      that.setData({
-        user: app.globalData.userInfo
+      wx.cloud.database().collection('user').where({
+        _openid : app.globalData.userInfo._openid
+      }).get({
+        success(res){
+          console.log(res)
+          if(res.data[0].isLoad == false ){
+            wx.stopLocationUpdate({
+              success(result){
+                console.log('定位关闭')
+              }
+            })
+          }else{
+            console.log('路线中')
+          }
+        }
       })
     }, 1000)
+
 
     //隐藏左上角
     wx.hideHomeButton({

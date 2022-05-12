@@ -37,12 +37,7 @@ Page({
 
     //线
 
-    polyline1: [{
-      points: [],
-      width: 4,
-      color: "#15cda8",
-      dottedLine: false
-    }]
+      
   },
 
   //点击关闭展示中的照片
@@ -78,10 +73,11 @@ Page({
       })
     }).then(function (value) {
       clearInterval(i) //关闭保存路径时产生的倒计时）
+      console.log('关闭计时器',i)
       wx.offLocationChange() //关闭获取定位接口
     }).then(function (value) {
       //跳转到主页
-      wx.navigateTo({
+      wx.switchTab({
         url: `/pages/index/index`
       })
     })
@@ -120,8 +116,9 @@ Page({
             }
           })
           clearInterval(i) //关闭倒计时
+          console.log('关闭计时器',i)
           //页面跳转
-          wx.navigateTo({
+          wx.switchTab({
             url: '/pages/index/index',
           })
         }
@@ -163,16 +160,6 @@ Page({
 
 
   onShow: function (options) {
-    var that = this
-    var pointID
-    var d
-    var longitude1
-    var latitude1
-
-    console.log('onshow')
-
-    //判断用户是否确定了保存照片
-
   },
 
   createPoint(longitude1, latitude1, _locationChangeFn, onlyPoiny) {
@@ -245,6 +232,7 @@ Page({
 
           //取消获取实时位置的定时器
           clearInterval(i)
+          console.log('关闭计时器',i)
           wx.offLocationChange()
           //更改用户状态
           wx.cloud.database().collection('user').where({
@@ -595,6 +583,7 @@ Page({
     lat1 = 0
     lng1 = 0
 
+    clearInterval(i)
     i = setInterval(function (result) {
       console.log(i)
       wx.startLocationUpdateBackground({
@@ -814,7 +803,10 @@ Page({
         that.cms(value, updatePhoto) //照片上传云托管
       })
     } else {
-      console.log('不是上传图标')
+      wx.previewImage({
+        current:e.currentTarget.dataset.uploadId, // 当前显示图片的http链接
+        urls:[e.currentTarget.dataset.uploadId] // 需要预览的图片http链接列表
+    })
     }
   },
 
