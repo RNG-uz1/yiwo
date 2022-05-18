@@ -131,7 +131,6 @@ Page({
     Promise.all(proArr).then(res => {
       new Promise(function (resolve, reject) {
         //调起支付
-        var that = this
         wx.cloud.callFunction({
           name: 'newPay',
           data: {
