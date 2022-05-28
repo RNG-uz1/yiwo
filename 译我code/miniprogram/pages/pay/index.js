@@ -117,7 +117,8 @@ Page({
         success: function(res){
           proArr.push(pro)
           goods.push({
-            _id: res._id,
+            order_id: res._id,
+            _id: item._id,
             quantity: -item.quantity
           })
         },
@@ -130,7 +131,6 @@ Page({
     Promise.all(proArr).then(res => {
       new Promise(function (resolve, reject) {
         //调起支付
-        var that = this
         wx.cloud.callFunction({
           name: 'newPay',
           data: {
@@ -150,7 +150,7 @@ Page({
               fail(res){
                 console.error('支付失败',res)
                 goods.forEach(item => {
-                  db.collection("order").doc(item._id).remove({
+                  db.collection("order").doc(item.order_id).remove({
                     success(res11){
                       console.log("删除订单成功",res11)
                     },
@@ -166,7 +166,7 @@ Page({
           fail :res => {
             console.log("获取参数支付失败",res)
             goods.forEach(item => {
-              db.collection("order").doc(item._id).remove({
+              db.collection("order").doc(item.order_id).remove({
                 success(res11){
                   console.log("删除订单成功",res11)
                 },

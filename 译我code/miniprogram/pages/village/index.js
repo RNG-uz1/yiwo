@@ -39,6 +39,16 @@ Page({
       url: '/pages/mall/index',
     })
   },
+  gotoGuide(){
+    wx.navigateTo({
+      url: '/pages/guide/guide',
+    })
+  },
+  gotoLocalCulture(){
+    wx.navigateTo({
+      url: '/pages/localCulture/localCulture',
+    })
+  },
 
   gotoTree(){
     wx.showToast({
