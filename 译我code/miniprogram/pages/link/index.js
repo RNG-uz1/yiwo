@@ -117,6 +117,14 @@ Page({
     })
   },
 
+show(){
+  wx.showModal({
+    content:'如果您在本次路径中选择了将照片存于本地，照片在本地被删除后，小程序内将不会显示。',
+    showCancel: false,
+    confirmText: '确定',
+  })
+},
+
  //坐标删除照片
  delPhoto() {
   var that = this

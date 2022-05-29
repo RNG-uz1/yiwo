@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    ssr:"wxfile://store_8d0a5273ea7fbcc58bf40350aa094a9d235b5f426128dc5b.jpg",
   },
 
   /**
