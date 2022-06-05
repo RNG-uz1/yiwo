@@ -1,6 +1,6 @@
 /* 顶部菜单切换 */
 page {
-  background-color: gainsboro;
+  background-color: #f4f4f4;
 }
 
 .navbar {
@@ -54,7 +54,7 @@ page {
   background-color: white;
   margin-top: 6rpx;
   width: 100%;
-  margin-bottom: 6rpx;
+  margin-bottom: 16rpx;
 }
 
 .dingdanbianhao {
@@ -117,10 +117,10 @@ page {
 
 .cancle {
   /* 取消订单 */
-  color: gray;
+  color: rgb(255, 95, 95);
   margin-right: 15rpx;
   text-align: center;
-  border: 1rpx solid gray;
+  border: 1rpx solid rgb(255, 85, 85);
   font-size: 24rpx;
 }
 

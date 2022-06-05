@@ -54,8 +54,27 @@
 </view>
 
 
-
 <view class="guide_comment">
+  <view>{{commentCount}}条评论</view>
+  <view wx:if="{{commentCount == 0}}" style="position: absolute;margin-left: 25%;margin-top: 25%;">当前0条评论，快来发表吧！</view>
+  <view class="myComment" wx:for="{{commentArr}}"> 
+  <!-- wx:for="{{commentArr}}" -->
+      <view class="padding">
+        <view class="cu-avatar radius" style="background-image:url({{item.avatarUrl}});"></view>
+        <view class="guide_comment_text" style="color:rgba(0, 0, 0, 0.719);font-size: 40rpx;letter-spacing: 5rpx;margin-top:-60rpx;"><text>{{item.nickName}}</text></view>
+        <view class="guide_comment_text" style="margin-top:-80rpx;">
+          <text>
+            {{item.guide_comment}}
+          </text>      
+        </view>
+      </view>
+      
+  </view>
+</view>
+
+
+
+<!-- <view class="guide_comment">
   <view>{{commentCount}}条评论</view>
   <view wx:if="{{commentCount == 0}}" style="position: absolute;margin-left: 25%;margin-top: 25%;">当前0条评论，快来发表吧！</view>
   <view class="myComment" wx:for="{{commentArr}}">
@@ -71,7 +90,7 @@
       </view>
       
   </view>
-</view>
+</view> -->
 
 
 

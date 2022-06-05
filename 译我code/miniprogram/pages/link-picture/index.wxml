@@ -1,20 +1,4 @@
 <!--pages/link-picture/index.wxml-->
 <view class="page">
-  <view class="under">
-    <text>这是地图</text>
-    <view class="descriptions">
-      <view class="description-time">
-        时间：2022-1-10
-      </view>
-      <view class="description-detail">
-        描述：今天和XX去登上，看到了美丽的风景，然后还一起吃了饭，很开心
-      </view>
-    </view>
-  </view>
-  <view class="float">
-  </view>
-  <view class="float-next">
-    <view class="font">此处有风景照</view>
-    <image class="picture" src="/miniprogram/images/picture.jpg"></image>
-  </view>
+  <image src="{{ssr}}"></image>
 </view>

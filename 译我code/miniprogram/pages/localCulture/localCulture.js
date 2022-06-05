@@ -174,7 +174,12 @@ Page({
         this.getData(0,this.data.guide_search,this.data.objectArray[e.detail.value].name);
     },
     /**省份picker------------------------------------end */
-
+     /** 发布攻略 */
+     goPublish(){
+      wx.navigateTo({
+        url: '../addLocalCulture/addLocalCulture'
+      })
+    },   
     //图片页面跳转
     gotoInfo(e){
       console.log(e.target.dataset.swiper_id);

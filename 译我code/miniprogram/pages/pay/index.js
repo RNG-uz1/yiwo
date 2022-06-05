@@ -77,7 +77,8 @@ Page({
 
 
   //提交订单
-  submitOrder(e) {
+  submitOrder() {
+    var that = this
     let address = this.data.address
     if (!address || !address.address) {
       wx.showToast({
@@ -112,48 +113,108 @@ Page({
           status: 0, //-1订单取消,0新下单发货,1已收货待评价,2订单已完成
           // _createTime: db.serverDate() //创建的时间
           _createTime: new Date().getTime() //创建的时间
-        }
-      })
-      proArr.push(pro)
-      goods.push({
-        _id: item._id,
-        quantity: -item.quantity
+        },
+        success: function(res){
+          proArr.push(pro)
+          goods.push({
+            order_id: res._id,
+            _id: item._id,
+            quantity: -item.quantity
+          })
+        },
       })
     })
-
+    that.setData({
+      goods : goods,
+    })
+    var totalFee = that.data.totalPrice*100
     Promise.all(proArr).then(res => {
-      console.log("支付成功", res)
-      // 支付方式关闭动画
-      this.animation.translate(0, 285).step();
-      this.setData({
-        animationData: this.animation.export()
-      });
-      this.setData({
-        maskFlag: true
-      });
-      wx.showToast({
-        title: '下单成功！',
-      })
-      //支付成功后，把商品数量减少对应个数
-      wx.cloud.callFunction({
-        name: "addXiaoLiang",
-        data: {
-          goods: goods
-        }
-      }).then(res => {
-        console.log('添加销量成功', res)
-        wx.setStorageSync('cart', "")
-        wx.switchTab({
-          url: '../me/index',
-        })
-      }).catch(res => {
-        console.log('添加销量失败', res)
-        wx.showToast({
-          icon: 'none',
-          title: '支付失败',
-        })
-      })
+      new Promise(function (resolve, reject) {
+        //调起支付
+        wx.cloud.callFunction({
+          name: 'newPay',
+          data: {
+            goodName: "商品", 
+            totalFee: totalFee
+          },
+          success: res => {
+            console.log("获取参数支付成功",res)
+            const payment = res.result.payment
+            //调用支付
+            wx.requestPayment({
+              ...payment,
+              success(res) {
+                console.log('支付成功',res)
+                resolve("success")
+              },
+              fail(res){
+                console.error('支付失败',res)
+                goods.forEach(item => {
+                  db.collection("order").doc(item.order_id).remove({
+                    success(res11){
+                      console.log("删除订单成功",res11)
+                    },
+                    fail(res11){
+                      console.log("删除订单失败",res11)
+                    }
+                  })  
+                })
+                resolve("fail")
+              }
+            })
+          },
+          fail :res => {
+            console.log("获取参数支付失败",res)
+            goods.forEach(item => {
+              db.collection("order").doc(item.order_id).remove({
+                success(res11){
+                  console.log("删除订单成功",res11)
+                },
+                fail(res11){
+                  console.log("删除订单失败",res11)
+                }
+              })  
+            })
+            resolve("fail")
+          }
+        })  
 
+
+      }).then(function(value){
+        console.log(value)
+        if(value == "success"){
+
+          console.log("支付成功,已扣款")
+          wx.showToast({
+            title: '下单成功！',
+          })
+          //支付成功后，把商品数量减少对应个数
+          wx.cloud.callFunction({
+            name: "addXiaoLiang",
+            data: {
+              goods: goods
+            }
+          }).then(res => {
+            console.log('添加销量成功', res)
+            wx.setStorageSync('cart', "")
+            wx.switchTab({
+              url: '../me/index',
+            })
+          }).catch(res => {
+            console.log('添加销量失败', res)
+            wx.showToast({
+              icon: 'none',
+              title: '支付失败',
+            })
+          })
+        }else{
+          wx.showToast({
+            title: '下单失败！',
+            icon: 'none',
+          })
+        }
+      })
+      
     }).catch(res => {
       wx.showToast({
         icon: 'none',
@@ -162,6 +223,21 @@ Page({
       console.log("支付失败", res)
     })
   },
+
+  //支付失败后  删除订单数据
+  removeOrder(){
+    goods.forEach(item => {
+      db.collection("order").doc(item._id).remove({
+        success(res11){
+          console.log("成功",res11)
+        },
+        fail(res11){
+          console.log("失败",res11)
+        }
+      })  
+    })
+  },
+
   // 管理收获地址
   addAdress() {
     wx.chooseAddress({
@@ -197,5 +273,36 @@ Page({
         })
       }
     }
+  },
+
+  goPay(){
+    var that = this
+    var totalFee = that.data.totalPrice*100
+    wx.cloud.callFunction({
+      name: 'newPay',
+      data: {
+        goodName: "土豆", 
+        totalFee: totalFee
+      },
+      success: res => {
+        console.log("获取参数支付成功",res)
+        const payment = res.result.payment
+        //调用支付
+        wx.requestPayment({
+          ...payment,
+          success(res) {
+            console.log('支付成功',res)
+            resolve("success")
+          },
+          fail(res){
+            console.error('支付失败',res)
+            resolve("fail")
+          }
+        })
+      },
+      fail :res => {
+        console.log("获取参数支付失败",res)
+      }
+    })
   }
 })

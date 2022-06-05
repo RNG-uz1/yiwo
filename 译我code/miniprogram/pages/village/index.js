@@ -50,6 +50,13 @@ Page({
     })
   },
 
+  gotoTree(){
+    wx.showToast({
+      title: '开发中，敬请期待~',
+      icon: 'none',
+    })
+  },
+
   /**
    * 生命周期函数--监听页面隐藏
    */

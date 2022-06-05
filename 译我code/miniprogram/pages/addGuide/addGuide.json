@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "hf_editor": "../guide/components/editor/editor"
+  }
+}

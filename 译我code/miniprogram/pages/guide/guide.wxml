@@ -70,5 +70,11 @@
     </view>
 
 </view>
+<!--发布攻略按钮-->
+<view class="cu-list grid">
+    <view class="cu-item mypublish" style="position:fixed;right: 0;bottom: 50rpx;">
+        <view class="cuIcon-roundaddfill lg text-grey" style="font-size: 100rpx;" bindtap="goPublish"></view>
+    </view>
+</view>
 
 <view wx:if="{{unloading==true}}" class="cu-load bg-grey {{'over'}}" style="position: relative;margin-top:-130rpx;width: 100%;"></view> <!-- 处理内容到底部情况 -->

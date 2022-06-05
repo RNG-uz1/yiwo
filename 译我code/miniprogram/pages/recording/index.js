@@ -25,6 +25,17 @@ Page({
 
     photoShow: false,
 
+    polyline1: [{
+      points: [],
+      width: 10,
+      color: "#FCA266",
+      dottedLine: false,
+      arrowLine: true,
+      borderWidth: 2,
+      borderColor:'#FA6400',
+      arrowIconPath:"https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/2au233yrbjs1nnb1d56z6h0nauvut9om_.png"
+    }],
+
     //图片路径
     frontSrc: [],
     newFrontSrc: '',
@@ -37,16 +48,7 @@ Page({
 
     //线
 
-    polyline1: [{
-      points: [],
-      width: 10,
-      color: "#FCA266",
-      dottedLine: false,
-      arrowLine: true,
-      borderWidth: 2,
-      borderColor:'#FA6400',
-      arrowIconPath:'https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/2au233yrbjs1nnb1d56z6h0nauvut9om_.png'
-    }]
+      
   },
 
   //点击关闭展示中的照片
@@ -341,11 +343,12 @@ Page({
         mediaType: ['image'],
         sourceType: ['album', 'camera'],
         success(res) {
+          console.log('照片路径', res.tempFiles[0].tempFilePath)
          wx.showToast({
            title: '正在保存照片',
            duration: 2000
          })
-          console.log('照片路径', res.tempFiles[0].tempFilePath)
+         if(that.data.uploadCMS == 1){
           wx.cloud.uploadFile({
             cloudPath: "pointPhoto/" + (that.data.openid) + "/" + (new Date()).getTime() + Math.floor(9 * Math.random()) + ".jpg", // 对象存储路径，根路径直接填文件名，文件夹例子 test/文件名，不要 / 开头
             filePath: res.tempFiles[0].tempFilePath, // 微信本地文件，通过选择图片，聊天文件等接口获取
@@ -361,7 +364,21 @@ Page({
               resolve()
             },
           })
-          //updatePhoto = that.data.currentPhoto
+         }else{
+          wx.getFileSystemManager().saveFile({
+            tempFilePath: res.tempFiles[0].tempFilePath,
+            success(res2){
+              console.log('成功',res2.savedFilePath)
+              that.setData({
+                newFrontSrc: res2.savedFilePath, //照片路径
+                flag: true
+              })
+              resolve()
+            },fail(res2){
+              console.log('失败',res2)
+            }
+          })
+         }
         },
         fail(res){
           console.log('失败',res)
@@ -509,28 +526,54 @@ Page({
   },
 
   //加载页面时 状态由true改为false  创建一条路径数据并存入
-  createRoute() {
+  createRoute(uploadCMS) {
     var that = this
-    console.log(routeTime1)
-    wx.cloud.database().collection('route').add({
-      data: {
-        start_longitude: that.data.startLongitude,
-        start_latitude: that.data.startLatitude,
-        routeTime: routeTime1, //路径时间戳，用来区别同一地点不同路径
-        time: that.data.time, //路径时间  用来展示
-        route_title: '',
-        description: '点击进行编辑',
-        score: that.data.score,
-        draw: []
-      },
-      success(res) {
-        console.log(res)
-        that.setData({
-          drawTap: true,
-          route_id: res._id
-        })
-      }
-    })
+    if(uploadCMS == 1){
+      console.log('执行1')
+      wx.cloud.database().collection('route').add({
+        data: {
+          start_longitude: that.data.startLongitude,
+          start_latitude: that.data.startLatitude,
+          routeTime: routeTime1, //路径时间戳，用来区别同一地点不同路径
+          time: that.data.time, //路径时间  用来展示
+          route_title: '',
+          uploadCMS:1,
+          description: '点击进行编辑',
+          score: that.data.score,
+          draw: []
+        },
+        success(res) {
+          console.log(res)
+          that.setData({
+            uploadCMS:1,
+            drawTap: true,
+            route_id: res._id
+          })
+        }
+      })
+    }else{
+      wx.cloud.database().collection('route').add({
+        data: {
+          start_longitude: that.data.startLongitude,
+          start_latitude: that.data.startLatitude,
+          routeTime: routeTime1, //路径时间戳，用来区别同一地点不同路径
+          time: that.data.time, //路径时间  用来展示
+          route_title: '',
+          uploadCMS:1,
+          description: '点击进行编辑',
+          score: that.data.score,
+          draw: []
+        },
+        success(res) {
+          console.log(res)
+          that.setData({
+            uploadCMS:0,
+            drawTap: true,
+            route_id: res._id
+          })
+        }
+      })
+    }
   },
 
   //加载上一条路径状态
@@ -670,7 +713,20 @@ Page({
                 }
               }).then(res => {
                 console.log(that.data)
-                that.createRoute() //存入一条路径
+                wx.showModal({
+                  content:'本次路线照片是否上传云端？',
+                  confirmText:'上传',
+                  cancelText:'不上传',
+
+                  success(res1){
+                    if (res1.confirm) {
+                      console.log('点击了确定')
+                      that.createRoute(1) //存入一条路径,且照片上传云端
+                    } else if (res1.cancel) {
+                      that.createRoute(0) //存入一条路径，且照片不上传云端
+                    }
+                  }
+                })
               })
             }
           })

@@ -150,7 +150,7 @@ Page({
       return;
     }
     wx.navigateTo({
-      url: '/pages/pay/pay'
+      url: '/pages/pay/index'
     })
   },
 

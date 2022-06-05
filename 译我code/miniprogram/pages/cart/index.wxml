@@ -10,12 +10,12 @@
             <view class="cai_price">{{item.price}}</view>
             <view class="stepper">
               <view catchtap="minusCount" data-item="{{item}}">
-                <image class="jiajian" src="/image/jian.png" />
+                <image class="jiajian" src="/images/jian.png" />
               </view>
               <view class="value" data-id="{{item._id}}">
                 {{item.quantity}}</view>
               <view catchtap="addCount" data-item="{{item}}">
-                <image class="jiajian" src="/image/jia.png" />
+                <image class="jiajian" src="/images/jia.png" />
               </view>
             </view>
           </view>

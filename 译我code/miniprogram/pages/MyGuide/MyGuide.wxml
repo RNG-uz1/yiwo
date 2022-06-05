@@ -1,0 +1,78 @@
+<!--pages/MyGuide/MyGuide.wxml-->
+<!--pages/myCollect/myCollect.wxml-->
+
+<!-- 底部容器 -->
+<view class="content_box">
+    <!-- 收藏旅游攻略*************************************************************begin -->
+    <!-- article容器**************begin -->
+    <view class="article_container">
+        <!-- 文章内容content容器*****wx:for循环**************begin -->
+        <view class="article_list" wx:for="{{listArr_guide}}" wx:key="index">
+            <!-- 文章内容wx:if判断攻略文章是否已审核************begin -->
+            <view class="article_for" wx:if="{{item.check == true}}">
+
+                <!-- 点击文章跳转***********begin -->
+                <view class="article_content" bindtap="gotoGuideArticle" data-info="{{item._id}}">
+                    <!-- 文章缩略图****************begin -->
+                    <view class="article_content_img">
+                        <image class="img" mode="aspectFill" src="{{item.topImage}}" />
+                    </view>
+                    <!-- 文章缩略图****************end -->
+                    <!-- 文章内容****************************************begin -->
+                    <view class="article_content_text">
+                        <!-- 文章标题-->
+                        <view class="article_title">{{item.title}}</view>
+                        <!-- 文章信息 -->
+                        <view class="article_info">
+                            <rich-text nodes="{{item.content}}"></rich-text>
+                        </view>
+                        <!-- 文章内容****************************************end -->
+                    </view>
+                    <!-- 点击文章跳转***********end -->
+                </view>
+                <!-- 文章内容wx:if判断攻略文章是否已审核************end -->
+            </view>
+            <!-- 文章内容content容器*****wx:for循环**************end -->
+        </view>
+
+        <!-- article容器**************end -->
+    </view>
+    <!-- 收藏乡土文化*************************************************************begin -->
+    <!-- article容器**************begin -->
+    <view class="article_container_localArticle">
+        <!-- 文章内容content容器*****wx:for循环**************begin -->
+         <!-- 文章内容content容器*****wx:for循环**************begin -->
+         <view class="article_list" wx:for="{{listArr_localCulture}}" wx:key="index">
+            <!-- 文章内容wx:if判断攻略文章是否已审核************begin -->
+            <view class="article_for" wx:if="{{item.check == true}}">
+
+                <!-- 点击文章跳转***********begin -->
+                <view class="article_content" bindtap="gotoLocalCultureArticle" data-info="{{item._id}}">
+                    <!-- 文章缩略图****************begin -->
+                    <view class="article_content_img">
+                        <image class="img" mode="aspectFill" src="{{item.topImage}}" />
+                    </view>
+                    <!-- 文章缩略图****************end -->
+                    <!-- 文章内容****************************************begin -->
+                    <view class="article_content_text">
+                        <!-- 文章标题-->
+                        <view class="article_title">{{item.title}}</view>
+                        <!-- 文章信息 -->
+                        <view class="article_info">
+                            <rich-text nodes="{{item.content}}"></rich-text>
+                        </view>
+                        <!-- 文章内容****************************************end -->
+                    </view>
+                    <!-- 点击文章跳转***********end -->
+                </view>
+                <!-- 文章内容wx:if判断攻略文章是否已审核************end -->
+            </view>
+            <!-- 文章内容content容器*****wx:for循环**************end -->
+        </view>
+        <!-- article容器**************end -->
+         <!-- 收藏乡土文化*************************************************************end -->
+    </view>
+</view>
+
+<view wx:if="{{unloading1==true && unloading2==true}}" class="cu-load bg-grey {{'over'}}" style="width: 100%;height: 80rpx;"></view> <!-- 处理内容到底部情况 -->
+

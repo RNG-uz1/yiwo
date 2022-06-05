@@ -14,7 +14,7 @@
         <text>旅行相册</text>
       </view>
       <view class="item">
-        <image class="icon" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/whelj7vqjmh764zchh1d5etqx8lrxzgu_.png"></image>
+        <image class="icon" bindtap="gotoGongLue" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/whelj7vqjmh764zchh1d5etqx8lrxzgu_.png"></image>
         <text>我的攻略</text>
       </view>
       <view class="item" bindtap="gotoMyCollect">
@@ -31,12 +31,17 @@
         <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-30/it89xt09qtm97j48fplp4cx4q49zr8k3_.png"></image>
         <text>购物车</text>
       </button>
+
+      <view class="li" bindtap="gotoKefu">
+        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/fqx2iic79vnven3lutbxgjqi50s90lnr_.png"></image>
+        <text>客服</text>
+      </view>
       <view class="li" open-type="feedback" bindtap="gotoHelpDocument">
-        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/fa8j74us3ptvvxc15w0x9jmleyfg31et_.png"></image>
+        <image class="icon4" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-25/fa8j74us3ptvvxc15w0x9jmleyfg31et_.png"></image>
         <text>帮助文档</text>
       </view>
       <button class="li" open-type="feedback">
-        <image class="icon3" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-04-23/fqx2iic79vnven3lutbxgjqi50s90lnr_.png"></image>
+        <image class="icon4" src="https://7969-yiwo-nft-9gw5pymu18ae114f-1309408715.tcb.qcloud.la/cloudbase-cms/upload/2022-05-09/zkuvno2pdyiky5xznjjzge16xsfv8bnj_.png"></image>
         <text>反馈</text>
       </button>
     </view>
