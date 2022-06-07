@@ -189,6 +189,12 @@ Page({
       })
     },
 
+     /** 发布攻略 */
+     goPublish(){
+      wx.navigateTo({
+        url: '../addGuide/addGuide'
+      })
+    },   
     /**模糊查询 */
     goSearch(){
       console.log(this.data.guide_search);

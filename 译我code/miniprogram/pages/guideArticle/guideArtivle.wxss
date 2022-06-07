@@ -44,7 +44,7 @@
 .article_detail .article_title {
   /*设置文章页标题属性*/
   font-size: 50rpx;
-  line-height: 0.1em;
+  line-height: 1.1em;
   padding-bottom: 100rpx;
   text-align: center;
 }

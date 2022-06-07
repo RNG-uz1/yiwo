@@ -1,6 +1,15 @@
 {
   "pages": [
+
     "pages/index/index",
+    "pages/MyGuide/MyGuide",
+    "pages/addLocalCulture/addLocalCulture",
+    "pages/addGuideContent/addGuideContent",
+    "pages/addGuide/addGuide",
+    "pages/localCulture/localCulture",
+    "pages/guide/guide",
+    "pages/guideArticle/guideArtivle",
+    "pages/myCollect/myCollect",
     "pages/village/index",
     "pages/recording/index",
     "pages/me/index",
@@ -12,16 +21,8 @@
     "pages/myOrder/index",
     "pages/pay/index",
     "pages/myComment/index",
-
     "pages/kefu/index",
-
-
-
     "pages/helpDocument/helpDocument",
-    "pages/guide/guide",
-    "pages/guideArticle/guideArtivle",
-    "pages/myCollect/myCollect",
-    "pages/localCulture/localCulture",
     "pages/localCultureArticle/localCultureArticle"
 
   ],

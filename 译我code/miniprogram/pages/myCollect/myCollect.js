@@ -46,6 +46,9 @@ Page({
       }).then(res=>{
         console.log("下拉");
         console.log(res.result.data);
+        for (var index in res.result.data) {
+          res.result.data[index].collectcontent= res.result.data[index].collectcontent.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g,"");
+         }
         this.setData({
           listArr_guide: res.result.data
         })
@@ -60,6 +63,10 @@ Page({
       }).then(res=>{
         console.log("下拉");
         console.log(res.result.data);
+        for (var index in res.result.data) {
+
+          res.result.data[index].collectcontent= res.result.data[index].collectcontent.replace(/<img [^>]*src=['"]([^'"]+)[^>]*>/g,"");
+         }
         this.setData({
           listArr_localCulture: res.result.data
         })
