@@ -72,7 +72,7 @@
 </view>
 <!--发布攻略按钮-->
 <view class="cu-list grid">
-    <view class="cu-item mypublish" style="position:fixed;right: 0;bottom: 50rpx;">
+    <view class="cu-item mypublish" style="position:fixed;right: 30rpx;bottom: 30rpx;">
         <view class="cuIcon-roundaddfill lg text-grey" style="font-size: 100rpx;" bindtap="goPublish"></view>
     </view>
 </view>

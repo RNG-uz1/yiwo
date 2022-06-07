@@ -31,7 +31,7 @@ Component({
       },
       {
         "pagePath": "/pages/me/index",
-        "text":"个人",
+        "text":"我的",
         "iconPath": "../images/tBarThree.png",
         "selectedIconPath": "../images/tBarThree_color.png"
       }

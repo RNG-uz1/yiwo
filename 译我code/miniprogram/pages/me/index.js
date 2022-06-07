@@ -190,18 +190,12 @@ Page({
   },
 
  gotoGongLue(){
-<<<<<<< HEAD
-  wx.showToast({
-    title: '开发中，敬请期待~',
-    icon: 'none',
-=======
   // wx.showToast({
   //   title: '开发中，敬请期待~',
   //   icon: 'none',
   // })
   wx.navigateTo({
     url: '../MyGuide/MyGuide',
->>>>>>> 6d239606cca32c65f4064b9dc9c5dda2cf19ece2
   })
  },
 
